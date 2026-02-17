@@ -186,7 +186,7 @@ function Navbar() {
             <a
               key={link}
               href="#"
-              className={`text-lg font-medium ${i === 0 ? "text-[#262625]" : "text-[#262625/60]"} hover:text-[#262625] transition-colors`}
+              className={`text-lg font-medium ${i === 0 ? "text-[#262625]" : "text-[#888888]"} hover:text-[#262625] transition-colors`}
             >
               {link}
             </a>
@@ -268,7 +268,7 @@ function AboutSection() {
           <div key={stat.label}>
             <p className="text-5xl font-medium tracking-tight text-[#262625] mb-4">{stat.value}</p>
             <p className="text-lg font-medium text-[#262625] mb-2">{stat.label}</p>
-            <p className="text-lg leading-[1.6] text-[#262625/60]">{stat.desc}</p>
+            <p className="text-lg leading-[1.6] text-[#888888]">{stat.desc}</p>
           </div>
         ))}
       </div>
@@ -294,7 +294,7 @@ function ServicesSection() {
               <h2 className="text-[40px] font-medium leading-[1.2] text-[#262625] mb-4">
                 Discover the full range of services that shape lasting architecture.
               </h2>
-              <p className="text-lg leading-[1.6] text-[#262625/60] mb-16 max-w-2xl">
+              <p className="text-lg leading-[1.6] text-[#888888] mb-16 max-w-2xl">
                 From early strategy to detailed delivery, we combine expertise and vision to ensure that
                 every project feels cohesive, intentional, and built to last.
               </p>
@@ -305,7 +305,7 @@ function ServicesSection() {
                       ({service.num})
                     </span>
                     <h3 className="text-lg font-medium text-[#262625] mb-4">{service.title}</h3>
-                    <p className="text-lg leading-[1.6] text-[#262625/60]">{service.desc}</p>
+                    <p className="text-lg leading-[1.6] text-[#888888]">{service.desc}</p>
                   </div>
                 ))}
               </div>
@@ -327,7 +327,7 @@ function WorkSection() {
             <h2 className="text-[40px] font-medium leading-[1.2] text-[#262625] mb-6">
               We showcase architecture built on precision and purpose.
             </h2>
-            <p className="text-lg leading-[1.6] text-[#262625/60]">
+            <p className="text-lg leading-[1.6] text-[#888888]">
               Our portfolio spans residential, commercial, and cultural projects designed with clarity
               and restraint. Each piece of work reflects our philosophy of creating spaces that balance
               modern aesthetics with long-lasting functionality.
@@ -344,7 +344,7 @@ function WorkSection() {
               href="#"
               className="grid grid-cols-[200px_48px_1fr_200px_24px] items-center gap-4 py-5 border-b border-[#262625/12] group hover:bg-[#F5F4F1] transition-colors -mx-4 px-4 rounded"
             >
-              <span className="text-lg font-medium text-[#262625/60]">{project.year}</span>
+              <span className="text-lg font-medium text-[#888888]">{project.year}</span>
               <div className="w-12 h-9 rounded-lg overflow-hidden">
                 <img
                   src={ASSETS.workThumbs[project.thumb]}
@@ -353,8 +353,8 @@ function WorkSection() {
                 />
               </div>
               <span className="text-2xl font-medium text-[#262625]">{project.name}</span>
-              <span className="text-lg font-medium text-[#262625/60]">{project.type}</span>
-              <ArrowIcon className="w-4 h-4 text-[#262625/60] opacity-0 group-hover:opacity-100 transition-opacity" />
+              <span className="text-lg font-medium text-[#888888]">{project.type}</span>
+              <ArrowIcon className="w-4 h-4 text-[#888888] opacity-0 group-hover:opacity-100 transition-opacity" />
             </a>
           ))}
         </div>
@@ -367,19 +367,15 @@ function ClientsSection() {
   return (
     <section className="py-32">
       <div className="max-w-[1280px] mx-auto px-12">
-        <div className="grid grid-cols-5 gap-x-8">
-          {/* Label in col 1 */}
-          <div className="col-span-1">
+        <div className="grid grid-cols-[250px_1fr] gap-16">
+          <div>
             <SectionLabel>(FW 05) &mdash; CLIENTS</SectionLabel>
           </div>
-          {/* Empty col 2 acts as gutter */}
-          <div className="col-span-1" />
-          {/* Content spans cols 3-5 */}
-          <div className="col-span-3">
+          <div>
             <h2 className="text-[40px] font-medium leading-[1.2] text-[#262625] mb-4">
               We build trust through relationships as lasting as our spaces.
             </h2>
-            <p className="text-lg leading-[1.6] text-[#262625/60] mb-16">
+            <p className="text-lg leading-[1.6] text-[#888888] mb-16">
               Our clients range from developers to cultural institutions and private homeowners. Each
               partnership is grounded in clear communication, professional rigor, and a shared belief in
               design that stands the test of time.
@@ -392,7 +388,7 @@ function ClientsSection() {
                       &ldquo;{t.quote}&rdquo;
                     </p>
                     <p className="text-lg text-[#262625]">{t.name}</p>
-                    <p className="text-lg text-[#262625/60]">{t.role}</p>
+                    <p className="text-lg text-[#888888]">{t.role}</p>
                   </div>
                 ))}
               </div>
@@ -417,7 +413,7 @@ function FAQSection() {
           <SectionLabel align="right">(FW 06) &mdash; FAQ</SectionLabel>
         </div>
         <div className="grid grid-cols-2 gap-16">
-          <p className="text-lg leading-[1.6] text-[#262625/60]">
+          <p className="text-lg leading-[1.6] text-[#888888]">
             Choosing the right architecture firm is a big decision. These are the questions our clients
             ask most often before starting a project with us.
           </p>
@@ -441,7 +437,7 @@ function FAQSection() {
                     openIndex === i ? "max-h-40 pb-6" : "max-h-0"
                   }`}
                 >
-                  <p className="text-lg leading-[1.6] text-[#262625/60]">
+                  <p className="text-lg leading-[1.6] text-[#888888]">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
                     incididunt ut labore et dolore magna aliqua.
                   </p>
@@ -470,7 +466,7 @@ function Footer() {
           {/* Contact info */}
           <div className="flex flex-col gap-8">
             <div>
-              <p className="text-lg font-medium text-[#262625/60] mb-2">Email</p>
+              <p className="text-lg font-medium text-[#888888] mb-2">Email</p>
               <a
                 href="mailto:hello@fieldwork.studio"
                 className="text-lg font-medium text-white hover:opacity-70 transition-opacity"
@@ -479,7 +475,7 @@ function Footer() {
               </a>
             </div>
             <div>
-              <p className="text-lg font-medium text-[#262625/60] mb-2">Phone</p>
+              <p className="text-lg font-medium text-[#888888] mb-2">Phone</p>
               <a
                 href="tel:+15551234567"
                 className="text-lg font-medium text-white hover:opacity-70 transition-opacity"
@@ -490,7 +486,7 @@ function Footer() {
           </div>
           {/* Navigation */}
           <div>
-            <p className="text-lg font-medium text-[#262625/60] mb-4">Navigation</p>
+            <p className="text-lg font-medium text-[#888888] mb-4">Navigation</p>
             <div className="flex flex-col gap-2">
               {FOOTER_NAV.map((link) => (
                 <a
@@ -505,7 +501,7 @@ function Footer() {
           </div>
           {/* Social */}
           <div>
-            <p className="text-lg font-medium text-[#262625/60] mb-4">Social</p>
+            <p className="text-lg font-medium text-[#888888] mb-4">Social</p>
             <div className="flex flex-col gap-2">
               {FOOTER_SOCIAL.map((link) => (
                 <a
