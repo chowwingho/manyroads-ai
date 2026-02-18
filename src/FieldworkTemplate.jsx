@@ -517,7 +517,7 @@ function Footer() {
         </div>
         {/* Large wordmark */}
         <div className="mt-24">
-          <p className="text-[clamp(80px,15vw,200px)] font-medium leading-none tracking-tight">
+          <p className="text-[clamp(80px,15vw,200px)] font-medium leading-none tracking-tight" style={{ fontFamily: '"Geist Sans", sans-serif' }}>
             FIELDWORK
           </p>
         </div>
