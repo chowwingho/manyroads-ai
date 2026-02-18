@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // =============================================================================
 // ASSET URLS (Figma exports — valid for 7 days)
@@ -22,47 +22,47 @@ const ASSETS = {
 // =============================================================================
 const STATS = [
   {
-    value: "20+",
-    label: "Years of experience",
-    desc: "Designing spaces that combine function and beauty.",
+    value: "73%",
+    label: "Unmet expectations",
+    desc: "Of engineering teams report AI tool adoption hasn\u2019t met productivity expectations.",
   },
   {
-    value: "100+",
-    label: "Completed projects",
-    desc: "Across residential, commercial, and cultural sectors.",
+    value: "6\u201312mo",
+    label: "Delayed recognition",
+    desc: "Typical time before engineering leaders realize AI tools are underperforming in legacy codebases.",
   },
   {
-    value: "85%",
-    label: "Repeat clients",
-    desc: "Reflecting long-term trust and lasting relationships.",
+    value: "80/20",
+    label: "The adoption gap",
+    desc: "The gap between reported adoption rates and actual productive usage across engineering teams.",
   },
   {
-    value: "12",
-    label: "Countries served",
-    desc: "Delivering projects with global reach and local sensitivity.",
+    value: "0",
+    label: "Pre-configured tools",
+    desc: "Number of AI coding tools that ship configured for your codebase, your patterns, your workflows.",
   },
 ];
 
 const SERVICES = [
   {
     num: "01",
-    title: "Architectural design",
-    desc: "We develop thoughtful concepts and schematics that integrate form, function, and context across residential, commercial, and cultural projects.",
+    title: "The senior engineers opted out.",
+    desc: "They tried the AI suggestions. Found them wrong more often than helpful for your specific codebase. Went back to how they worked before. Your adoption metrics say 80%. Reality says 20%.",
   },
   {
     num: "02",
-    title: "Interior architecture",
-    desc: "We craft tailored interior environments with careful attention to materiality, spatial flow, and custom detailing that reflect the identity of each client.",
+    title: "The junior engineers over-trust.",
+    desc: "They\u2019re accepting AI-generated code that looks correct, passes basic review, and quietly violates your architectural patterns. The tech debt is accumulating in ways that won\u2019t be visible for months.",
   },
   {
     num: "03",
-    title: "Urban and landscape design",
-    desc: "We plan and shape public spaces, parks, and outdoor environments, applying sustainable and context-driven solutions that enrich communities.",
+    title: "The tools are still on factory defaults.",
+    desc: "Nobody had time to configure them for your codebase, your naming conventions, your testing patterns, your deployment workflows. So the tools are guessing. They\u2019re guessing wrong.",
   },
   {
     num: "04",
-    title: "Project delivery and consultancy",
-    desc: "We provide detailed documentation, construction management, and long-term advisory, ensuring projects are delivered to the highest standard.",
+    title: "Leadership is measuring the wrong things.",
+    desc: "Seat activations. Suggestion acceptance rates. Lines of code generated. None of these correlate with cycle time, code quality, developer satisfaction, or sustainable velocity. But they make a nice dashboard.",
   },
 ];
 
@@ -100,8 +100,8 @@ const FAQ_ITEMS = [
   "How do we get started with Fieldwork?",
 ];
 
-const NAV_LINKS = ["Home", "Work", "Services", "About"];
-const FOOTER_NAV = ["Home", "Work", "Services", "About", "Contact"];
+const NAV_LINKS = ["Trailhead", "Wayfinder", "Team", "Contact"];
+const FOOTER_NAV = ["Trailhead", "Wayfinder", "Team", "Contact"];
 const FOOTER_SOCIAL = ["Twitter", "Instagram", "YouTube"];
 
 // =============================================================================
@@ -150,14 +150,14 @@ const MONO = { fontFamily: '"Geist Mono", monospace' };
 // =============================================================================
 function SectionLabel({ children, align = "left" }) {
   return (
-    <span className={`text-lg font-medium text-[#262625] tracking-normal whitespace-nowrap ${align === "right" ? "text-right" : ""}`} style={MONO}>
+    <span className={`text-lg font-medium text-[#262625] dark:text-[#ECECEA] tracking-normal whitespace-nowrap ${align === "right" ? "text-right" : ""}`} style={MONO}>
       {children}
     </span>
   );
 }
 
 function SecondaryLink({ children, color = "dark" }) {
-  const textColor = color === "dark" ? "text-[#262625]" : "text-white";
+  const textColor = color === "dark" ? "text-[#262625] dark:text-[#ECECEA]" : "text-white";
   return (
     <a href="#" className={`inline-flex items-center gap-1.5 text-lg font-medium ${textColor} group`} style={MONO}>
       <span>{children}</span>
@@ -170,11 +170,10 @@ function PrimaryButton({ children }) {
   return (
     <a
       href="#"
-      className="group inline-flex items-center gap-2 bg-[#F0EEE6] text-[#262625] px-4 py-2 rounded-lg text-lg font-medium hover:bg-[#E5E2D8] transition-colors w-fit"
+      className="group inline-flex items-center gap-2 bg-[#E8E6DD] dark:bg-[#333331] text-[#262625] dark:text-[#ECECEA] px-4 py-2 rounded-lg text-lg font-medium hover:bg-[#DEDAD0] dark:hover:bg-[#3D3D3A] transition-colors w-fit"
       style={MONO}
     >
       <span>{children}</span>
-      <ArrowIcon className="w-4 h-4 transition-transform duration-200 ease-in-out group-hover:rotate-45" />
     </a>
   );
 }
@@ -182,24 +181,29 @@ function PrimaryButton({ children }) {
 // =============================================================================
 // SECTIONS
 // =============================================================================
-function Navbar() {
+function Navbar({ dark, onToggle }) {
   return (
-    <nav className="bg-[#FAF9F6] sticky top-0 z-50">
+    <nav className="bg-[#FAF9F6] dark:bg-[#1A1A18] sticky top-0 z-50">
       <div className="max-w-[1280px] mx-auto px-12 flex items-center justify-between h-[77px]">
-        <span className="text-lg font-medium text-[#262625] tracking-wide" style={MONO}>FIELDWORK&reg;</span>
+        <span className="text-lg font-medium text-[#262625] dark:text-[#ECECEA] tracking-wide" style={MONO}>Many_Roads &lt;AI&gt;</span>
         <div className="flex items-center gap-8">
-          {NAV_LINKS.map((link, i) => (
+          {NAV_LINKS.map((link) => (
             <a
               key={link}
               href="#"
-              className={`text-lg font-medium ${i === 0 ? "text-[#262625]" : "text-[#888888]"} hover:text-[#262625] transition-colors`}
+              className="text-lg font-medium text-[#888888] dark:text-[#ECECEA]/50 hover:text-[#262625] dark:hover:text-[#ECECEA] transition-colors"
+              style={MONO}
             >
               {link}
             </a>
           ))}
-          <a href="#" className="text-lg font-medium text-[#262625] hover:opacity-70 transition-opacity">
-            Contact
-          </a>
+          <button
+            onClick={onToggle}
+            className="text-sm text-[#888888] dark:text-[#ECECEA]/50 hover:text-[#262625] dark:hover:text-[#ECECEA] border border-[#262625]/12 dark:border-[#ECECEA]/10 rounded-lg px-3 py-1 hover:bg-[#F0EEE6] dark:hover:bg-[#262624] transition-colors"
+            style={MONO}
+          >
+            {dark ? "[ light_ ]" : "[ dark_ ]"}
+          </button>
         </div>
       </div>
     </nav>
@@ -212,17 +216,21 @@ function HeroSection() {
       <div className="max-w-[1280px] mx-auto px-12">
         <div className="grid grid-cols-2 gap-16">
           <div className="flex flex-col gap-8">
-            <h1 className="text-5xl font-medium leading-[1.2] tracking-tight text-[#262625]">
-              We design spaces that balance function and timeless beauty.
+            <h1 className="text-5xl font-medium leading-[1.2] tracking-tight text-[#262625] dark:text-[#ECECEA]">
+              You bought your team AI coding tools six months ago. They&rsquo;re still not faster.
             </h1>
-            <PrimaryButton>Get template</PrimaryButton>
+            <div className="flex items-center gap-6">
+              <PrimaryButton>See where you stand_</PrimaryButton>
+              <a href="#" className="text-lg font-medium text-[#888888] dark:text-[#ECECEA]/50 underline underline-offset-4 hover:text-[#262625] dark:hover:text-[#ECECEA] transition-colors" style={MONO}>
+                or talk to our team
+              </a>
+            </div>
           </div>
           <div className="flex items-end">
-            <p className="text-lg leading-[1.6] text-[#262625]">
-              At Fieldwork, architecture is guided by precision and restraint. Our work blends modern
-              aesthetics with human-centered design, creating spaces that endure. From residential and
-              commercial projects to cultural landmarks, we focus on delivering environments that
-              integrate seamlessly with their context and stand the test of time.
+            <p className="text-lg leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50">
+              The tools aren&rsquo;t the problem. Nobody configured them for your codebase, nobody
+              integrated them into your workflows, and nobody taught your team how to actually use
+              them. We fix that.
             </p>
           </div>
         </div>
@@ -237,37 +245,44 @@ function AboutSection() {
       <div className="max-w-[1280px] mx-auto px-12">
       <div className="grid grid-cols-2 gap-16 mb-24">
         <div>
-          <SectionLabel>(MRAI 01) &mdash; THE PROBLEM</SectionLabel>
-          <h2 className="text-[40px] font-medium leading-[1.2] text-[#262625] mt-12">
-            Architecture that stands for clarity and purpose.
+          <SectionLabel>// 01 &mdash; THE_PROBLEM</SectionLabel>
+          <h2 className="text-[40px] font-medium leading-[1.2] text-[#262625] dark:text-[#ECECEA] mt-12">
+            Every AI vendor is selling the same story. Here&rsquo;s what actually happened.
           </h2>
         </div>
-        <div className="flex flex-col justify-between">
-          <div className="flex flex-col gap-6">
-            <p className="text-lg leading-[1.6] text-[#262625]">
-              Fieldwork is an architecture firm defined by a minimal yet human-centered philosophy.
-              Guided by decades of collective expertise, our team approaches every project with rigor,
-              precision, and creativity. We believe architecture should not chase trends but instead
-              embody clarity, restraint, and long-lasting value.
-            </p>
-            <p className="text-lg leading-[1.6] text-[#262625]">
-              Our practice spans across scales and disciplines, from residential and commercial
-              architecture to cultural institutions and urban design. By blending technical expertise
-              with cultural awareness, we create environments that respect context, enhance
-              functionality, and inspire those who experience them.
-            </p>
-          </div>
-          <div className="mt-8">
-            <SecondaryLink>About</SecondaryLink>
-          </div>
+        <div className="flex flex-col gap-6">
+          <p className="text-lg leading-[1.6] text-[#262625] dark:text-[#ECECEA]">
+            Your senior engineers tried the suggestions for a few weeks. Found them wrong more
+            often than useful&nbsp;&mdash; because the tool doesn&rsquo;t know your codebase. They
+            quietly went back to how they worked before.
+          </p>
+          <p className="text-lg leading-[1.6] text-[#262625] dark:text-[#ECECEA]">
+            Your junior engineers kept accepting suggestions. The code looks right, passes review,
+            and doesn&rsquo;t follow any of your architectural patterns. That debt is compounding.
+            You just can&rsquo;t see it yet.
+          </p>
+          <p className="text-lg leading-[1.6] text-[#262625] dark:text-[#ECECEA]">
+            And the dashboards leadership tracks&nbsp;&mdash; seat activations, suggestion acceptance
+            rates, lines generated&nbsp;&mdash; don&rsquo;t correlate with anything that matters.
+          </p>
+          <p className="text-lg leading-[1.6] text-[#262625] dark:text-[#ECECEA] mt-8">
+            The problem was never the tools. Most AI coding tools were designed for greenfield
+            projects and demo-ready codebases. Not the complex, layered, sometimes-ugly systems
+            that real teams maintain. Making them productive in your environment requires work
+            nobody wants to talk about: deep configuration, codebase-specific context, workflow
+            integration, and engineers who know what they&rsquo;re doing.
+          </p>
+          <p className="text-xl font-medium leading-[1.6] text-[#262625] dark:text-[#ECECEA] mt-4">
+            That&rsquo;s the work we do.
+          </p>
         </div>
       </div>
       <div className="grid grid-cols-4 gap-8">
         {STATS.map((stat) => (
           <div key={stat.label}>
-            <p className="text-5xl font-medium tracking-tight text-[#262625] mb-4">{stat.value}</p>
-            <p className="text-lg font-medium text-[#262625] mb-2">{stat.label}</p>
-            <p className="text-lg leading-[1.6] text-[#888888]">{stat.desc}</p>
+            <p className="text-5xl font-medium tracking-tight text-[#262625] dark:text-[#ECECEA] mb-4">{stat.value}</p>
+            <p className="text-lg font-medium text-[#262625] dark:text-[#ECECEA] mb-2">{stat.label}</p>
+            <p className="text-lg leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50">{stat.desc}</p>
           </div>
         ))}
       </div>
@@ -280,114 +295,27 @@ function ServicesSection() {
   return (
     <section className="py-32">
       <div className="max-w-[1280px] mx-auto px-12">
-        <div className="border-t border-[#262625/12] pt-24">
+        <div className="border-t border-[#262625]/12 dark:border-[#ECECEA]/10 pt-24">
           <div className="grid grid-cols-5 gap-x-8">
             {/* Label in col 1 */}
             <div className="col-span-1">
-              <SectionLabel>(MRAI 02) &mdash; SERVICES</SectionLabel>
+              <SectionLabel>// 02 &mdash; WHY_TEAMS_STALL</SectionLabel>
             </div>
             {/* Empty col 2 acts as gutter */}
             <div className="col-span-1" />
             {/* Content spans cols 3-5 */}
             <div className="col-span-3">
-              <h2 className="text-[40px] font-medium leading-[1.2] text-[#262625] mb-4">
-                Discover the full range of services that shape lasting architecture.
+              <h2 className="text-[40px] font-medium leading-[1.2] text-[#262625] dark:text-[#ECECEA] mb-16">
+                If any of this sounds familiar, you&rsquo;re not alone.
               </h2>
-              <p className="text-lg leading-[1.6] text-[#888888] mb-16 max-w-2xl">
-                From early strategy to detailed delivery, we combine expertise and vision to ensure that
-                every project feels cohesive, intentional, and built to last.
-              </p>
-              <div className="grid grid-cols-2 gap-x-16 gap-y-20 mb-16">
+              <div className="grid grid-cols-2 gap-x-16 gap-y-20">
                 {SERVICES.map((service) => (
-                  <div key={service.num} className="border-t border-[#262625/12] pt-8">
-                    <span className="text-lg font-medium text-[#262625] block mb-3">
+                  <div key={service.num} className="border-t border-[#262625]/12 dark:border-[#ECECEA]/10 pt-8">
+                    <span className="text-lg font-medium text-[#262625] dark:text-[#ECECEA] block mb-3">
                       ({service.num})
                     </span>
-                    <h3 className="text-lg font-medium text-[#262625] mb-4">{service.title}</h3>
-                    <p className="text-lg leading-[1.6] text-[#888888]">{service.desc}</p>
-                  </div>
-                ))}
-              </div>
-              <SecondaryLink>View services</SecondaryLink>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function WorkSection() {
-  return (
-    <section className="py-32">
-      <div className="max-w-[1280px] mx-auto px-12">
-        <div className="grid grid-cols-2 gap-16 mb-20">
-          <div>
-            <h2 className="text-[40px] font-medium leading-[1.2] text-[#262625] mb-6">
-              We showcase architecture built on precision and purpose.
-            </h2>
-            <p className="text-lg leading-[1.6] text-[#888888]">
-              Our portfolio spans residential, commercial, and cultural projects designed with clarity
-              and restraint. Each piece of work reflects our philosophy of creating spaces that balance
-              modern aesthetics with long-lasting functionality.
-            </p>
-          </div>
-          <div className="flex items-end justify-end">
-            <SectionLabel align="right">(MRAI 03) &mdash; WORK</SectionLabel>
-          </div>
-        </div>
-        <div className="border-t border-[#262625/12]">
-          {PROJECTS.map((project) => (
-            <a
-              key={project.name}
-              href="#"
-              className="grid grid-cols-[200px_48px_1fr_200px_24px] items-center gap-4 py-5 border-b border-[#262625/12] group hover:bg-[#F5F4F1] transition-colors -mx-4 px-4 rounded"
-            >
-              <span className="text-lg font-medium text-[#888888]">{project.year}</span>
-              <div className="w-12 h-9 rounded-lg overflow-hidden">
-                <img
-                  src={ASSETS.workThumbs[project.thumb]}
-                  alt={project.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <span className="text-2xl font-medium text-[#262625]">{project.name}</span>
-              <span className="text-lg font-medium text-[#888888]">{project.type}</span>
-              <ArrowIcon className="w-4 h-4 text-[#888888] opacity-0 group-hover:opacity-100 transition-opacity" />
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function ClientsSection() {
-  return (
-    <section className="py-32">
-      <div className="max-w-[1280px] mx-auto px-12">
-        <div className="grid grid-cols-[250px_1fr] gap-16">
-          <div>
-            <SectionLabel>(MRAI 04) &mdash; CLIENTS</SectionLabel>
-          </div>
-          <div>
-            <h2 className="text-[40px] font-medium leading-[1.2] text-[#262625] mb-4">
-              We build trust through relationships as lasting as our spaces.
-            </h2>
-            <p className="text-lg leading-[1.6] text-[#888888] mb-16">
-              Our clients range from developers to cultural institutions and private homeowners. Each
-              partnership is grounded in clear communication, professional rigor, and a shared belief in
-              design that stands the test of time.
-            </p>
-            <div className="border-t border-[#262625/12] pt-12">
-              <div className="grid grid-cols-2 gap-16">
-                {TESTIMONIALS.map((t) => (
-                  <div key={t.name}>
-                    <p className="text-2xl font-medium leading-[1.4] text-[#262625] mb-8">
-                      &ldquo;{t.quote}&rdquo;
-                    </p>
-                    <p className="text-lg text-[#262625]">{t.name}</p>
-                    <p className="text-lg text-[#888888]">{t.role}</p>
+                    <h3 className="text-lg font-medium text-[#262625] dark:text-[#ECECEA] mb-4">{service.title}</h3>
+                    <p className="text-lg leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50">{service.desc}</p>
                   </div>
                 ))}
               </div>
@@ -399,50 +327,216 @@ function ClientsSection() {
   );
 }
 
-function FAQSection() {
-  const [openIndex, setOpenIndex] = useState(null);
-
+function PathwaysSection() {
   return (
-    <section className="py-32 bg-[#FAF9F6]">
+    <section className="py-32">
       <div className="max-w-[1280px] mx-auto px-12">
-        <div className="flex items-start justify-between mb-16">
-          <h2 className="text-[40px] font-medium leading-[1.2] text-[#262625]">
-            We answer the questions that matter most.
-          </h2>
-          <SectionLabel align="right">(MRAI 05) &mdash; FAQ</SectionLabel>
+        <div className="border-t border-[#262625]/12 dark:border-[#ECECEA]/10 pt-24">
+          <div className="grid grid-cols-2 gap-16 mb-16">
+            <div>
+              <h2 className="text-[40px] font-medium leading-[1.2] text-[#262625] dark:text-[#ECECEA] mb-6">
+                Two ways to start. Zero decks required.
+              </h2>
+              <p className="text-lg leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50">
+                Whether you need to understand where you stand or you&rsquo;re ready for hands-on
+                help, we&rsquo;ve built entry points that respect your time. One is free. Both are
+                built by engineers who&rsquo;ve done this before.
+              </p>
+            </div>
+            <div className="flex items-end justify-end">
+              <SectionLabel align="right">// 03 &mdash; TWO_PATHWAYS</SectionLabel>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-8">
+            {/* Trailhead */}
+            <div className="bg-[#F0EEE6] dark:bg-[#262624] rounded-lg p-10 flex flex-col">
+              <h3 className="text-2xl font-medium text-[#262625] dark:text-[#ECECEA] mb-4">Trailhead</h3>
+              <p className="text-lg font-medium leading-[1.6] text-[#262625] dark:text-[#ECECEA] mb-4">
+                Find out where you actually stand.
+              </p>
+              <p className="text-lg leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50 mb-4">
+                A free, open-source assessment that evaluates your engineering org across four
+                dimensions: codebase compatibility, tool configuration, team workflows, and
+                organizational process.
+              </p>
+              <p className="text-lg leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50 mb-8">
+                Not a marketing quiz. Not a lead-gen form. You&rsquo;ll get a detailed score with
+                specific, actionable findings&nbsp;&mdash; whether or not you ever talk to us.
+              </p>
+              <div className="mt-auto flex flex-col gap-4">
+                <a href="#" className="inline-flex bg-[#D1CFC6] dark:bg-[#3D3D3A] text-[#262625] dark:text-[#ECECEA] px-4 py-2 rounded-lg text-lg font-medium hover:bg-[#C5C3BA] dark:hover:bg-[#4A4A47] transition-colors w-fit" style={MONO}>
+                  Run the assessment_
+                </a>
+                <a href="#" className="text-lg font-medium text-[#888888] dark:text-[#ECECEA]/50 underline underline-offset-4 hover:text-[#262625] dark:hover:text-[#ECECEA] transition-colors w-fit" style={MONO}>
+                  or talk to our team
+                </a>
+              </div>
+            </div>
+            {/* Wayfinder */}
+            <div className="bg-[#F0EEE6] dark:bg-[#262624] rounded-lg p-10 flex flex-col">
+              <h3 className="text-2xl font-medium text-[#262625] dark:text-[#ECECEA] mb-4">Wayfinder</h3>
+              <p className="text-lg font-medium leading-[1.6] text-[#262625] dark:text-[#ECECEA] mb-4">
+                Get engineers in the room, not slides.
+              </p>
+              <p className="text-lg leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50 mb-4">
+                Hands-on consulting and training delivered by people who&rsquo;ve built and led teams
+                like yours. We work with your actual codebase, your real workflows, and your specific
+                tools.
+              </p>
+              <p className="text-lg leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50 mb-8">
+                Some teams need a focused sprint to configure and optimize. Others need a longer
+                engagement to change how their org works with AI-assisted development. Either way, we
+                start from where you are.
+              </p>
+              <div className="mt-auto flex flex-col gap-4">
+                <a href="#" className="inline-flex bg-[#D1CFC6] dark:bg-[#3D3D3A] text-[#262625] dark:text-[#ECECEA] px-4 py-2 rounded-lg text-lg font-medium hover:bg-[#C5C3BA] dark:hover:bg-[#4A4A47] transition-colors w-fit" style={MONO}>
+                  Learn more about Wayfinder_
+                </a>
+                <a href="#" className="text-lg font-medium text-[#888888] dark:text-[#ECECEA]/50 underline underline-offset-4 hover:text-[#262625] dark:hover:text-[#ECECEA] transition-colors w-fit" style={MONO}>
+                  or book a conversation with our team
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="grid grid-cols-2 gap-16">
-          <p className="text-lg leading-[1.6] text-[#888888]">
-            Choosing the right architecture firm is a big decision. These are the questions our clients
-            ask most often before starting a project with us.
-          </p>
-          <div className="border-t border-[#262625/12]">
-            {FAQ_ITEMS.map((question, i) => (
-              <div key={i} className="border-b border-[#262625/12]">
-                <button
-                  onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                  className="w-full flex items-center justify-between py-6 text-left group"
-                >
-                  <span className="text-lg font-medium text-[#262625] group-hover:opacity-70 transition-opacity">
-                    {question}
-                  </span>
-                  <ChevronIcon
-                    open={openIndex === i}
-                    className="w-6 h-6 text-[#262625] flex-shrink-0 ml-8"
-                  />
-                </button>
-                <div
-                  className={`overflow-hidden transition-all duration-300 ${
-                    openIndex === i ? "max-h-40 pb-6" : "max-h-0"
-                  }`}
-                >
-                  <p className="text-lg leading-[1.6] text-[#888888]">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
-                    incididunt ut labore et dolore magna aliqua.
+      </div>
+    </section>
+  );
+}
+
+function TeamSection() {
+  return (
+    <section className="py-32">
+      <div className="max-w-[1280px] mx-auto px-12">
+        <div className="border-t border-[#262625]/12 dark:border-[#ECECEA]/10 pt-24">
+          <div className="grid grid-cols-2 gap-16">
+            <div>
+              <SectionLabel>// 04 &mdash; THE_TEAM</SectionLabel>
+              <h2 className="text-[40px] font-medium leading-[1.2] text-[#262625] dark:text-[#ECECEA] mt-12">
+                Built by engineers, for engineering teams.
+              </h2>
+            </div>
+            <div>
+              <p className="text-lg leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50 mb-10">
+                Founded by engineering leaders who&rsquo;ve spent their careers building, scaling,
+                and leading the kinds of teams navigating this right now.
+              </p>
+              <div className="border-t border-[#262625]/12 dark:border-[#ECECEA]/10 pt-10 flex flex-col gap-10">
+                <div>
+                  <p className="text-lg font-medium text-[#262625] dark:text-[#ECECEA] mb-2">Susan &mdash; Director of Engineering</p>
+                  <p className="text-lg leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50">
+                    PhD in software engineering. Former McKinsey. Has led engineering orgs through
+                    complex technical transformations and knows the distance between strategy and
+                    execution from both sides.
                   </p>
+                  <a href="#" className="text-sm text-[#888888] dark:text-[#ECECEA]/50 hover:text-[#262625] dark:hover:text-[#ECECEA] transition-colors mt-2 inline-block" style={MONO}>LinkedIn &#8599;</a>
+                </div>
+                <div>
+                  <p className="text-lg font-medium text-[#262625] dark:text-[#ECECEA] mb-2">Jeff &mdash; VP of Engineering</p>
+                  <p className="text-lg leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50">
+                    15+ years leading engineering teams. Has been the buyer, the budget owner, and
+                    the person who had to explain ROI on tooling investments to the board. Knows
+                    what your seat feels like.
+                  </p>
+                  <a href="#" className="text-sm text-[#888888] dark:text-[#ECECEA]/50 hover:text-[#262625] dark:hover:text-[#ECECEA] transition-colors mt-2 inline-block" style={MONO}>LinkedIn &#8599;</a>
+                </div>
+                <div>
+                  <p className="text-lg font-medium text-[#262625] dark:text-[#ECECEA] mb-2">Spencer &mdash; Senior Software Engineer</p>
+                  <p className="text-lg leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50">
+                    10+ years in real codebases, every day. Brings implementation-level understanding
+                    of what actually happens when AI tools meet legacy systems, real-world constraints,
+                    and engineering workflows that weren&rsquo;t designed for them.
+                  </p>
+                  <a href="#" className="text-sm text-[#888888] dark:text-[#ECECEA]/50 hover:text-[#262625] dark:hover:text-[#ECECEA] transition-colors mt-2 inline-block" style={MONO}>LinkedIn &#8599;</a>
                 </div>
               </div>
-            ))}
+              <div className="border-t border-[#262625]/12 dark:border-[#ECECEA]/10 mt-10 pt-10">
+                <p className="text-lg italic text-[#262625] dark:text-[#ECECEA] mb-8">
+                  We&rsquo;re not consultants who read about your problems. We&rsquo;ve had them.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {["TypeScript", "Python", "Go", "Rust", "React", "Node.js", "AWS", "LLMs"].map((badge) => (
+                    <span key={badge} className="inline-flex bg-[#F0EEE6] dark:bg-[#262624] rounded-full px-3 py-1 text-sm text-[#262625] dark:text-[#ECECEA]" style={MONO}>
+                      {badge}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CredibilitySection() {
+  return (
+    <section className="py-32">
+      <div className="max-w-[1280px] mx-auto px-12">
+        <div className="border-t border-[#262625]/12 dark:border-[#ECECEA]/10 pt-24">
+          <div className="grid grid-cols-[250px_1fr] gap-16">
+            <div>
+              <SectionLabel>// 05 &mdash; WHY_TRUST_US</SectionLabel>
+            </div>
+            <div>
+              <h2 className="text-[40px] font-medium leading-[1.2] text-[#262625] dark:text-[#ECECEA] mb-4">
+                We lead with transparency, not promises.
+              </h2>
+              <p className="text-lg leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50 mb-12">
+                We&rsquo;re a small, focused team. That&rsquo;s a strength, not a weakness.
+                Here&rsquo;s how we build confidence without overpromising.
+              </p>
+              <div className="border-t border-[#262625]/12 dark:border-[#ECECEA]/10 pt-12">
+                <div className="grid grid-cols-2 gap-16">
+                  <div>
+                    <p className="text-lg font-medium text-[#262625] dark:text-[#ECECEA] mb-3">Methodology</p>
+                    <p className="text-lg leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50">
+                      Our assessment framework draws on established models including the MITRE AI
+                      Maturity Model, adapted specifically for AI-assisted software development in
+                      production codebases.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-lg font-medium text-[#262625] dark:text-[#ECECEA] mb-3">Open source</p>
+                    <p className="text-lg leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50">
+                      Trailhead is open source. Not because it&rsquo;s a marketing strategy. Because
+                      the fastest way to earn an engineer&rsquo;s trust is to show them how you think.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-lg font-medium text-[#262625] dark:text-[#ECECEA] mb-3">Focus</p>
+                    <p className="text-lg leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50">
+                      We work exclusively with engineering teams at Series B&ndash;D technology
+                      companies navigating AI-assisted development in established codebases. Narrow
+                      focus. Intentional.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="border-t border-[#262625]/12 dark:border-[#ECECEA]/10 mt-12 pt-12">
+                <div className="grid grid-cols-2 gap-16">
+                  <div>
+                    <p className="text-2xl font-medium leading-[1.4] text-[#262625] dark:text-[#ECECEA] mb-8">
+                      &ldquo;We&rsquo;d burned through six months of Copilot licenses before they
+                      showed us what was actually happening. Within two weeks, our senior engineers
+                      were using it again&nbsp;&mdash; and this time it was actually helping.&rdquo;
+                    </p>
+                    <p className="text-lg text-[#262625] dark:text-[#ECECEA]">VP of Engineering</p>
+                    <p className="text-lg text-[#888888] dark:text-[#ECECEA]/50">Series C, Fintech &mdash; 120 engineers</p>
+                  </div>
+                  <div>
+                    <p className="text-2xl font-medium leading-[1.4] text-[#262625] dark:text-[#ECECEA] mb-8">
+                      &ldquo;They didn&rsquo;t pitch us a deck. They opened our codebase, ran their
+                      assessment, and showed us exactly where our AI tooling was falling down. First
+                      time anyone made it that concrete.&rdquo;
+                    </p>
+                    <p className="text-lg text-[#262625] dark:text-[#ECECEA]">Director of Platform Engineering</p>
+                    <p className="text-lg text-[#888888] dark:text-[#ECECEA]/50">Series D, SaaS &mdash; 85 engineers</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -452,25 +546,47 @@ function FAQSection() {
 
 function Footer() {
   return (
-    <footer className="bg-[#262625] text-white py-24">
+    <footer className="bg-[#262625] dark:bg-[#111110] text-white py-24">
       <div className="max-w-[1280px] mx-auto px-12">
-        <h2 className="text-[40px] font-medium leading-[1.2] mb-4 max-w-2xl">
-          Let&apos;s start designing a space that matches your vision.
-        </h2>
-        <div className="mb-16">
-          <SecondaryLink color="white">Start your project</SecondaryLink>
+        <div className="max-w-2xl mb-8">
+          <h2 className="text-[40px] font-medium leading-[1.2]">
+            Every team&rsquo;s path to productive AI-assisted development looks different.
+          </h2>
+          <p className="text-[40px] font-medium leading-[1.2] mt-2">
+            Let&rsquo;s figure out yours.
+          </p>
         </div>
-        <div className="border-t border-[#ffffff/15] mb-16" />
+        <div className="flex flex-col gap-4 mb-6">
+          <a
+            href="#"
+            className="inline-flex bg-[#E8E6DD] dark:bg-[#333331] text-[#262625] dark:text-[#ECECEA] px-4 py-2 rounded-lg text-lg font-medium hover:bg-[#DEDAD0] dark:hover:bg-[#3D3D3A] transition-colors w-fit"
+            style={MONO}
+          >
+            Run Trailhead &mdash; see where your team stands_
+          </a>
+          <a
+            href="#"
+            className="inline-flex bg-[#E8E6DD] dark:bg-[#333331] text-[#262625] dark:text-[#ECECEA] px-4 py-2 rounded-lg text-lg font-medium hover:bg-[#DEDAD0] dark:hover:bg-[#3D3D3A] transition-colors w-fit"
+            style={MONO}
+          >
+            Book a conversation about Wayfinder_
+          </a>
+        </div>
+        <p className="text-lg leading-[1.6] text-white/60 mb-16">
+          30 minutes. No pitch deck. Just your setup, your challenges, and a straight answer
+          on whether we can help.
+        </p>
+        <div className="border-t border-white/15 mb-16" />
         <div className="grid grid-cols-3 gap-16">
           {/* Contact info */}
           <div className="flex flex-col gap-8">
             <div>
               <p className="text-lg font-medium text-[#888888] mb-2">Email</p>
               <a
-                href="mailto:hello@fieldwork.studio"
+                href="mailto:hello@manyroads.ai"
                 className="text-lg font-medium text-white hover:opacity-70 transition-opacity"
               >
-                hello@fieldwork.studio
+                hello@manyroads.ai
               </a>
             </div>
             <div>
@@ -492,6 +608,7 @@ function Footer() {
                   key={link}
                   href="#"
                   className="text-lg font-medium text-white hover:opacity-70 transition-opacity"
+                  style={MONO}
                 >
                   {link}
                 </a>
@@ -507,6 +624,7 @@ function Footer() {
                   key={link}
                   href="#"
                   className="text-lg font-medium text-white hover:opacity-70 transition-opacity"
+                  style={MONO}
                 >
                   {link}
                 </a>
@@ -517,7 +635,7 @@ function Footer() {
         {/* Large wordmark */}
         <div className="mt-24">
           <p className="text-[clamp(80px,15vw,200px)] font-medium leading-none tracking-tight">
-            FIELDWORK
+            MANYROADS
           </p>
         </div>
       </div>
@@ -529,16 +647,22 @@ function Footer() {
 // MAIN COMPONENT
 // =============================================================================
 export default function FieldworkV2() {
+  const [dark, setDark] = useState(() => window.matchMedia("(prefers-color-scheme: dark)").matches);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", dark);
+  }, [dark]);
+
   return (
-    <div className="bg-[#FAF9F6] min-h-screen" style={{ fontFamily: '"Geist Sans", sans-serif' }}>
-      <Navbar />
+    <div className="bg-[#FAF9F6] dark:bg-[#1A1A18] min-h-screen transition-colors" style={{ fontFamily: '"Geist Sans", sans-serif' }}>
+      <Navbar dark={dark} onToggle={() => setDark(!dark)} />
       <main>
         <HeroSection />
         <AboutSection />
         <ServicesSection />
-        <WorkSection />
-        <ClientsSection />
-        <FAQSection />
+        <PathwaysSection />
+        <TeamSection />
+        <CredibilitySection />
       </main>
       <Footer />
     </div>

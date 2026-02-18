@@ -165,7 +165,7 @@ function PrimaryButton({ children }) {
   return (
     <a
       href="#"
-      className="group inline-flex items-center gap-2 bg-[#F0EEE6] text-[#262625] px-4 py-2 rounded-lg text-lg font-medium hover:bg-[#E5E2D8] transition-colors w-fit"
+      className="group inline-flex items-center gap-2 bg-[#E8E6DD] text-[#262625] px-4 py-2 rounded-lg text-lg font-medium hover:bg-[#DEDAD0] transition-colors w-fit"
     >
       <span>{children}</span>
       <ArrowIcon className="w-4 h-4 transition-transform duration-200 ease-in-out group-hover:rotate-45" />
