@@ -1,4 +1,4 @@
-# Fieldwork Site
+# Many Roads AI
 
 ## Overview
 Two template variants built with React + Tailwind CSS v4:
@@ -25,8 +25,8 @@ src/
   App.jsx               # Router — /, /v1, /v2
   index.css             # Tailwind import, @font-face, dark mode variant
   IndexPage.jsx         # Landing page with links to V1/V2
-  FieldworkTemplate.jsx # V1 — architecture firm template
-  FieldworkV2.jsx       # V2 — Many Roads AI template
+  FieldworkV1.jsx       # V1 — architecture firm template
+  ManyroadsV2.jsx       # V2 — Many Roads AI template
 ```
 
 ## Fonts
