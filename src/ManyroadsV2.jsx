@@ -149,9 +149,12 @@ const MONO = { fontFamily: '"Geist Mono", monospace' };
 // SHARED COMPONENTS
 // =============================================================================
 function SectionLabel({ children, align = "left" }) {
+  const rendered = typeof children === "string" && children.startsWith("//")
+    ? (<><span className="text-[#C45D3E]">//</span>{children.slice(2)}</>)
+    : children;
   return (
     <span className={`text-lg font-medium text-[#262625] dark:text-[#ECECEA] tracking-normal whitespace-nowrap ${align === "right" ? "text-right" : ""}`} style={MONO}>
-      {children}
+      {rendered}
     </span>
   );
 }
@@ -233,11 +236,11 @@ function TypewriterButton() {
   return (
     <a
       href="#"
-      className="inline-flex items-center text-left bg-[#E8E6DD] dark:bg-[#333331] text-[#262625] dark:text-[#ECECEA] px-4 py-2 rounded-lg text-lg font-medium hover:bg-[#DEDAD0] dark:hover:bg-[#3D3D3A] transition-colors"
+      className="inline-flex items-center text-left bg-[#C45D3E] dark:bg-[#C45D3E] text-white dark:text-white px-4 py-2 rounded-lg text-lg font-medium hover:bg-[#B3522F] dark:hover:bg-[#B3522F] transition-colors"
       style={MONO}
     >
       {text}
-      <span className={paused ? "blink-cursor" : "opacity-0"}>_</span>
+      <span className={`${paused ? "blink-cursor" : "opacity-0"} text-white`}>_</span>
     </a>
   );
 }
@@ -255,7 +258,7 @@ function Navbar({ dark, onToggle }) {
             <a
               key={link}
               href="#"
-              className="text-lg font-medium text-[#888888] dark:text-[#ECECEA]/50 hover:text-[#262625] dark:hover:text-[#ECECEA] transition-colors"
+              className="text-lg font-medium text-[#888888] dark:text-[#ECECEA]/50 hover:text-[#C45D3E] dark:hover:text-[#C45D3E] transition-colors"
               style={MONO}
             >
               {link}
@@ -276,10 +279,10 @@ function Navbar({ dark, onToggle }) {
 
 function HeroSection() {
   return (
-    <section className="pt-16 pb-16">
+    <section className="pt-24 pb-24">
       <div className="max-w-[1280px] mx-auto px-12">
-        <div className="grid grid-cols-2 gap-16">
-          <div className="flex flex-col gap-8">
+        <div className="grid grid-cols-12 gap-x-6">
+          <div className="col-span-5 flex flex-col gap-8">
             <h1 className="text-[56px] font-medium leading-[1.2] tracking-tight text-[#262625] dark:text-[#ECECEA]">
               You bought your team AI coding tools six months ago. They&rsquo;re still not faster.
             </h1>
@@ -290,7 +293,7 @@ function HeroSection() {
               </a>
             </div>
           </div>
-          <div className="flex items-end">
+          <div className="col-start-7 col-span-6 flex items-end">
             <p className="text-[17px] leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50">
               The tools aren&rsquo;t the problem. Nobody configured them for your codebase, nobody
               integrated them into your workflows, and nobody taught your team how to actually use
@@ -307,49 +310,51 @@ function AboutSection() {
   return (
     <section className="py-32">
       <div className="max-w-[1280px] mx-auto px-12">
-      <div className="grid grid-cols-2 gap-16 mb-24">
-        <div>
-          <SectionLabel>// 01 &mdash; THE_PROBLEM</SectionLabel>
-          <h2 className="text-[36px] font-medium leading-[1.2] text-[#262625] dark:text-[#ECECEA] mt-12">
-            Every AI vendor is selling the same story. Here&rsquo;s what actually happened.
-          </h2>
-        </div>
-        <div className="flex flex-col gap-6">
-          <p className="text-[17px] leading-[1.6] text-[#262625] dark:text-[#ECECEA]">
-            Your senior engineers tried the suggestions for a few weeks. Found them wrong more
-            often than useful&nbsp;&mdash; because the tool doesn&rsquo;t know your codebase. They
-            quietly went back to how they worked before.
-          </p>
-          <p className="text-[17px] leading-[1.6] text-[#262625] dark:text-[#ECECEA]">
-            Your junior engineers kept accepting suggestions. The code looks right, passes review,
-            and doesn&rsquo;t follow any of your architectural patterns. That debt is compounding.
-            You just can&rsquo;t see it yet.
-          </p>
-          <p className="text-[17px] leading-[1.6] text-[#262625] dark:text-[#ECECEA]">
-            And the dashboards leadership tracks&nbsp;&mdash; seat activations, suggestion acceptance
-            rates, lines generated&nbsp;&mdash; don&rsquo;t correlate with anything that matters.
-          </p>
-          <p className="text-[17px] leading-[1.6] text-[#262625] dark:text-[#ECECEA] mt-8">
-            The problem was never the tools. Most AI coding tools were designed for greenfield
-            projects and demo-ready codebases. Not the complex, layered, sometimes-ugly systems
-            that real teams maintain. Making them productive in your environment requires work
-            nobody wants to talk about: deep configuration, codebase-specific context, workflow
-            integration, and engineers who know what they&rsquo;re doing.
-          </p>
-          <p className="text-xl font-medium leading-[1.6] text-[#262625] dark:text-[#ECECEA] mt-4">
-            That&rsquo;s the work we do.
-          </p>
-        </div>
-      </div>
-      <div className="grid grid-cols-4 gap-8">
-        {STATS.map((stat) => (
-          <div key={stat.label}>
-            <p className="text-5xl font-medium tracking-tight text-[#262625] dark:text-[#ECECEA] mb-4">{stat.value}</p>
-            <p className="text-xl font-medium text-[#262625] dark:text-[#ECECEA] mb-2">{stat.label}</p>
-            <p className="text-[17px] leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50">{stat.desc}</p>
+        <div className="border-t border-[#262625]/12 dark:border-[#ECECEA]/10 pt-24">
+          <div className="grid grid-cols-12 gap-x-6 mb-16">
+            <div className="col-span-4">
+              <SectionLabel>// 01 &mdash; THE_PROBLEM</SectionLabel>
+              <h2 className="text-[36px] font-medium leading-[1.2] text-[#262625] dark:text-[#ECECEA] mt-12">
+                Every AI vendor is selling the same story. Here&rsquo;s what actually happened.
+              </h2>
+            </div>
+            <div className="col-start-5 col-span-8 flex flex-col gap-6">
+              <p className="text-[17px] leading-[1.6] text-[#262625] dark:text-[#ECECEA]">
+                Your senior engineers tried the suggestions for a few weeks. Found them wrong more
+                often than useful&nbsp;&mdash; because the tool doesn&rsquo;t know your codebase. They
+                quietly went back to how they worked before.
+              </p>
+              <p className="text-[17px] leading-[1.6] text-[#262625] dark:text-[#ECECEA]">
+                Your junior engineers kept accepting suggestions. The code looks right, passes review,
+                and doesn&rsquo;t follow any of your architectural patterns. That debt is compounding.
+                You just can&rsquo;t see it yet.
+              </p>
+              <p className="text-[17px] leading-[1.6] text-[#262625] dark:text-[#ECECEA]">
+                And the dashboards leadership tracks&nbsp;&mdash; seat activations, suggestion acceptance
+                rates, lines generated&nbsp;&mdash; don&rsquo;t correlate with anything that matters.
+              </p>
+              <p className="text-[17px] leading-[1.6] text-[#262625] dark:text-[#ECECEA] mt-8">
+                The problem was never the tools. Most AI coding tools were designed for greenfield
+                projects and demo-ready codebases. Not the complex, layered, sometimes-ugly systems
+                that real teams maintain. Making them productive in your environment requires work
+                nobody wants to talk about: deep configuration, codebase-specific context, workflow
+                integration, and engineers who know what they&rsquo;re doing.
+              </p>
+              <p className="text-xl font-medium leading-[1.6] text-[#262625] dark:text-[#ECECEA] mt-4">
+                That&rsquo;s the work we do.
+              </p>
+            </div>
           </div>
-        ))}
-      </div>
+          <div className="grid grid-cols-12 gap-x-6">
+            {STATS.map((stat) => (
+              <div key={stat.label} className="col-span-3">
+                <p className="text-5xl font-medium tracking-tight text-[#262625] dark:text-[#ECECEA] mb-4">{stat.value}</p>
+                <p className="text-xl font-medium text-[#262625] dark:text-[#ECECEA] mb-2">{stat.label}</p>
+                <p className="text-[17px] leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50">{stat.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -360,15 +365,11 @@ function ServicesSection() {
     <section className="py-32">
       <div className="max-w-[1280px] mx-auto px-12">
         <div className="border-t border-[#262625]/12 dark:border-[#ECECEA]/10 pt-24">
-          <div className="grid grid-cols-5 gap-x-8">
-            {/* Label in col 1 */}
-            <div className="col-span-1">
+          <div className="grid grid-cols-12 gap-x-6">
+            <div className="col-span-4">
               <SectionLabel>// 02 &mdash; WHY_TEAMS_STALL</SectionLabel>
             </div>
-            {/* Empty col 2 acts as gutter */}
-            <div className="col-span-1" />
-            {/* Content spans cols 3-5 */}
-            <div className="col-span-3">
+            <div className="col-start-5 col-span-8">
               <h2 className="text-[36px] font-medium leading-[1.2] text-[#262625] dark:text-[#ECECEA] mb-16">
                 If any of this sounds familiar, you&rsquo;re not alone.
               </h2>
@@ -396,8 +397,8 @@ function PathwaysSection() {
     <section className="py-32">
       <div className="max-w-[1280px] mx-auto px-12">
         <div className="border-t border-[#262625]/12 dark:border-[#ECECEA]/10 pt-24">
-          <div className="grid grid-cols-2 gap-16 mb-16">
-            <div>
+          <div className="grid grid-cols-12 gap-x-6 mb-16">
+            <div className="col-span-5">
               <h2 className="text-[36px] font-medium leading-[1.2] text-[#262625] dark:text-[#ECECEA] mb-6">
                 Two ways to start. Zero decks required.
               </h2>
@@ -407,13 +408,13 @@ function PathwaysSection() {
                 built by engineers who&rsquo;ve done this before.
               </p>
             </div>
-            <div className="flex items-end justify-end">
+            <div className="col-start-7 col-span-6 flex items-end justify-end">
               <SectionLabel align="right">// 03 &mdash; TWO_PATHWAYS</SectionLabel>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-12 gap-x-6">
             {/* Trailhead */}
-            <div className="bg-[#F0EEE6] dark:bg-[#262624] rounded-lg p-10 flex flex-col">
+            <div className="col-span-6 bg-[#F0EEE6] dark:bg-[#262624] rounded-lg p-10 flex flex-col">
               <h3 className="text-2xl font-medium text-[#262625] dark:text-[#ECECEA] mb-4">Trailhead</h3>
               <p className="text-xl font-medium leading-[1.6] text-[#262625] dark:text-[#ECECEA] mb-4">
                 Find out where you actually stand.
@@ -437,7 +438,7 @@ function PathwaysSection() {
               </div>
             </div>
             {/* Wayfinder */}
-            <div className="bg-[#F0EEE6] dark:bg-[#262624] rounded-lg p-10 flex flex-col">
+            <div className="col-span-6 bg-[#F0EEE6] dark:bg-[#262624] rounded-lg p-10 flex flex-col">
               <h3 className="text-2xl font-medium text-[#262625] dark:text-[#ECECEA] mb-4">Wayfinder</h3>
               <p className="text-xl font-medium leading-[1.6] text-[#262625] dark:text-[#ECECEA] mb-4">
                 Get engineers in the room, not slides.
@@ -473,15 +474,15 @@ function TeamSection() {
     <section className="py-32">
       <div className="max-w-[1280px] mx-auto px-12">
         <div className="border-t border-[#262625]/12 dark:border-[#ECECEA]/10 pt-24">
-          <div className="grid grid-cols-2 gap-16">
-            <div>
+          <div className="grid grid-cols-12 gap-x-6">
+            <div className="col-span-4">
               <SectionLabel>// 04 &mdash; THE_TEAM</SectionLabel>
               <h2 className="text-[36px] font-medium leading-[1.2] text-[#262625] dark:text-[#ECECEA] mt-12">
                 Built by engineers, for engineering teams.
               </h2>
             </div>
-            <div>
-              <p className="text-[17px] leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50 mb-10">
+            <div className="col-start-5 col-span-8">
+              <p className="text-[17px] leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50 mb-16">
                 Founded by engineering leaders who&rsquo;ve spent their careers building, scaling,
                 and leading the kinds of teams navigating this right now.
               </p>
@@ -539,15 +540,15 @@ function CredibilitySection() {
     <section className="py-32">
       <div className="max-w-[1280px] mx-auto px-12">
         <div className="border-t border-[#262625]/12 dark:border-[#ECECEA]/10 pt-24">
-          <div className="grid grid-cols-[250px_1fr] gap-16">
-            <div>
+          <div className="grid grid-cols-12 gap-x-6">
+            <div className="col-span-4">
               <SectionLabel>// 05 &mdash; WHY_TRUST_US</SectionLabel>
             </div>
-            <div>
+            <div className="col-start-5 col-span-8">
               <h2 className="text-[36px] font-medium leading-[1.2] text-[#262625] dark:text-[#ECECEA] mb-4">
                 We lead with transparency, not promises.
               </h2>
-              <p className="text-[17px] leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50 mb-12">
+              <p className="text-[17px] leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50 mb-16">
                 We&rsquo;re a small, focused team. That&rsquo;s a strength, not a weakness.
                 Here&rsquo;s how we build confidence without overpromising.
               </p>
@@ -640,7 +641,7 @@ function Footer() {
           30 minutes. No pitch deck. Just your setup, your challenges, and a straight answer
           on whether we can help.
         </p>
-        <div className="border-t border-white/15 mb-16" />
+        <div className="border-t border-white/15 mb-24" />
         <div className="grid grid-cols-3 gap-16">
           {/* Contact info */}
           <div className="flex flex-col gap-8">
