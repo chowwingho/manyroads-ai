@@ -145,12 +145,28 @@ function ChevronIcon({ open, className = "w-6 h-6" }) {
 // =============================================================================
 const MONO = { fontFamily: '"Geist Mono", monospace' };
 
+const ACCENT_OPTIONS = [
+  { color: "#3D7A41", name: "Green" },
+  { color: "#8A708A", name: "Mauve" },
+  { color: "#4F769A", name: "Blue" },
+  { color: "#C47030", name: "Orange" },
+  { color: "#B8892A", name: "Amber" },
+];
+
+function darkenColor(hex) {
+  const n = parseInt(hex.slice(1), 16);
+  const r = Math.round(((n >> 16) & 0xFF) * 0.85);
+  const g = Math.round(((n >> 8) & 0xFF) * 0.85);
+  const b = Math.round((n & 0xFF) * 0.85);
+  return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
+}
+
 // =============================================================================
 // SHARED COMPONENTS
 // =============================================================================
 function SectionLabel({ children, align = "left" }) {
   const rendered = typeof children === "string" && children.startsWith("//")
-    ? (<><span className="text-[#C45D3E]">//</span>{children.slice(2)}</>)
+    ? (<><span className="text-[var(--accent)]">//</span>{children.slice(2)}</>)
     : children;
   return (
     <span className={`text-lg font-medium text-[#262625] dark:text-[#ECECEA] tracking-normal whitespace-nowrap ${align === "right" ? "text-right" : ""}`} style={MONO}>
@@ -236,7 +252,7 @@ function TypewriterButton() {
   return (
     <a
       href="#"
-      className="inline-flex items-center text-left bg-[#C45D3E] dark:bg-[#C45D3E] text-white dark:text-white px-4 py-2 rounded-lg text-lg font-medium hover:bg-[#B3522F] dark:hover:bg-[#B3522F] transition-colors"
+      className="inline-flex items-center text-left bg-[var(--accent)] text-white px-4 py-2 rounded-lg text-lg font-medium hover:bg-[var(--accent-hover)] transition-colors"
       style={MONO}
     >
       {text}
@@ -248,7 +264,19 @@ function TypewriterButton() {
 // =============================================================================
 // SECTIONS
 // =============================================================================
-function Navbar({ dark, onToggle }) {
+function Navbar({ dark, onToggle, accent, onAccentChange }) {
+  const [accentOpen, setAccentOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    if (!accentOpen) return;
+    function handleClick(e) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setAccentOpen(false);
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [accentOpen]);
+
   return (
     <nav className="bg-[#FAF9F6] dark:bg-[#1A1A18] sticky top-0 z-50">
       <div className="max-w-[1280px] mx-auto px-12 flex items-center justify-between h-[77px]">
@@ -258,12 +286,40 @@ function Navbar({ dark, onToggle }) {
             <a
               key={link}
               href="#"
-              className="text-lg font-medium text-[#888888] dark:text-[#ECECEA]/50 hover:text-[#C45D3E] dark:hover:text-[#C45D3E] transition-colors"
+              className="text-lg font-medium text-[#888888] dark:text-[#ECECEA]/50 hover:text-[var(--accent)] transition-colors"
               style={MONO}
             >
               {link}
             </a>
           ))}
+          <div className="relative" ref={dropdownRef}>
+            <button
+              onClick={() => setAccentOpen(!accentOpen)}
+              className="w-5 h-5 rounded-full cursor-pointer transition-transform hover:scale-110"
+              style={{ backgroundColor: accent }}
+            />
+            {accentOpen && (
+              <div className="absolute right-0 top-full mt-2 bg-[#FAF9F6] dark:bg-[#1A1A18] border border-[#262625]/12 dark:border-[#ECECEA]/10 rounded-lg p-3 flex items-center gap-3 z-50">
+                {ACCENT_OPTIONS.map((opt) => (
+                  <button
+                    key={opt.color}
+                    onClick={() => { onAccentChange(opt.color); setAccentOpen(false); }}
+                    className="flex flex-col items-center gap-1.5 cursor-pointer group"
+                  >
+                    <span
+                      className="w-5 h-5 rounded-full transition-transform group-hover:scale-110"
+                      style={{
+                        backgroundColor: opt.color,
+                        outline: accent === opt.color ? `2px solid ${opt.color}` : "none",
+                        outlineOffset: "2px",
+                      }}
+                    />
+                    <span className="text-xs text-[#888888] dark:text-[#ECECEA]/50 whitespace-nowrap" style={MONO}>{opt.name}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
           <button
             onClick={onToggle}
             className="text-sm text-[#888888] dark:text-[#ECECEA]/50 hover:text-[#262625] dark:hover:text-[#ECECEA] border border-[#262625]/12 dark:border-[#ECECEA]/10 rounded-lg px-3 py-1 hover:bg-[#F0EEE6] dark:hover:bg-[#262624] transition-colors"
@@ -288,7 +344,7 @@ function HeroSection() {
             </h1>
             <div className="flex items-center gap-6">
               <TypewriterButton />
-              <a href="#" className="text-lg font-medium text-[#888888] dark:text-[#ECECEA]/50 underline underline-offset-4 hover:text-[#262625] dark:hover:text-[#ECECEA] transition-colors" style={MONO}>
+              <a href="#" className="text-lg font-medium text-[#888888] dark:text-[#ECECEA]/50 underline underline-offset-4 hover:text-[var(--accent)] transition-colors" style={MONO}>
                 or talk to our team
               </a>
             </div>
@@ -672,7 +728,7 @@ function Footer() {
                 <a
                   key={link}
                   href="#"
-                  className="text-lg font-medium text-white hover:opacity-70 transition-opacity"
+                  className="text-lg font-medium text-white hover:text-[var(--accent)] transition-colors"
                   style={MONO}
                 >
                   {link}
@@ -688,7 +744,7 @@ function Footer() {
                 <a
                   key={link}
                   href="#"
-                  className="text-lg font-medium text-white hover:opacity-70 transition-opacity"
+                  className="text-lg font-medium text-white hover:text-[var(--accent)] transition-colors"
                   style={MONO}
                 >
                   {link}
@@ -713,14 +769,18 @@ function Footer() {
 // =============================================================================
 export default function FieldworkV2() {
   const [dark, setDark] = useState(() => window.matchMedia("(prefers-color-scheme: dark)").matches);
+  const [accent, setAccent] = useState("#4F769A");
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
   }, [dark]);
 
   return (
-    <div className="bg-[#FAF9F6] dark:bg-[#1A1A18] min-h-screen transition-colors" style={{ fontFamily: '"Geist Sans", sans-serif' }}>
-      <Navbar dark={dark} onToggle={() => setDark(!dark)} />
+    <div
+      className="bg-[#FAF9F6] dark:bg-[#1A1A18] min-h-screen transition-colors"
+      style={{ fontFamily: '"Geist Sans", sans-serif', "--accent": accent, "--accent-hover": darkenColor(accent) }}
+    >
+      <Navbar dark={dark} onToggle={() => setDark(!dark)} accent={accent} onAccentChange={setAccent} />
       <main>
         <HeroSection />
         <AboutSection />
