@@ -548,12 +548,13 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 24px;
-    align-items: start;
   }
   .component-card {
     border: 1px solid var(--border);
     border-radius: 12px;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
   .component-card.full-width {
     grid-column: 1 / -1;
@@ -562,8 +563,9 @@
     padding: 32px 24px;
     min-height: 120px;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex: 1;
   }
   .component-preview.light-bg { background: var(--page-bg); }
   .component-preview.dark-bg { background: #262625; }
