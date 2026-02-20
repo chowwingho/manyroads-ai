@@ -1,0 +1,97 @@
+/* ========================================
+   MANY ROADS DESIGN TOKENS
+   Single source of truth for all visual values
+   ======================================== */
+
+:root {
+  /* --- Typography --- */
+  --mr-font-display: 'Geist Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --mr-font-body: 'Geist Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --mr-font-mono: 'Geist Mono', 'SF Mono', 'Fira Code', 'Fira Mono', monospace;
+
+  /* --- Spacing --- */
+  --mr-space-xs: 16px;
+  --mr-space-sm: 24px;
+  --mr-space-md: 32px;
+  --mr-space-lg: 48px;
+  --mr-space-xl: 80px;
+  --mr-space-2xl: 120px;
+
+  /* --- Border Radius --- */
+  --mr-radius-sm: 4px;
+  --mr-radius-md: 8px;
+  --mr-radius-lg: 12px;
+  --mr-radius-full: 9999px;
+
+  /* --- Motion --- */
+  --mr-transition-fast: 150ms ease;
+  --mr-transition-base: 250ms ease;
+  --mr-transition-slow: 400ms ease;
+
+  /* --- Grid --- */
+  --mr-max-width: 1280px;
+  --mr-grid-columns: 12;
+  --mr-grid-gutter: 24px;
+
+  /* --- Shadows (warm-tinted, used sparingly) --- */
+  --mr-shadow-sm: 0 1px 2px rgba(38, 38, 37, 0.05);
+  --mr-shadow-md: 0 4px 12px rgba(38, 38, 37, 0.08);
+  --mr-shadow-lg: 0 8px 24px rgba(38, 38, 37, 0.12);
+}
+
+/* --- Light Mode Colors (default) --- */
+:root, [data-theme="light"] {
+  /* Backgrounds */
+  --mr-bg-page: #FAF9F6;
+  --mr-bg-card: #F0EEE6;
+  --mr-bg-button-primary: #E8E6DD;
+  --mr-bg-button-pathway: #D1CFC6;
+
+  /* Text */
+  --mr-text-primary: #262625;
+  --mr-text-muted: #888888;
+
+  /* Interactive */
+  --mr-hover-primary: #DEDAD0;
+  --mr-hover-pathway: #C5C3BA;
+
+  /* Borders */
+  --mr-border-default: rgba(38, 38, 37, 0.12);
+
+  /* Footer (always dark) */
+  --mr-footer-bg: #262625;
+  --mr-footer-text: #FFFFFF;
+  --mr-footer-sub: rgba(255, 255, 255, 0.6);
+  --mr-footer-divider: rgba(255, 255, 255, 0.15);
+}
+
+/* --- Dark Mode Colors --- */
+[data-theme="dark"] {
+  /* Backgrounds */
+  --mr-bg-page: #1A1A18;
+  --mr-bg-card: #262624;
+  --mr-bg-button-primary: #333331;
+  --mr-bg-button-pathway: #3D3D3A;
+
+  /* Text */
+  --mr-text-primary: #ECECEA;
+  --mr-text-muted: rgba(236, 236, 234, 0.5);
+
+  /* Interactive */
+  --mr-hover-primary: #3D3D3A;
+  --mr-hover-pathway: #4A4A47;
+
+  /* Borders */
+  --mr-border-default: rgba(236, 236, 234, 0.1);
+
+  /* Footer */
+  --mr-footer-bg: #111110;
+  --mr-footer-text: #FFFFFF;
+  --mr-footer-sub: rgba(255, 255, 255, 0.6);
+  --mr-footer-divider: rgba(255, 255, 255, 0.15);
+
+  /* Shadows in dark mode */
+  --mr-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --mr-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --mr-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
