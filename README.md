@@ -2,13 +2,12 @@
 
 Agentic website and design system for Many Roads AI — an AI coding tools consultancy helping engineering teams adopt AI-assisted development.
 
-Built with React 19, Vite 7, and Tailwind CSS v4. Deployed on Vercel.
+Built with React 19, Next.js 15 (App Router), and Tailwind CSS v4. Deployed on Vercel.
 
 ## Tech Stack
 
-- React 19 + Vite 7
-- Tailwind CSS v4 (via `@tailwindcss/vite`)
-- React Router v7
+- React 19 + Next.js 15 (App Router)
+- Tailwind CSS v4 (via `@tailwindcss/postcss`)
 - Lenis (smooth scrolling)
 - Geist Sans + Geist Mono fonts
 
@@ -49,8 +48,8 @@ This project uses [GitHub Flow](https://docs.github.com/en/get-started/using-git
 ## Commands
 
 ```bash
-npm run dev      # Dev server
+npm run dev      # Next.js dev server (port 3000)
 npm run build    # Production build
-npm run preview  # Preview production build
+npm start        # Serve production build
 npm run lint     # ESLint
 ```

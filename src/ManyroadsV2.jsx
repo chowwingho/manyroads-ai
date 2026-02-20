@@ -1,5 +1,6 @@
+'use client'
 // Many Roads V2 — Site v1.7 — 2026-02-20
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 
 // =============================================================================
 // ASSET URLS (Figma exports — valid for 7 days)
@@ -128,47 +129,46 @@ function TypewriterButton() {
   const charIdx = useRef(0);
   const timer = useRef(null);
 
-  const tick = useCallback(() => {
-    const current = HERO_PHRASES[phraseIdx.current];
+  useEffect(() => {
+    function tick() {
+      const current = HERO_PHRASES[phraseIdx.current];
 
-    if (phase.current === "typing") {
-      charIdx.current++;
-      setText(current.slice(0, charIdx.current));
-      if (charIdx.current >= current.length) {
-        phase.current = "pause";
-        setPaused(true);
-        timer.current = setTimeout(tick, 4000);
-      } else {
+      if (phase.current === "typing") {
+        charIdx.current++;
+        setText(current.slice(0, charIdx.current));
+        if (charIdx.current >= current.length) {
+          phase.current = "pause";
+          setPaused(true);
+          timer.current = setTimeout(tick, 4000);
+        } else {
+          timer.current = setTimeout(tick, 50);
+        }
+      } else if (phase.current === "pause") {
+        phase.current = "erasing";
+        setPaused(false);
+        timer.current = setTimeout(tick, 30);
+      } else if (phase.current === "erasing") {
+        charIdx.current--;
+        setText(current.slice(0, charIdx.current));
+        if (charIdx.current <= 0) {
+          phase.current = "pauseNext";
+          timer.current = setTimeout(tick, 600);
+        } else {
+          timer.current = setTimeout(tick, 30);
+        }
+      } else if (phase.current === "pauseNext") {
+        phraseIdx.current = (phraseIdx.current + 1) % HERO_PHRASES.length;
+        phase.current = "typing";
+        setPaused(false);
         timer.current = setTimeout(tick, 50);
       }
-    } else if (phase.current === "pause") {
-      phase.current = "erasing";
-      setPaused(false);
-      timer.current = setTimeout(tick, 30);
-    } else if (phase.current === "erasing") {
-      charIdx.current--;
-      setText(current.slice(0, charIdx.current));
-      if (charIdx.current <= 0) {
-        phase.current = "pauseNext";
-        timer.current = setTimeout(tick, 600);
-      } else {
-        timer.current = setTimeout(tick, 30);
-      }
-    } else if (phase.current === "pauseNext") {
-      phraseIdx.current = (phraseIdx.current + 1) % HERO_PHRASES.length;
-      phase.current = "typing";
-      setPaused(false);
-      timer.current = setTimeout(tick, 50);
     }
-  }, []);
 
-  useEffect(() => {
     phase.current = "typing";
     charIdx.current = 0;
-    setText("");
     timer.current = setTimeout(tick, 400);
     return () => clearTimeout(timer.current);
-  }, [tick]);
+  }, []);
 
   return (
     <a
@@ -735,7 +735,10 @@ function Footer() {
 // MAIN COMPONENT
 // =============================================================================
 export default function ManyroadsV2() {
-  const [dark, setDark] = useState(() => window.matchMedia("(prefers-color-scheme: dark)").matches);
+  const [dark, setDark] = useState(() => {
+    if (typeof window === 'undefined') return false
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+  });
   const [accent, setAccent] = useState("#4F769A");
 
   useEffect(() => {

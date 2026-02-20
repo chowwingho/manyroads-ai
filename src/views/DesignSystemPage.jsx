@@ -1,3 +1,4 @@
+'use client'
 import { useState, useEffect } from "react";
 import Sidebar from "../components/design-system/Sidebar";
 import PrinciplesSection from "../components/design-system/PrinciplesSection";
@@ -18,6 +19,7 @@ import { MONO } from "../components/design-system/constants";
 
 export default function DesignSystemPage() {
   const [dark, setDark] = useState(() => {
+    if (typeof window === 'undefined') return false
     const stored = localStorage.getItem("ds-theme");
     if (stored) return stored === "dark";
     return window.matchMedia("(prefers-color-scheme: dark)").matches;

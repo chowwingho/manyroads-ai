@@ -1,5 +1,6 @@
+'use client'
 import { useState, useEffect, useCallback } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { MONO } from "./constants";
 
 const NAV_GROUPS = [
@@ -65,8 +66,11 @@ export default function Sidebar({ dark, onToggle }) {
 
   useEffect(() => {
     window.addEventListener("scroll", updateActive, { passive: true });
-    updateActive();
-    return () => window.removeEventListener("scroll", updateActive);
+    const rafId = requestAnimationFrame(updateActive);
+    return () => {
+      window.removeEventListener("scroll", updateActive);
+      cancelAnimationFrame(rafId);
+    };
   }, [updateActive]);
 
   const scrollTo = (id) => {
@@ -85,7 +89,7 @@ export default function Sidebar({ dark, onToggle }) {
       <div>
         {/* Back link */}
         <Link
-          to="/v2"
+          href="/v2"
           className="text-[13px] block mb-6 transition-colors hover:opacity-70"
           style={{ ...MONO, color: "var(--mr-text-muted)" }}
         >

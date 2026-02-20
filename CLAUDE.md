@@ -1,46 +1,58 @@
 # Many Roads AI
 
 ## Overview
-Two single-page website template variants built with React 19, Vite 7, and Tailwind CSS v4:
+Two website template variants built with React 19, Next.js 15 (App Router), and Tailwind CSS v4:
 - **V1** (`/v1`) — Legacy architecture firm template, in `FieldworkV1.jsx`
 - **V2** (`/v2`) — AI coding tools consultancy (Many Roads AI / MRAI), in `ManyroadsV2.jsx`
 
-An index page at `/` links to both variants.
+An index page at `/` links to both variants. A design system reference lives at `/design-system`.
 
 ## Repository & Deployment
-- **GitHub:** https://github.com/Many-Roads-Studios/website-ai-design-system
+- **GitHub:** https://github.com/chowwingho/manyroads-ai
 - **Branch:** `main`
-- **Hosting:** Vercel — `vercel.json` rewrites all routes to `/index.html` for client-side routing
+- **Hosting:** Vercel — Next.js has native Vercel support (no `vercel.json` needed)
 
 ## Tech Stack
-- **React 19** + **Vite 7**
-- **Tailwind CSS v4** — via `@tailwindcss/vite` plugin, imported in `index.css`
-- **React Router v7** — client-side routing (`/`, `/v1`, `/v2`) in `App.jsx`
-- **Lenis** — smooth/inertial scrolling, initialized in `main.jsx` with `requestAnimationFrame` loop
-- **Geist** — `geist` npm package for Geist Sans + Geist Mono fonts (loaded via `@font-face` in `index.css`)
+- **React 19** + **Next.js 15** (App Router with file-based routing)
+- **Tailwind CSS v4** — via `@tailwindcss/postcss` plugin, imported in `globals.css`
+- **Lenis** — smooth/inertial scrolling via `LenisScroll.jsx` client component (`'use client'` + `useEffect` + `requestAnimationFrame` loop)
+- **Geist** — `geist` npm package, fonts copied to `src/fonts/` and loaded via `@font-face` in `globals.css`
 
 ## Project Structure
 ```
 src/
-  main.jsx              # Entry point — Lenis init, React root
-  App.jsx               # BrowserRouter — /, /v1, /v2
-  index.css             # Tailwind import, @font-face, dark mode variant, blink-cursor keyframes
-  IndexPage.jsx         # Landing page with links to V1/V2
-  FieldworkV1.jsx       # V1 — legacy architecture firm template
-  ManyroadsV2.jsx       # V2 — Many Roads AI (site v1.7)
-vercel.json             # SPA rewrites for Vercel deployment
-color-tokens.md         # Detailed color token reference
+  app/
+    layout.jsx            # Root layout — globals.css import, LenisScroll, metadata
+    page.jsx              # Index page (/) — links to V1/V2
+    globals.css           # Tailwind import, @font-face, dark mode variant, utility classes
+    v1/page.jsx           # /v1 route — imports FieldworkV1
+    v2/layout.jsx         # /v2 metadata (title)
+    v2/page.jsx           # /v2 route — imports ManyroadsV2
+    design-system/layout.jsx  # /design-system metadata (title)
+    design-system/page.jsx    # /design-system route — imports DesignSystemPage
+  FieldworkV1.jsx         # V1 — legacy architecture firm template ('use client')
+  ManyroadsV2.jsx         # V2 — Many Roads AI (site v1.7) ('use client')
+  views/
+    DesignSystemPage.jsx  # Design system reference page ('use client')
+  components/
+    LenisScroll.jsx       # Lenis smooth scroll client component
+    design-system/        # Design system section components
+  tokens/tokens.css       # CSS custom property color tokens (light/dark)
+  fonts/                  # Geist Sans + Geist Mono woff2 variable fonts
+next.config.mjs           # Next.js configuration
+postcss.config.mjs        # Tailwind CSS v4 via @tailwindcss/postcss
+color-tokens.md           # Detailed color token reference
 ```
 
 ## Fonts
-- **Geist Sans** — body text and headings. Applied via inline style `fontFamily: '"Geist Sans", sans-serif'` on the root div, plus `h1, h2, h3` rule in `index.css`
+- **Geist Sans** — body text and headings. Applied via inline style `fontFamily: '"Geist Sans", sans-serif'` on the root div, plus `h1, h2, h3` rule in `globals.css`
 - **Geist Mono** — UI accents: nav links, section labels (`SectionLabel`), CTA buttons (`PrimaryButton`, `TypewriterButton`), pathway card buttons, tech stack badges, logo, dark mode toggle, footer nav/social links. Applied via `const MONO = { fontFamily: '"Geist Mono", monospace' }` inline style
-- Both loaded from `node_modules/geist` via `@font-face` in `index.css`
-- **Note:** `index.html` still links to Satoshi from Fontshare — this is a V1 remnant and unused by V2
+- Both loaded from `src/fonts/` via `@font-face` in `globals.css`
+- **Satoshi** — loaded via `@import url()` in `globals.css`, used by V1 and the index page
 
 ## Dark Mode (V2 only)
-- **Strategy:** class-based via `@custom-variant dark (&:where(.dark, .dark *));` in `index.css`
-- **State:** `useState` with lazy initializer from `window.matchMedia("(prefers-color-scheme: dark)")`. A `useEffect` toggles the `.dark` class on `document.documentElement` whenever the state changes
+- **Strategy:** class-based via `@custom-variant dark (&:where(.dark, .dark *));` in `globals.css`
+- **State:** `useState` with SSR-safe lazy initializer (`typeof window === 'undefined'` guard). A `useEffect` toggles the `.dark` class on `document.documentElement` whenever the state changes
 - **Toggle:** `[ dark_ ]` / `[ light_ ]` button in the navbar — `text-sm`, border, rounded, Geist Mono
 
 ### Color Tokens (Light / Dark)
@@ -99,7 +111,7 @@ Elements intentionally kept at `text-lg` (18px): `SectionLabel`, navbar logo, na
 
 ## V2 Design Conventions
 - **Section labels:** code-style `// 0X — LABEL_NAME` format in Geist Mono via `SectionLabel` component
-- **CTA buttons:** trailing underscore replaces arrow icon (e.g., `See where you stand_`). Uses `.blink-cursor` animation (1s ease-in-out infinite) defined in `index.css`
+- **CTA buttons:** trailing underscore replaces arrow icon (e.g., `See where you stand_`). Uses `.blink-cursor` animation (1s ease-in-out infinite) defined in `globals.css`
 - **TypewriterButton:** hero CTA that cycles through 3 phrases ("See where you stand", "Run the assessment", "Start here") using a ref-based 4-phase state machine (typing → pause → erasing → pauseNext). Timing: 50ms type, 4s pause, 30ms erase, 600ms between phrases, 400ms initial delay
 - **PrimaryButton:** static CTA, no arrow icon, Geist Mono, `w-fit`
 - **LinkedIn links:** `LinkedIn ↗` in Geist Mono `text-sm` after each team bio
@@ -117,13 +129,14 @@ Elements intentionally kept at `text-lg` (18px): `SectionLabel`, navbar logo, na
 
 ## Notes
 - **Asset URLs:** `ASSETS` object contains temporary Figma CDN URLs (expire ~7 days). Replace before deploying
-- **Satoshi font:** still linked in `index.html` from Fontshare — used by V1, not by V2
+- **SSR:** All pages are statically prerendered at build time. Components using hooks/browser APIs have `'use client'` directives. `useState` initializers that access `window` or `localStorage` include `typeof window === 'undefined'` guards
 - **V1 naming:** `FieldworkV1.jsx` retains "Fieldwork" branding as it's the original architecture firm template
 
 ## Commands
 ```bash
 npm install    # Install dependencies
-npm run dev    # Start dev server (Vite)
+npm run dev    # Next.js dev server (port 3000)
 npm run build  # Production build
+npm start      # Serve production build (port 3000)
 npm run lint   # ESLint
 ```

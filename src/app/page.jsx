@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 export default function IndexPage() {
   return (
@@ -8,13 +8,13 @@ export default function IndexPage() {
         <p className="text-lg text-[#888888] mb-12">Site variants</p>
         <div className="flex gap-6">
           <Link
-            to="/v1"
+            href="/v1"
             className="px-8 py-4 bg-[#262625] text-white text-lg font-medium rounded-lg hover:bg-[#333] transition-colors"
           >
             Version 1
           </Link>
           <Link
-            to="/v2"
+            href="/v2"
             className="px-8 py-4 bg-[#E8E6DD] text-[#262625] text-lg font-medium rounded-lg hover:bg-[#DEDAD0] transition-colors"
           >
             Version 2

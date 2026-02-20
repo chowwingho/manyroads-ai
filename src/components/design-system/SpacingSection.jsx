@@ -1,3 +1,4 @@
+'use client'
 import { useState } from "react";
 import CodeBlock from "./CodeBlock";
 import { MONO } from "./constants";

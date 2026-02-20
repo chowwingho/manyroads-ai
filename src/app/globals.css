@@ -1,18 +1,19 @@
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap');
 @import "tailwindcss";
-@import "./tokens/tokens.css";
+@import "../tokens/tokens.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @font-face {
   font-family: "Geist Sans";
-  src: url("../node_modules/geist/dist/fonts/geist-sans/Geist-Variable.woff2") format("woff2");
+  src: url("../fonts/GeistSans-Variable.woff2") format("woff2");
   font-weight: 100 900;
   font-display: swap;
 }
 
 @font-face {
   font-family: "Geist Mono";
-  src: url("../node_modules/geist/dist/fonts/geist-mono/GeistMono-Variable.woff2") format("woff2");
+  src: url("../fonts/GeistMono-Variable.woff2") format("woff2");
   font-weight: 100 900;
   font-display: swap;
 }
