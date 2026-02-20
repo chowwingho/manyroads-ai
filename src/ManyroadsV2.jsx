@@ -1,3 +1,4 @@
+// Many Roads V2 — Site v1.7 — 2026-02-20
 import { useState, useEffect, useRef, useCallback } from "react";
 
 // =============================================================================
@@ -66,84 +67,14 @@ const SERVICES = [
   },
 ];
 
-const PROJECTS = [
-  { year: "2025", name: "Horizon Pavilion", type: "Cultural Architecture", thumb: 0 },
-  { year: "2025", name: "Atlas Corporate Center", type: "Commercial Architecture", thumb: 1 },
-  { year: "2024", name: "Casa Ladera", type: "Residential Architecture", thumb: 2 },
-  { year: "2023", name: "Horizon Tower", type: "Commercial Architecture", thumb: 3 },
-  { year: "2022", name: "Pavilion Arts Center", type: "Cultural Architecture", thumb: 4 },
-  { year: "2022", name: "Riverline Residences", type: "Residential Architecture", thumb: 5 },
-];
-
-const TESTIMONIALS = [
-  {
-    quote:
-      "Fieldwork guided our project with remarkable clarity and vision. Their team understood not only the architecture but also the business goals behind it, making them an invaluable partner.",
-    name: "Sarah Mitchell",
-    role: "Director, Horizon Development Group",
-  },
-  {
-    quote:
-      "Working with Fieldwork was seamless from start to finish. Their approach is refined, precise, and deeply thoughtful\u2014our institution now has a space that truly embodies its mission.",
-    name: "David Romero",
-    role: "Founder, Romero & Associates Cultural Projects",
-  },
-];
-
-const FAQ_ITEMS = [
-  "What types of projects does Fieldwork take on?",
-  "How early should we involve Fieldwork in our project?",
-  "Do you only work with large-scale clients?",
-  "How does Fieldwork approach sustainability?",
-  "What does your process look like?",
-  "Do you manage construction as well?",
-  "How do we get started with Fieldwork?",
-];
-
 const NAV_LINKS = ["Trailhead", "Wayfinder", "Team", "Contact"];
 const FOOTER_NAV = ["Trailhead", "Wayfinder", "Team", "Contact"];
 const FOOTER_SOCIAL = ["Twitter", "Instagram", "YouTube"];
 
 // =============================================================================
-// ICONS
-// =============================================================================
-function ArrowIcon({ className = "w-4 h-4" }) {
-  return (
-    <svg className={className} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M3.33 12.67L12.67 3.33M12.67 3.33H5.33M12.67 3.33V10.67"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function ChevronIcon({ open, className = "w-6 h-6" }) {
-  return (
-    <svg
-      className={`${className} transition-transform duration-300 ${open ? "rotate-45" : ""}`}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M12 5V19M5 12H19"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-// =============================================================================
 // FONT STYLES
 // =============================================================================
-const MONO = { fontFamily: '"Geist Mono", monospace' };
+const MONO = { fontFamily: '"Geist Mono", "SF Mono", "Fira Code", "Fira Mono", monospace' };
 
 const ACCENT_OPTIONS = [
   { color: "#3D7A41", name: "Green" },
@@ -169,19 +100,9 @@ function SectionLabel({ children, align = "left" }) {
     ? (<><span className="text-[var(--accent)]">//</span>{children.slice(2)}</>)
     : children;
   return (
-    <span className={`text-lg font-medium text-[#262625] dark:text-[#ECECEA] tracking-normal whitespace-nowrap ${align === "right" ? "text-right" : ""}`} style={MONO}>
+    <span className={`text-base lg:text-lg font-medium tracking-normal ${align === "right" ? "text-right" : ""}`} style={{ ...MONO, color: "var(--mr-text-primary)" }}>
       {rendered}
     </span>
-  );
-}
-
-function SecondaryLink({ children, color = "dark" }) {
-  const textColor = color === "dark" ? "text-[#262625] dark:text-[#ECECEA]" : "text-white";
-  return (
-    <a href="#" className={`inline-flex items-center gap-1.5 text-lg font-medium ${textColor} group`} style={MONO}>
-      <span>{children}</span>
-      <ArrowIcon className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-    </a>
   );
 }
 
@@ -189,7 +110,7 @@ function PrimaryButton({ children }) {
   return (
     <a
       href="#"
-      className="group inline-flex items-center gap-2 bg-[#E8E6DD] dark:bg-[#333331] text-[#262625] dark:text-[#ECECEA] px-4 py-2 rounded-lg text-lg font-medium hover:bg-[#DEDAD0] dark:hover:bg-[#3D3D3A] transition-colors w-fit"
+      className="group inline-flex items-center gap-2 mr-btn-primary px-4 py-2 rounded-lg text-lg font-medium w-fit"
       style={MONO}
     >
       <span>{children}</span>
@@ -252,7 +173,7 @@ function TypewriterButton() {
   return (
     <a
       href="#"
-      className="inline-flex items-center text-left bg-[var(--accent)] text-white px-4 py-2 rounded-lg text-lg font-medium hover:bg-[var(--accent-hover)] transition-colors"
+      className="inline-flex items-center text-left bg-[var(--accent)] text-white px-4 py-2 rounded-lg text-base sm:text-lg font-medium hover:bg-[var(--accent-hover)] transition-colors min-w-0"
       style={MONO}
     >
       {text}
@@ -266,7 +187,9 @@ function TypewriterButton() {
 // =============================================================================
 function Navbar({ dark, onToggle, accent, onAccentChange }) {
   const [accentOpen, setAccentOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const menuRef = useRef(null);
 
   useEffect(() => {
     if (!accentOpen) return;
@@ -277,29 +200,46 @@ function Navbar({ dark, onToggle, accent, onAccentChange }) {
     return () => document.removeEventListener("mousedown", handleClick);
   }, [accentOpen]);
 
+  useEffect(() => {
+    if (!menuOpen) return;
+    function handleClick(e) {
+      if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false);
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [menuOpen]);
+
+  useEffect(() => {
+    function handleResize() { if (window.innerWidth >= 768) setMenuOpen(false); }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <nav className="bg-[#FAF9F6] dark:bg-[#1A1A18] sticky top-0 z-50">
-      <div className="max-w-[1280px] mx-auto px-12 flex items-center justify-between h-[77px]">
-        <span className="text-lg font-medium text-[#262625] dark:text-[#ECECEA] tracking-wide" style={MONO}>Many_Roads &lt;AI&gt;</span>
-        <div className="flex items-center gap-8">
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link}
-              href="#"
-              className="text-lg font-medium text-[#888888] dark:text-[#ECECEA]/50 hover:text-[var(--accent)] transition-colors"
-              style={MONO}
-            >
-              {link}
-            </a>
-          ))}
-          <div className="relative" ref={dropdownRef}>
+    <nav className="sticky top-0 z-50" style={{ background: "var(--mr-bg-page)" }} ref={menuRef}>
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 flex items-center justify-between h-[77px]">
+        <span className="text-lg font-medium tracking-wide" style={{ ...MONO, color: "var(--mr-text-primary)" }}>Many_Roads &lt;AI&gt;</span>
+        <div className="flex items-center gap-4 md:gap-8">
+          <div className="hidden md:flex items-center gap-8">
+            {NAV_LINKS.map((link) => (
+              <a
+                key={link}
+                href="#"
+                className="text-lg font-medium mr-link-nav"
+                style={MONO}
+              >
+                {link}
+              </a>
+            ))}
+          </div>
+          <div className="relative hidden md:block" ref={dropdownRef}>
             <button
               onClick={() => setAccentOpen(!accentOpen)}
               className="w-5 h-5 rounded-full cursor-pointer transition-transform hover:scale-110"
               style={{ backgroundColor: accent }}
             />
             {accentOpen && (
-              <div className="absolute right-0 top-full mt-2 bg-[#FAF9F6] dark:bg-[#1A1A18] border border-[#262625]/12 dark:border-[#ECECEA]/10 rounded-lg p-3 flex items-center gap-3 z-50">
+              <div className="absolute right-0 top-full mt-2 rounded-lg p-3 flex items-center gap-3 z-50" style={{ background: "var(--mr-bg-page)", border: "1px solid var(--mr-border-default)" }}>
                 {ACCENT_OPTIONS.map((opt) => (
                   <button
                     key={opt.color}
@@ -314,7 +254,7 @@ function Navbar({ dark, onToggle, accent, onAccentChange }) {
                         outlineOffset: "2px",
                       }}
                     />
-                    <span className="text-xs text-[#888888] dark:text-[#ECECEA]/50 whitespace-nowrap" style={MONO}>{opt.name}</span>
+                    <span className="text-xs whitespace-nowrap" style={{ ...MONO, color: "var(--mr-text-muted)" }}>{opt.name}</span>
                   </button>
                 ))}
               </div>
@@ -322,35 +262,61 @@ function Navbar({ dark, onToggle, accent, onAccentChange }) {
           </div>
           <button
             onClick={onToggle}
-            className="text-sm text-[#888888] dark:text-[#ECECEA]/50 hover:text-[#262625] dark:hover:text-[#ECECEA] border border-[#262625]/12 dark:border-[#ECECEA]/10 rounded-lg px-3 py-1 hover:bg-[#F0EEE6] dark:hover:bg-[#262624] transition-colors"
+            className="text-sm mr-btn-toggle rounded-lg px-3 py-1"
             style={MONO}
           >
             {dark ? "[ light_ ]" : "[ dark_ ]"}
           </button>
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="md:hidden flex flex-col justify-center gap-1.5 w-6 h-6 cursor-pointer"
+            aria-label="Toggle menu"
+          >
+            <span className="block w-6 h-0.5 rounded-full transition-transform" style={{ background: "var(--mr-text-primary)", transform: menuOpen ? "rotate(45deg) translate(4px, 4px)" : "none" }} />
+            <span className="block w-6 h-0.5 rounded-full transition-opacity" style={{ background: "var(--mr-text-primary)", opacity: menuOpen ? 0 : 1 }} />
+            <span className="block w-6 h-0.5 rounded-full transition-transform" style={{ background: "var(--mr-text-primary)", transform: menuOpen ? "rotate(-45deg) translate(4px, -4px)" : "none" }} />
+          </button>
         </div>
       </div>
+      {menuOpen && (
+        <div className="md:hidden border-t" style={{ background: "var(--mr-bg-page)", borderColor: "var(--mr-border-default)" }}>
+          <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-4 flex flex-col">
+            {NAV_LINKS.map((link) => (
+              <a
+                key={link}
+                href="#"
+                onClick={() => setMenuOpen(false)}
+                className="py-3 text-lg font-medium mr-link-nav"
+                style={MONO}
+              >
+                {link}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
     </nav>
   );
 }
 
 function HeroSection() {
   return (
-    <section className="pt-24 pb-24">
-      <div className="max-w-[1280px] mx-auto px-12">
-        <div className="grid grid-cols-12 gap-x-6">
-          <div className="col-span-5 flex flex-col gap-8">
-            <h1 className="text-[56px] font-medium leading-[1.2] tracking-tight text-[#262625] dark:text-[#ECECEA]">
+    <section className="pt-16 pb-16 md:pt-24 md:pb-24">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-x-6">
+          <div className="md:col-span-5 flex flex-col gap-8">
+            <h1 className="text-3xl sm:text-4xl lg:text-[56px] font-medium leading-[1.2] tracking-tight" style={{ color: "var(--mr-text-primary)" }}>
               You bought your team AI coding tools six months ago. They&rsquo;re still not faster.
             </h1>
-            <div className="flex items-center gap-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
               <TypewriterButton />
-              <a href="#" className="text-lg font-medium text-[#888888] dark:text-[#ECECEA]/50 underline underline-offset-4 hover:text-[var(--accent)] transition-colors" style={MONO}>
+              <a href="#" className="text-lg font-medium underline underline-offset-4 mr-link-nav" style={MONO}>
                 or talk to our team
               </a>
             </div>
           </div>
-          <div className="col-start-7 col-span-6 flex items-end">
-            <p className="text-[17px] leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50">
+          <div className="md:col-start-7 md:col-span-6 flex items-end mt-8 md:mt-0">
+            <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
               The tools aren&rsquo;t the problem. Nobody configured them for your codebase, nobody
               integrated them into your workflows, and nobody taught your team how to actually use
               them. We fix that.
@@ -364,49 +330,49 @@ function HeroSection() {
 
 function AboutSection() {
   return (
-    <section className="py-32">
-      <div className="max-w-[1280px] mx-auto px-12">
-        <div className="border-t border-[#262625]/12 dark:border-[#ECECEA]/10 pt-24">
-          <div className="grid grid-cols-12 gap-x-6 mb-16">
-            <div className="col-span-4">
+    <section className="py-16 md:py-24 lg:py-32">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
+        <div className="pt-12 md:pt-16 lg:pt-24" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-x-6 mb-12 md:mb-16">
+            <div className="md:col-span-4">
               <SectionLabel>// 01 &mdash; THE_PROBLEM</SectionLabel>
-              <h2 className="text-[36px] font-medium leading-[1.2] text-[#262625] dark:text-[#ECECEA] mt-12">
+              <h2 className="text-2xl md:text-3xl lg:text-[36px] font-medium leading-[1.2] mt-4 md:mt-12" style={{ color: "var(--mr-text-primary)" }}>
                 Every AI vendor is selling the same story. Here&rsquo;s what actually happened.
               </h2>
             </div>
-            <div className="col-start-5 col-span-8 flex flex-col gap-6">
-              <p className="text-[17px] leading-[1.6] text-[#262625] dark:text-[#ECECEA]">
+            <div className="md:col-start-5 md:col-span-8 flex flex-col gap-6 mt-6 md:mt-0">
+              <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-primary)" }}>
                 Your senior engineers tried the suggestions for a few weeks. Found them wrong more
                 often than useful&nbsp;&mdash; because the tool doesn&rsquo;t know your codebase. They
                 quietly went back to how they worked before.
               </p>
-              <p className="text-[17px] leading-[1.6] text-[#262625] dark:text-[#ECECEA]">
+              <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-primary)" }}>
                 Your junior engineers kept accepting suggestions. The code looks right, passes review,
                 and doesn&rsquo;t follow any of your architectural patterns. That debt is compounding.
                 You just can&rsquo;t see it yet.
               </p>
-              <p className="text-[17px] leading-[1.6] text-[#262625] dark:text-[#ECECEA]">
+              <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-primary)" }}>
                 And the dashboards leadership tracks&nbsp;&mdash; seat activations, suggestion acceptance
                 rates, lines generated&nbsp;&mdash; don&rsquo;t correlate with anything that matters.
               </p>
-              <p className="text-[17px] leading-[1.6] text-[#262625] dark:text-[#ECECEA] mt-8">
+              <p className="text-[17px] leading-[1.6] mt-8" style={{ color: "var(--mr-text-primary)" }}>
                 The problem was never the tools. Most AI coding tools were designed for greenfield
                 projects and demo-ready codebases. Not the complex, layered, sometimes-ugly systems
                 that real teams maintain. Making them productive in your environment requires work
                 nobody wants to talk about: deep configuration, codebase-specific context, workflow
                 integration, and engineers who know what they&rsquo;re doing.
               </p>
-              <p className="text-xl font-medium leading-[1.6] text-[#262625] dark:text-[#ECECEA] mt-4">
+              <p className="text-xl font-medium leading-[1.6] mt-4" style={{ color: "var(--mr-text-primary)" }}>
                 That&rsquo;s the work we do.
               </p>
             </div>
           </div>
-          <div className="grid grid-cols-12 gap-x-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-x-6 gap-y-8 sm:gap-y-10">
             {STATS.map((stat) => (
-              <div key={stat.label} className="col-span-3">
-                <p className="text-5xl font-medium tracking-tight text-[#262625] dark:text-[#ECECEA] mb-4">{stat.value}</p>
-                <p className="text-xl font-medium text-[#262625] dark:text-[#ECECEA] mb-2">{stat.label}</p>
-                <p className="text-[17px] leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50">{stat.desc}</p>
+              <div key={stat.label} className="md:col-span-3">
+                <p className="text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight mb-4" style={{ color: "var(--mr-text-primary)" }}>{stat.value}</p>
+                <p className="text-xl font-medium mb-2" style={{ color: "var(--mr-text-primary)" }}>{stat.label}</p>
+                <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>{stat.desc}</p>
               </div>
             ))}
           </div>
@@ -418,25 +384,25 @@ function AboutSection() {
 
 function ServicesSection() {
   return (
-    <section className="py-32">
-      <div className="max-w-[1280px] mx-auto px-12">
-        <div className="border-t border-[#262625]/12 dark:border-[#ECECEA]/10 pt-24">
-          <div className="grid grid-cols-12 gap-x-6">
-            <div className="col-span-4">
+    <section className="py-16 md:py-24 lg:py-32">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
+        <div className="pt-12 md:pt-16 lg:pt-24" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-x-6">
+            <div className="md:col-span-4">
               <SectionLabel>// 02 &mdash; WHY_TEAMS_STALL</SectionLabel>
             </div>
-            <div className="col-start-5 col-span-8">
-              <h2 className="text-[36px] font-medium leading-[1.2] text-[#262625] dark:text-[#ECECEA] mb-16">
+            <div className="md:col-start-5 md:col-span-8 mt-6 md:mt-0">
+              <h2 className="text-2xl md:text-3xl lg:text-[36px] font-medium leading-[1.2] mb-10 md:mb-16" style={{ color: "var(--mr-text-primary)" }}>
                 If any of this sounds familiar, you&rsquo;re not alone.
               </h2>
-              <div className="grid grid-cols-2 gap-x-16 gap-y-20">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 md:gap-x-16 gap-y-12 md:gap-y-20">
                 {SERVICES.map((service) => (
-                  <div key={service.num} className="border-t border-[#262625]/12 dark:border-[#ECECEA]/10 pt-8">
-                    <span className="text-lg font-medium text-[#262625] dark:text-[#ECECEA] block mb-3">
+                  <div key={service.num} className="pt-8" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+                    <span className="text-lg font-medium block mb-3" style={{ ...MONO, color: "var(--mr-text-primary)" }}>
                       ({service.num})
                     </span>
-                    <h3 className="text-lg font-medium text-[#262625] dark:text-[#ECECEA] mb-4">{service.title}</h3>
-                    <p className="text-[17px] leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50">{service.desc}</p>
+                    <h3 className="text-lg font-medium mb-4" style={{ color: "var(--mr-text-primary)" }}>{service.title}</h3>
+                    <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>{service.desc}</p>
                   </div>
                 ))}
               </div>
@@ -450,70 +416,70 @@ function ServicesSection() {
 
 function PathwaysSection() {
   return (
-    <section className="py-32">
-      <div className="max-w-[1280px] mx-auto px-12">
-        <div className="border-t border-[#262625]/12 dark:border-[#ECECEA]/10 pt-24">
-          <div className="grid grid-cols-12 gap-x-6 mb-16">
-            <div className="col-span-5">
-              <h2 className="text-[36px] font-medium leading-[1.2] text-[#262625] dark:text-[#ECECEA] mb-6">
+    <section className="py-16 md:py-24 lg:py-32">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
+        <div className="pt-12 md:pt-16 lg:pt-24" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-x-6 mb-10 md:mb-16">
+            <div className="md:col-span-5">
+              <h2 className="text-2xl md:text-3xl lg:text-[36px] font-medium leading-[1.2] mb-6" style={{ color: "var(--mr-text-primary)" }}>
                 Two ways to start. Zero decks required.
               </h2>
-              <p className="text-[17px] leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50">
+              <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
                 Whether you need to understand where you stand or you&rsquo;re ready for hands-on
                 help, we&rsquo;ve built entry points that respect your time. One is free. Both are
                 built by engineers who&rsquo;ve done this before.
               </p>
             </div>
-            <div className="col-start-7 col-span-6 flex items-end justify-end">
+            <div className="md:col-start-7 md:col-span-6 flex items-end justify-start md:justify-end mt-4 md:mt-0">
               <SectionLabel align="right">// 03 &mdash; TWO_PATHWAYS</SectionLabel>
             </div>
           </div>
-          <div className="grid grid-cols-12 gap-x-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-6 gap-y-6">
             {/* Trailhead */}
-            <div className="col-span-6 bg-[#F0EEE6] dark:bg-[#262624] rounded-lg p-10 flex flex-col">
-              <h3 className="text-2xl font-medium text-[#262625] dark:text-[#ECECEA] mb-4">Trailhead</h3>
-              <p className="text-xl font-medium leading-[1.6] text-[#262625] dark:text-[#ECECEA] mb-4">
+            <div className="lg:col-span-6 rounded-lg p-6 md:p-8 lg:p-10 flex flex-col" style={{ background: "var(--mr-bg-card)" }}>
+              <h3 className="text-lg md:text-xl lg:text-2xl font-medium mb-4" style={{ color: "var(--mr-text-primary)" }}>Trailhead</h3>
+              <p className="text-xl font-medium leading-[1.6] mb-4" style={{ color: "var(--mr-text-primary)" }}>
                 Find out where you actually stand.
               </p>
-              <p className="text-[17px] leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50 mb-4">
+              <p className="text-[17px] leading-[1.6] mb-4" style={{ color: "var(--mr-text-muted)" }}>
                 A free, open-source assessment that evaluates your engineering org across four
                 dimensions: codebase compatibility, tool configuration, team workflows, and
                 organizational process.
               </p>
-              <p className="text-[17px] leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50 mb-8">
+              <p className="text-[17px] leading-[1.6] mb-8" style={{ color: "var(--mr-text-muted)" }}>
                 Not a marketing quiz. Not a lead-gen form. You&rsquo;ll get a detailed score with
                 specific, actionable findings&nbsp;&mdash; whether or not you ever talk to us.
               </p>
               <div className="mt-auto flex flex-col gap-4">
-                <a href="#" className="inline-flex bg-[#D1CFC6] dark:bg-[#3D3D3A] text-[#262625] dark:text-[#ECECEA] px-4 py-2 rounded-lg text-lg font-medium hover:bg-[#C5C3BA] dark:hover:bg-[#4A4A47] transition-colors w-fit" style={MONO}>
+                <a href="#" className="inline-flex mr-btn-pathway px-4 py-2 rounded-lg text-lg font-medium w-fit" style={MONO}>
                   Run the assessment<span className="blink-cursor">_</span>
                 </a>
-                <a href="#" className="text-lg font-medium text-[#888888] dark:text-[#ECECEA]/50 underline underline-offset-4 hover:text-[#262625] dark:hover:text-[#ECECEA] transition-colors w-fit" style={MONO}>
+                <a href="#" className="text-lg font-medium underline underline-offset-4 mr-link-muted w-fit" style={MONO}>
                   or talk to our team
                 </a>
               </div>
             </div>
             {/* Wayfinder */}
-            <div className="col-span-6 bg-[#F0EEE6] dark:bg-[#262624] rounded-lg p-10 flex flex-col">
-              <h3 className="text-2xl font-medium text-[#262625] dark:text-[#ECECEA] mb-4">Wayfinder</h3>
-              <p className="text-xl font-medium leading-[1.6] text-[#262625] dark:text-[#ECECEA] mb-4">
+            <div className="lg:col-span-6 rounded-lg p-6 md:p-8 lg:p-10 flex flex-col" style={{ background: "var(--mr-bg-card)" }}>
+              <h3 className="text-lg md:text-xl lg:text-2xl font-medium mb-4" style={{ color: "var(--mr-text-primary)" }}>Wayfinder</h3>
+              <p className="text-xl font-medium leading-[1.6] mb-4" style={{ color: "var(--mr-text-primary)" }}>
                 Get engineers in the room, not slides.
               </p>
-              <p className="text-[17px] leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50 mb-4">
+              <p className="text-[17px] leading-[1.6] mb-4" style={{ color: "var(--mr-text-muted)" }}>
                 Hands-on consulting and training delivered by people who&rsquo;ve built and led teams
                 like yours. We work with your actual codebase, your real workflows, and your specific
                 tools.
               </p>
-              <p className="text-[17px] leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50 mb-8">
+              <p className="text-[17px] leading-[1.6] mb-8" style={{ color: "var(--mr-text-muted)" }}>
                 Some teams need a focused sprint to configure and optimize. Others need a longer
                 engagement to change how their org works with AI-assisted development. Either way, we
                 start from where you are.
               </p>
               <div className="mt-auto flex flex-col gap-4">
-                <a href="#" className="inline-flex bg-[#D1CFC6] dark:bg-[#3D3D3A] text-[#262625] dark:text-[#ECECEA] px-4 py-2 rounded-lg text-lg font-medium hover:bg-[#C5C3BA] dark:hover:bg-[#4A4A47] transition-colors w-fit" style={MONO}>
+                <a href="#" className="inline-flex mr-btn-pathway px-4 py-2 rounded-lg text-lg font-medium w-fit" style={MONO}>
                   Learn more about Wayfinder<span className="blink-cursor">_</span>
                 </a>
-                <a href="#" className="text-lg font-medium text-[#888888] dark:text-[#ECECEA]/50 underline underline-offset-4 hover:text-[#262625] dark:hover:text-[#ECECEA] transition-colors w-fit" style={MONO}>
+                <a href="#" className="text-lg font-medium underline underline-offset-4 mr-link-muted w-fit" style={MONO}>
                   or book a conversation with our team
                 </a>
               </div>
@@ -527,57 +493,57 @@ function PathwaysSection() {
 
 function TeamSection() {
   return (
-    <section className="py-32">
-      <div className="max-w-[1280px] mx-auto px-12">
-        <div className="border-t border-[#262625]/12 dark:border-[#ECECEA]/10 pt-24">
-          <div className="grid grid-cols-12 gap-x-6">
-            <div className="col-span-4">
+    <section className="py-16 md:py-24 lg:py-32">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
+        <div className="pt-12 md:pt-16 lg:pt-24" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-x-6">
+            <div className="md:col-span-4">
               <SectionLabel>// 04 &mdash; THE_TEAM</SectionLabel>
-              <h2 className="text-[36px] font-medium leading-[1.2] text-[#262625] dark:text-[#ECECEA] mt-12">
+              <h2 className="text-2xl md:text-3xl lg:text-[36px] font-medium leading-[1.2] mt-4 md:mt-12" style={{ color: "var(--mr-text-primary)" }}>
                 Built by engineers, for engineering teams.
               </h2>
             </div>
-            <div className="col-start-5 col-span-8">
-              <p className="text-[17px] leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50 mb-16">
+            <div className="md:col-start-5 md:col-span-8 mt-6 md:mt-0">
+              <p className="text-[17px] leading-[1.6] mb-16" style={{ color: "var(--mr-text-muted)" }}>
                 Founded by engineering leaders who&rsquo;ve spent their careers building, scaling,
                 and leading the kinds of teams navigating this right now.
               </p>
-              <div className="border-t border-[#262625]/12 dark:border-[#ECECEA]/10 pt-10 flex flex-col gap-10">
+              <div className="pt-10 flex flex-col gap-10" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
                 <div>
-                  <p className="text-xl font-medium text-[#262625] dark:text-[#ECECEA] mb-2">Susan &mdash; Director of Engineering</p>
-                  <p className="text-[17px] leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50">
+                  <p className="text-xl font-medium mb-2" style={{ color: "var(--mr-text-primary)" }}>Susan &mdash; Director of Engineering</p>
+                  <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
                     PhD in software engineering. Former McKinsey. Has led engineering orgs through
                     complex technical transformations and knows the distance between strategy and
                     execution from both sides.
                   </p>
-                  <a href="#" className="text-sm text-[#888888] dark:text-[#ECECEA]/50 hover:text-[#262625] dark:hover:text-[#ECECEA] transition-colors mt-2 inline-block" style={MONO}>LinkedIn &#8599;</a>
+                  <a href="#" className="text-sm mr-link-muted mt-2 inline-block" style={MONO}>LinkedIn &#8599;</a>
                 </div>
                 <div>
-                  <p className="text-xl font-medium text-[#262625] dark:text-[#ECECEA] mb-2">Jeff &mdash; VP of Engineering</p>
-                  <p className="text-[17px] leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50">
+                  <p className="text-xl font-medium mb-2" style={{ color: "var(--mr-text-primary)" }}>Jeff &mdash; VP of Engineering</p>
+                  <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
                     15+ years leading engineering teams. Has been the buyer, the budget owner, and
                     the person who had to explain ROI on tooling investments to the board. Knows
                     what your seat feels like.
                   </p>
-                  <a href="#" className="text-sm text-[#888888] dark:text-[#ECECEA]/50 hover:text-[#262625] dark:hover:text-[#ECECEA] transition-colors mt-2 inline-block" style={MONO}>LinkedIn &#8599;</a>
+                  <a href="#" className="text-sm mr-link-muted mt-2 inline-block" style={MONO}>LinkedIn &#8599;</a>
                 </div>
                 <div>
-                  <p className="text-xl font-medium text-[#262625] dark:text-[#ECECEA] mb-2">Spencer &mdash; Senior Software Engineer</p>
-                  <p className="text-[17px] leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50">
+                  <p className="text-xl font-medium mb-2" style={{ color: "var(--mr-text-primary)" }}>Spencer &mdash; Senior Software Engineer</p>
+                  <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
                     10+ years in real codebases, every day. Brings implementation-level understanding
                     of what actually happens when AI tools meet legacy systems, real-world constraints,
                     and engineering workflows that weren&rsquo;t designed for them.
                   </p>
-                  <a href="#" className="text-sm text-[#888888] dark:text-[#ECECEA]/50 hover:text-[#262625] dark:hover:text-[#ECECEA] transition-colors mt-2 inline-block" style={MONO}>LinkedIn &#8599;</a>
+                  <a href="#" className="text-sm mr-link-muted mt-2 inline-block" style={MONO}>LinkedIn &#8599;</a>
                 </div>
               </div>
-              <div className="border-t border-[#262625]/12 dark:border-[#ECECEA]/10 mt-10 pt-10">
-                <p className="text-[17px] italic text-[#262625] dark:text-[#ECECEA] mb-8">
+              <div className="mt-10 pt-10" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+                <p className="text-[17px] italic mb-8" style={{ color: "var(--mr-text-primary)" }}>
                   We&rsquo;re not consultants who read about your problems. We&rsquo;ve had them.
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {["TypeScript", "Python", "Go", "Rust", "React", "Node.js", "AWS", "LLMs"].map((badge) => (
-                    <span key={badge} className="inline-flex bg-[#F0EEE6] dark:bg-[#262624] rounded-full px-3 py-1 text-sm text-[#262625] dark:text-[#ECECEA]" style={MONO}>
+                    <span key={badge} className="inline-flex rounded-full px-3 py-1 text-sm" style={{ ...MONO, background: "var(--mr-bg-card)", color: "var(--mr-text-primary)" }}>
                       {badge}
                     </span>
                   ))}
@@ -593,41 +559,41 @@ function TeamSection() {
 
 function CredibilitySection() {
   return (
-    <section className="py-32">
-      <div className="max-w-[1280px] mx-auto px-12">
-        <div className="border-t border-[#262625]/12 dark:border-[#ECECEA]/10 pt-24">
-          <div className="grid grid-cols-12 gap-x-6">
-            <div className="col-span-4">
+    <section className="py-16 md:py-24 lg:py-32">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
+        <div className="pt-12 md:pt-16 lg:pt-24" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-x-6">
+            <div className="md:col-span-4">
               <SectionLabel>// 05 &mdash; WHY_TRUST_US</SectionLabel>
             </div>
-            <div className="col-start-5 col-span-8">
-              <h2 className="text-[36px] font-medium leading-[1.2] text-[#262625] dark:text-[#ECECEA] mb-4">
+            <div className="md:col-start-5 md:col-span-8 mt-6 md:mt-0">
+              <h2 className="text-2xl md:text-3xl lg:text-[36px] font-medium leading-[1.2] mb-4" style={{ color: "var(--mr-text-primary)" }}>
                 We lead with transparency, not promises.
               </h2>
-              <p className="text-[17px] leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50 mb-16">
+              <p className="text-[17px] leading-[1.6] mb-16" style={{ color: "var(--mr-text-muted)" }}>
                 We&rsquo;re a small, focused team. That&rsquo;s a strength, not a weakness.
                 Here&rsquo;s how we build confidence without overpromising.
               </p>
-              <div className="border-t border-[#262625]/12 dark:border-[#ECECEA]/10 pt-12">
-                <div className="grid grid-cols-2 gap-16">
+              <div className="pt-12" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
                   <div>
-                    <p className="text-xl font-medium text-[#262625] dark:text-[#ECECEA] mb-3">Methodology</p>
-                    <p className="text-[17px] leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50">
+                    <p className="text-xl font-medium mb-3" style={{ color: "var(--mr-text-primary)" }}>Methodology</p>
+                    <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
                       Our assessment framework draws on established models including the MITRE AI
                       Maturity Model, adapted specifically for AI-assisted software development in
                       production codebases.
                     </p>
                   </div>
                   <div>
-                    <p className="text-xl font-medium text-[#262625] dark:text-[#ECECEA] mb-3">Open source</p>
-                    <p className="text-[17px] leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50">
+                    <p className="text-xl font-medium mb-3" style={{ color: "var(--mr-text-primary)" }}>Open source</p>
+                    <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
                       Trailhead is open source. Not because it&rsquo;s a marketing strategy. Because
                       the fastest way to earn an engineer&rsquo;s trust is to show them how you think.
                     </p>
                   </div>
                   <div>
-                    <p className="text-xl font-medium text-[#262625] dark:text-[#ECECEA] mb-3">Focus</p>
-                    <p className="text-[17px] leading-[1.6] text-[#888888] dark:text-[#ECECEA]/50">
+                    <p className="text-xl font-medium mb-3" style={{ color: "var(--mr-text-primary)" }}>Focus</p>
+                    <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
                       We work exclusively with engineering teams at Series B&ndash;D technology
                       companies navigating AI-assisted development in established codebases. Narrow
                       focus. Intentional.
@@ -635,25 +601,25 @@ function CredibilitySection() {
                   </div>
                 </div>
               </div>
-              <div className="border-t border-[#262625]/12 dark:border-[#ECECEA]/10 mt-12 pt-12">
-                <div className="grid grid-cols-2 gap-16">
+              <div className="mt-12 pt-12" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
                   <div>
-                    <p className="text-2xl font-medium leading-[1.4] text-[#262625] dark:text-[#ECECEA] mb-8">
+                    <p className="text-lg md:text-xl lg:text-2xl font-medium leading-[1.4] mb-8" style={{ color: "var(--mr-text-primary)" }}>
                       &ldquo;We&rsquo;d burned through six months of Copilot licenses before they
                       showed us what was actually happening. Within two weeks, our senior engineers
                       were using it again&nbsp;&mdash; and this time it was actually helping.&rdquo;
                     </p>
-                    <p className="text-[17px] text-[#262625] dark:text-[#ECECEA]">VP of Engineering</p>
-                    <p className="text-[17px] text-[#888888] dark:text-[#ECECEA]/50">Series C, Fintech &mdash; 120 engineers</p>
+                    <p className="text-[17px]" style={{ color: "var(--mr-text-primary)" }}>VP of Engineering</p>
+                    <p className="text-[17px]" style={{ color: "var(--mr-text-muted)" }}>Series C, Fintech &mdash; 120 engineers</p>
                   </div>
                   <div>
-                    <p className="text-2xl font-medium leading-[1.4] text-[#262625] dark:text-[#ECECEA] mb-8">
+                    <p className="text-lg md:text-xl lg:text-2xl font-medium leading-[1.4] mb-8" style={{ color: "var(--mr-text-primary)" }}>
                       &ldquo;They didn&rsquo;t pitch us a deck. They opened our codebase, ran their
                       assessment, and showed us exactly where our AI tooling was falling down. First
                       time anyone made it that concrete.&rdquo;
                     </p>
-                    <p className="text-[17px] text-[#262625] dark:text-[#ECECEA]">Director of Platform Engineering</p>
-                    <p className="text-[17px] text-[#888888] dark:text-[#ECECEA]/50">Series D, SaaS &mdash; 85 engineers</p>
+                    <p className="text-[17px]" style={{ color: "var(--mr-text-primary)" }}>Director of Platform Engineering</p>
+                    <p className="text-[17px]" style={{ color: "var(--mr-text-muted)" }}>Series D, SaaS &mdash; 85 engineers</p>
                   </div>
                 </div>
               </div>
@@ -667,54 +633,54 @@ function CredibilitySection() {
 
 function Footer() {
   return (
-    <footer className="bg-[#262625] dark:bg-[#111110] text-white py-24">
-      <div className="max-w-[1280px] mx-auto px-12">
+    <footer className="py-16 md:py-20 lg:py-24" style={{ background: "var(--mr-footer-bg)", color: "var(--mr-footer-text)" }}>
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
         <div className="max-w-2xl mb-8">
-          <h2 className="text-[36px] font-medium leading-[1.2]">
+          <h2 className="text-2xl md:text-3xl lg:text-[36px] font-medium leading-[1.2]">
             Every team&rsquo;s path to productive AI-assisted development looks different.
           </h2>
-          <p className="text-[36px] font-medium leading-[1.2] mt-2">
+          <p className="text-2xl md:text-3xl lg:text-[36px] font-medium leading-[1.2] mt-2">
             Let&rsquo;s figure out yours.
           </p>
         </div>
         <div className="flex flex-col gap-4 mb-6">
           <a
             href="#"
-            className="inline-flex bg-[#E8E6DD] dark:bg-[#333331] text-[#262625] dark:text-[#ECECEA] px-4 py-2 rounded-lg text-lg font-medium hover:bg-[#DEDAD0] dark:hover:bg-[#3D3D3A] transition-colors w-fit"
+            className="inline-flex mr-btn-primary px-4 py-2 rounded-lg text-lg font-medium w-fit"
             style={MONO}
           >
             Run Trailhead &mdash; see where your team stands<span className="blink-cursor">_</span>
           </a>
           <a
             href="#"
-            className="inline-flex bg-[#E8E6DD] dark:bg-[#333331] text-[#262625] dark:text-[#ECECEA] px-4 py-2 rounded-lg text-lg font-medium hover:bg-[#DEDAD0] dark:hover:bg-[#3D3D3A] transition-colors w-fit"
+            className="inline-flex mr-btn-primary px-4 py-2 rounded-lg text-lg font-medium w-fit"
             style={MONO}
           >
             Book a conversation about Wayfinder<span className="blink-cursor">_</span>
           </a>
         </div>
-        <p className="text-[17px] leading-[1.6] text-white/60 mb-16">
+        <p className="text-[17px] leading-[1.6] mb-16" style={{ color: "var(--mr-footer-sub)" }}>
           30 minutes. No pitch deck. Just your setup, your challenges, and a straight answer
           on whether we can help.
         </p>
-        <div className="border-t border-white/15 mb-24" />
-        <div className="grid grid-cols-3 gap-16">
+        <div className="mb-12 md:mb-16 lg:mb-24" style={{ borderTop: "1px solid var(--mr-footer-divider)" }} />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16">
           {/* Contact info */}
           <div className="flex flex-col gap-8">
             <div>
-              <p className="text-lg font-medium text-[#888888] mb-2">Email</p>
+              <p className="text-lg font-medium mb-2" style={{ color: "var(--mr-footer-sub)" }}>Email</p>
               <a
                 href="mailto:hello@manyroads.ai"
-                className="text-lg font-medium text-white hover:opacity-70 transition-opacity"
+                className="text-lg font-medium hover:opacity-70 transition-opacity" style={{ color: "var(--mr-footer-text)" }}
               >
                 hello@manyroads.ai
               </a>
             </div>
             <div>
-              <p className="text-lg font-medium text-[#888888] mb-2">Phone</p>
+              <p className="text-lg font-medium mb-2" style={{ color: "var(--mr-footer-sub)" }}>Phone</p>
               <a
                 href="tel:+15551234567"
-                className="text-lg font-medium text-white hover:opacity-70 transition-opacity"
+                className="text-lg font-medium hover:opacity-70 transition-opacity" style={{ color: "var(--mr-footer-text)" }}
               >
                 +1 (555) 123-4567
               </a>
@@ -722,13 +688,13 @@ function Footer() {
           </div>
           {/* Navigation */}
           <div>
-            <p className="text-lg font-medium text-[#888888] mb-4">Navigation</p>
+            <p className="text-lg font-medium mb-4" style={{ color: "var(--mr-footer-sub)" }}>Navigation</p>
             <div className="flex flex-col gap-2">
               {FOOTER_NAV.map((link) => (
                 <a
                   key={link}
                   href="#"
-                  className="text-lg font-medium text-white hover:text-[var(--accent)] transition-colors"
+                  className="text-lg font-medium mr-link-footer"
                   style={MONO}
                 >
                   {link}
@@ -738,13 +704,13 @@ function Footer() {
           </div>
           {/* Social */}
           <div>
-            <p className="text-lg font-medium text-[#888888] mb-4">Social</p>
+            <p className="text-lg font-medium mb-4" style={{ color: "var(--mr-footer-sub)" }}>Social</p>
             <div className="flex flex-col gap-2">
               {FOOTER_SOCIAL.map((link) => (
                 <a
                   key={link}
                   href="#"
-                  className="text-lg font-medium text-white hover:text-[var(--accent)] transition-colors"
+                  className="text-lg font-medium mr-link-footer"
                   style={MONO}
                 >
                   {link}
@@ -754,10 +720,11 @@ function Footer() {
           </div>
         </div>
         {/* Large wordmark */}
-        <div className="mt-24">
+        <div className="mt-12 md:mt-16 lg:mt-24">
           <p className="text-[clamp(80px,15vw,200px)] font-medium leading-none tracking-tight">
             MANYROADS
           </p>
+          <p className="text-sm mt-4" style={{ ...MONO, color: "var(--mr-footer-sub)" }}>v1.7</p>
         </div>
       </div>
     </footer>
@@ -767,18 +734,25 @@ function Footer() {
 // =============================================================================
 // MAIN COMPONENT
 // =============================================================================
-export default function FieldworkV2() {
+export default function ManyroadsV2() {
   const [dark, setDark] = useState(() => window.matchMedia("(prefers-color-scheme: dark)").matches);
   const [accent, setAccent] = useState("#4F769A");
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
+    document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
   }, [dark]);
+
+  useEffect(() => {
+    return () => {
+      document.documentElement.removeAttribute("data-theme");
+    };
+  }, []);
 
   return (
     <div
-      className="bg-[#FAF9F6] dark:bg-[#1A1A18] min-h-screen transition-colors"
-      style={{ fontFamily: '"Geist Sans", sans-serif', "--accent": accent, "--accent-hover": darkenColor(accent) }}
+      className="min-h-screen transition-colors overflow-x-hidden"
+      style={{ fontFamily: '"Geist Sans", sans-serif', "--accent": accent, "--accent-hover": darkenColor(accent), background: "var(--mr-bg-page)" }}
     >
       <Navbar dark={dark} onToggle={() => setDark(!dark)} accent={accent} onAccentChange={setAccent} />
       <main>

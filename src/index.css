@@ -29,3 +29,51 @@ h1, h2, h3 {
 .blink-cursor {
   animation: blink-cursor 1s ease-in-out infinite;
 }
+
+/* ============================================
+   Token-based interactive classes (v1.6)
+   Used by ManyroadsV2 for hover states that
+   cannot be expressed as inline styles.
+   ============================================ */
+
+.mr-btn-primary {
+  background: var(--mr-bg-button-primary);
+  color: var(--mr-text-primary);
+  transition: background-color 250ms ease;
+}
+.mr-btn-primary:hover { background: var(--mr-hover-primary); }
+
+.mr-btn-pathway {
+  background: var(--mr-bg-button-pathway);
+  color: var(--mr-text-primary);
+  transition: background-color 250ms ease;
+}
+.mr-btn-pathway:hover { background: var(--mr-hover-pathway); }
+
+.mr-btn-toggle {
+  color: var(--mr-text-muted);
+  border: 1px solid var(--mr-border-default);
+  transition: background-color 250ms ease, color 250ms ease;
+}
+.mr-btn-toggle:hover {
+  color: var(--mr-text-primary);
+  background: var(--mr-bg-card);
+}
+
+.mr-link-nav {
+  color: var(--mr-text-muted);
+  transition: color 250ms ease;
+}
+.mr-link-nav:hover { color: var(--mr-text-primary); }
+
+.mr-link-muted {
+  color: var(--mr-text-muted);
+  transition: color 250ms ease;
+}
+.mr-link-muted:hover { color: var(--mr-text-primary); }
+
+.mr-link-footer {
+  color: var(--mr-footer-text);
+  transition: color 250ms ease;
+}
+.mr-link-footer:hover { color: var(--mr-footer-sub); }
