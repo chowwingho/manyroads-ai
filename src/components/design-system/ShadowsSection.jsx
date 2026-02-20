@@ -1,6 +1,6 @@
 import CodeBlock from "./CodeBlock";
-
-const MONO = { fontFamily: '"Geist Mono", monospace' };
+import { MONO } from "./constants";
+import SectionHeader from "./SectionHeader";
 
 const SHADOW_TOKENS = [
   {
@@ -30,26 +30,11 @@ export default function ShadowsSection() {
         className="border-t pt-12"
         style={{ borderColor: "var(--mr-border-default)" }}
       >
-        {/* Section header */}
-        <span
-          className="text-lg font-medium block mb-2"
-          style={{ ...MONO, color: "var(--mr-text-primary)" }}
-        >
-          <span style={{ color: "#4F769A" }}>//</span> SHADOWS
-        </span>
-        <h2
-          className="text-[36px] font-medium leading-[1.2] tracking-tight mb-3"
-          style={{ color: "var(--mr-text-primary)" }}
-        >
-          Shadows
-        </h2>
-        <p
-          className="text-[17px] leading-[1.6] max-w-[560px] mb-12"
-          style={{ color: "var(--mr-text-muted)" }}
-        >
-          Minimal elevation by design. Three shadow tokens reserved for
-          elements that genuinely need to float above the page.
-        </p>
+        <SectionHeader
+          marker="SHADOWS"
+          title="Shadows"
+          description="Minimal elevation by design. Three shadow tokens reserved for elements that genuinely need to float above the page."
+        />
 
         {/* Philosophy */}
         <div className="mb-16">

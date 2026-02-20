@@ -1,6 +1,5 @@
 import { useState, useCallback } from "react";
-
-const MONO = { fontFamily: '"Geist Mono", monospace' };
+import { MONO } from "./constants";
 
 export default function TokenRow({ variable, value, label, bordered = false }) {
   const [copied, setCopied] = useState(false);

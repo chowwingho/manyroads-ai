@@ -1,6 +1,6 @@
 import CodeBlock from "./CodeBlock";
-
-const MONO = { fontFamily: '"Geist Mono", monospace' };
+import { MONO } from "./constants";
+import SectionHeader from "./SectionHeader";
 
 const V2_MARKERS = [
   "// 01 \u2014 THE_PROBLEM",
@@ -14,7 +14,7 @@ const MARKER_SPECS = [
   { property: "Font", value: "Geist Mono (--mr-font-mono)" },
   { property: "Size", value: "text-lg (18px)" },
   { property: "Weight", value: "font-medium (500)" },
-  { property: "// color", value: "#4F769A (accent blue)" },
+  { property: "// color", value: "var(--mr-accent-default)" },
   { property: "Text color", value: "--mr-text-primary" },
   { property: "Case", value: "UPPER_SNAKE_CASE" },
   { property: "Whitespace", value: "whitespace-nowrap" },
@@ -33,27 +33,11 @@ export default function MarkersSection() {
         className="border-t pt-12"
         style={{ borderColor: "var(--mr-border-default)" }}
       >
-        {/* Section header */}
-        <span
-          className="text-lg font-medium block mb-2"
-          style={{ ...MONO, color: "var(--mr-text-primary)" }}
-        >
-          <span style={{ color: "#4F769A" }}>//</span> SECTION_MARKERS
-        </span>
-        <h2
-          className="text-[36px] font-medium leading-[1.2] tracking-tight mb-3"
-          style={{ color: "var(--mr-text-primary)" }}
-        >
-          Section Markers
-        </h2>
-        <p
-          className="text-[17px] leading-[1.6] max-w-[560px] mb-12"
-          style={{ color: "var(--mr-text-muted)" }}
-        >
-          One of the strongest brand elements. Every content section opens with
-          a code-comment-style label in Geist Mono, connecting the visual
-          language to developer culture.
-        </p>
+        <SectionHeader
+          marker="SECTION_MARKERS"
+          title="Section Markers"
+          description="One of the strongest brand elements. Every content section opens with a code-comment-style label in Geist Mono, connecting the visual language to developer culture."
+        />
 
         {/* Format */}
         <div className="mb-16">
@@ -74,7 +58,7 @@ export default function MarkersSection() {
               className="text-[20px] font-medium mb-6"
               style={{ ...MONO, color: "var(--mr-text-primary)" }}
             >
-              <span style={{ color: "#4F769A" }}>//</span> NN &mdash;
+              <span style={{ color: "var(--mr-accent-default)" }}>//</span> NN &mdash;
               SECTION_NAME
             </p>
             <div
@@ -145,7 +129,7 @@ export default function MarkersSection() {
                   className="text-lg font-medium block"
                   style={{ ...MONO, color: "var(--mr-text-primary)" }}
                 >
-                  <span style={{ color: "#4F769A" }}>//</span>
+                  <span style={{ color: "var(--mr-accent-default)" }}>//</span>
                   {marker.slice(2)}
                 </span>
               ))}
@@ -182,11 +166,11 @@ export default function MarkersSection() {
           <CodeBlock>
 {`/* SectionLabel component pattern */
 <span className="text-lg font-medium" style={MONO}>
-  <span style={{ color: "#4F769A" }}>//</span> 01 — THE_PROBLEM
+  <span style={{ color: "var(--mr-accent-default)" }}>//</span> 01 — THE_PROBLEM
 </span>
 
 /* V2 uses var(--accent) for the // color */
-/* Design system uses #4F769A (static blue) */`}
+/* Design system uses var(--mr-accent-default) (static blue) */`}
           </CodeBlock>
         </div>
       </div>

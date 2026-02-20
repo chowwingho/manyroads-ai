@@ -1,6 +1,6 @@
 import CodeBlock from "./CodeBlock";
-
-const MONO = { fontFamily: '"Geist Mono", monospace' };
+import { MONO } from "./constants";
+import SectionHeader from "./SectionHeader";
 
 export default function CardsSection() {
   return (
@@ -9,26 +9,11 @@ export default function CardsSection() {
         className="border-t pt-12"
         style={{ borderColor: "var(--mr-border-default)" }}
       >
-        {/* Section header */}
-        <span
-          className="text-lg font-medium block mb-2"
-          style={{ ...MONO, color: "var(--mr-text-primary)" }}
-        >
-          <span style={{ color: "#4F769A" }}>//</span> CARDS
-        </span>
-        <h2
-          className="text-[36px] font-medium leading-[1.2] tracking-tight mb-3"
-          style={{ color: "var(--mr-text-primary)" }}
-        >
-          Cards
-        </h2>
-        <p
-          className="text-[17px] leading-[1.6] max-w-[560px] mb-12"
-          style={{ color: "var(--mr-text-muted)" }}
-        >
-          Three card patterns used across the V2 site. Each serves a different
-          content density and interaction model.
-        </p>
+        <SectionHeader
+          marker="CARDS"
+          title="Cards"
+          description="Three card patterns used across the V2 site. Each serves a different content density and interaction model."
+        />
 
         {/* Pain Point Card */}
         <div className="mb-16">

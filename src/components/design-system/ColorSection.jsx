@@ -1,6 +1,6 @@
 import TokenRow from "./TokenRow";
-
-const MONO = { fontFamily: '"Geist Mono", monospace' };
+import { MONO } from "./constants";
+import SectionHeader from "./SectionHeader";
 
 // Full ramp values (lightest → darkest for light mode, darkest → lightest for dark mode)
 const LIGHT_RAMP = [
@@ -78,6 +78,8 @@ const DARK_TOKENS = {
   ],
 };
 
+// Hex values intentional — documenting the raw accent palette colors.
+// Blue is tokenized as --mr-accent-default; Green/Orange as --mr-status-positive/warning.
 const ACCENT_COLORS = [
   { name: "Green", value: "#3D7A41", contrast: "4.7:1" },
   { name: "Mauve", value: "#8A708A", contrast: "4.1:1" },
@@ -143,27 +145,11 @@ export default function ColorSection() {
         className="border-t pt-12"
         style={{ borderColor: "var(--mr-border-default)" }}
       >
-        {/* Section header */}
-        <span
-          className="text-lg font-medium block mb-2"
-          style={{ ...MONO, color: "var(--mr-text-primary)" }}
-        >
-          <span style={{ color: "#4F769A" }}>//</span> COLOR_TOKENS
-        </span>
-        <h2
-          className="text-[36px] font-medium leading-[1.2] tracking-tight mb-3"
-          style={{ color: "var(--mr-text-primary)" }}
-        >
-          Colors
-        </h2>
-        <p
-          className="text-[17px] leading-[1.6] max-w-[560px] mb-12"
-          style={{ color: "var(--mr-text-muted)" }}
-        >
-          Warm neutrals across 8 steps. Every token has a light and dark pair.
-          The page&rsquo;s dark mode toggle switches the live swatches; static hex
-          values are always visible.
-        </p>
+        <SectionHeader
+          marker="COLOR_TOKENS"
+          title="Colors"
+          description="Warm neutrals across 8 steps. Every token has a light and dark pair. The page's dark mode toggle switches the live swatches; static hex values are always visible."
+        />
 
         {/* Color ramps */}
         <div className="mb-16">
@@ -173,6 +159,11 @@ export default function ColorSection() {
 
         {/* Side-by-side token panels */}
         <div className="grid grid-cols-2 gap-8 mb-16">
+          {/*
+            These panels intentionally use hardcoded hex values, NOT var(--mr-*) tokens.
+            They must always show their respective mode's colors regardless of the page's
+            current theme. Do not convert these to CSS variables.
+          */}
           {/* Light mode tokens */}
           <div
             className="rounded-xl p-8"

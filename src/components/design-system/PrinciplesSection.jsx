@@ -1,4 +1,5 @@
-const MONO = { fontFamily: '"Geist Mono", monospace' };
+import { MONO } from "./constants";
+import SectionHeader from "./SectionHeader";
 
 const PRINCIPLES = [
   {
@@ -54,25 +55,11 @@ export default function PrinciplesSection() {
           className="border-t pt-12"
           style={{ borderColor: "var(--mr-border-default)" }}
         >
-          <span
-            className="text-lg font-medium block mb-2"
-            style={{ ...MONO, color: "var(--mr-text-primary)" }}
-          >
-            <span style={{ color: "#4F769A" }}>//</span> PRINCIPLES
-          </span>
-          <h2
-            className="text-[36px] font-medium leading-[1.2] tracking-tight mb-3"
-            style={{ color: "var(--mr-text-primary)" }}
-          >
-            Design Principles
-          </h2>
-          <p
-            className="text-[17px] leading-[1.6] max-w-[560px] mb-12"
-            style={{ color: "var(--mr-text-muted)" }}
-          >
-            Five rules that guide every visual decision across the Many Roads
-            site.
-          </p>
+          <SectionHeader
+            marker="PRINCIPLES"
+            title="Design Principles"
+            description="Five rules that guide every visual decision across the Many Roads site."
+          />
 
           <div className="flex flex-col gap-0">
             {PRINCIPLES.map((p, i) => (
@@ -107,25 +94,11 @@ export default function PrinciplesSection() {
           className="border-t pt-12"
           style={{ borderColor: "var(--mr-border-default)" }}
         >
-          <span
-            className="text-lg font-medium block mb-2"
-            style={{ ...MONO, color: "var(--mr-text-primary)" }}
-          >
-            <span style={{ color: "#4F769A" }}>//</span> IDENTITY
-          </span>
-          <h2
-            className="text-[36px] font-medium leading-[1.2] tracking-tight mb-3"
-            style={{ color: "var(--mr-text-primary)" }}
-          >
-            Looks Like Us
-          </h2>
-          <p
-            className="text-[17px] leading-[1.6] max-w-[560px] mb-12"
-            style={{ color: "var(--mr-text-muted)" }}
-          >
-            A quick gut-check for whether a design decision fits the Many Roads
-            identity.
-          </p>
+          <SectionHeader
+            marker="IDENTITY"
+            title="Looks Like Us"
+            description="A quick gut-check for whether a design decision fits the Many Roads identity."
+          />
 
           <div className="grid grid-cols-2 gap-6">
             {/* This Looks Like Us */}
@@ -138,7 +111,7 @@ export default function PrinciplesSection() {
             >
               <span
                 className="text-[14px] font-medium block mb-5"
-                style={{ ...MONO, color: "#3D7A41" }}
+                style={{ ...MONO, color: "var(--mr-status-positive)" }}
               >
                 This Looks Like Us
               </span>
@@ -147,7 +120,7 @@ export default function PrinciplesSection() {
                   <div key={i} className="flex items-start gap-3">
                     <span
                       className="text-[14px] mt-0.5 flex-shrink-0"
-                      style={{ color: "#3D7A41" }}
+                      style={{ color: "var(--mr-status-positive)" }}
                     >
                       &#10003;
                     </span>
@@ -172,7 +145,7 @@ export default function PrinciplesSection() {
             >
               <span
                 className="text-[14px] font-medium block mb-5"
-                style={{ ...MONO, color: "#C47030" }}
+                style={{ ...MONO, color: "var(--mr-status-warning)" }}
               >
                 This Doesn't Look Like Us
               </span>
@@ -181,7 +154,7 @@ export default function PrinciplesSection() {
                   <div key={i} className="flex items-start gap-3">
                     <span
                       className="text-[14px] mt-0.5 flex-shrink-0"
-                      style={{ color: "#C47030" }}
+                      style={{ color: "var(--mr-status-warning)" }}
                     >
                       &#10007;
                     </span>

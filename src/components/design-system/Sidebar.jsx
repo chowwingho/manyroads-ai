@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-
-const MONO = { fontFamily: '"Geist Mono", monospace' };
+import { MONO } from "./constants";
 
 const NAV_GROUPS = [
   {
@@ -35,20 +34,13 @@ const NAV_GROUPS = [
   {
     label: "PATTERNS",
     items: [
-      { id: "section-anatomy", label: "Section Anatomy" },
-      { id: "page-layouts", label: "Page Layouts" },
       { id: "responsive", label: "Responsive" },
-      { id: "dark-light-rules", label: "Dark/Light Rules" },
+      { id: "form-inputs", label: "Form Inputs" },
     ],
   },
-  {
-    label: "BRAND",
-    items: [
-      { id: "logo", label: "Logo" },
-      { id: "voice-tone", label: "Voice & Tone" },
-      { id: "wordmark", label: "Wordmark" },
-    ],
-  },
+  /* More PATTERNS sections planned: Section Anatomy, Page Layouts, Dark/Light Rules */
+  /* BRAND group — add back when sections are built:
+     Logo, Voice & Tone, Wordmark */
 ];
 
 const ALL_IDS = NAV_GROUPS.flatMap((g) => g.items.map((i) => i.id));
@@ -106,13 +98,13 @@ export default function Sidebar({ dark, onToggle }) {
             className="text-lg font-medium block mb-1"
             style={{ ...MONO, color: "var(--mr-text-primary)" }}
           >
-            <span style={{ color: "#4F769A" }}>//</span> DESIGN_SYSTEM
+            <span style={{ color: "var(--mr-accent-default)" }}>//</span> DESIGN_SYSTEM
           </span>
           <span
             className="text-[13px]"
             style={{ ...MONO, color: "var(--mr-text-muted)" }}
           >
-            v1.1 &middot; 2026-02-20
+            v1.5 &middot; 2026-02-20
           </span>
         </div>
 

@@ -1,6 +1,6 @@
 import CodeBlock from "./CodeBlock";
-
-const MONO = { fontFamily: '"Geist Mono", monospace' };
+import { MONO } from "./constants";
+import SectionHeader from "./SectionHeader";
 
 const STATS = [
   {
@@ -40,26 +40,11 @@ export default function StatsSection() {
         className="border-t pt-12"
         style={{ borderColor: "var(--mr-border-default)" }}
       >
-        {/* Section header */}
-        <span
-          className="text-lg font-medium block mb-2"
-          style={{ ...MONO, color: "var(--mr-text-primary)" }}
-        >
-          <span style={{ color: "#4F769A" }}>//</span> STATS_ROW
-        </span>
-        <h2
-          className="text-[36px] font-medium leading-[1.2] tracking-tight mb-3"
-          style={{ color: "var(--mr-text-primary)" }}
-        >
-          Stats Row
-        </h2>
-        <p
-          className="text-[17px] leading-[1.6] max-w-[560px] mb-12"
-          style={{ color: "var(--mr-text-muted)" }}
-        >
-          A 4-up horizontal layout for key statistics. Large numbers create
-          visual impact; descriptions provide context.
-        </p>
+        <SectionHeader
+          marker="STATS_ROW"
+          title="Stats Row"
+          description="A 4-up horizontal layout for key statistics. Large numbers create visual impact; descriptions provide context."
+        />
 
         {/* Miniature recreation */}
         <div className="mb-16">

@@ -1,6 +1,6 @@
 import CodeBlock from "./CodeBlock";
-
-const MONO = { fontFamily: '"Geist Mono", monospace' };
+import { MONO } from "./constants";
+import SectionHeader from "./SectionHeader";
 
 const LAYOUT_PATTERNS = [
   {
@@ -109,26 +109,11 @@ export default function GridSection() {
         className="border-t pt-12"
         style={{ borderColor: "var(--mr-border-default)" }}
       >
-        {/* Section header */}
-        <span
-          className="text-lg font-medium block mb-2"
-          style={{ ...MONO, color: "var(--mr-text-primary)" }}
-        >
-          <span style={{ color: "#4F769A" }}>//</span> GRID
-        </span>
-        <h2
-          className="text-[36px] font-medium leading-[1.2] tracking-tight mb-3"
-          style={{ color: "var(--mr-text-primary)" }}
-        >
-          Grid &amp; Layout
-        </h2>
-        <p
-          className="text-[17px] leading-[1.6] max-w-[560px] mb-12"
-          style={{ color: "var(--mr-text-muted)" }}
-        >
-          A 12-column grid with 24px gutters inside a 1280px max-width
-          container. Four layout patterns cover every section in the V2 site.
-        </p>
+        <SectionHeader
+          marker="GRID"
+          title="Grid & Layout"
+          description="A 12-column grid with 24px gutters inside a 1280px max-width container. Four layout patterns cover every section in the V2 site."
+        />
 
         {/* Max Width & Container */}
         <div className="mb-16">

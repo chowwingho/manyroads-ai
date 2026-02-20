@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CodeBlock from "./CodeBlock";
-
-const MONO = { fontFamily: '"Geist Mono", monospace' };
+import { MONO } from "./constants";
+import SectionHeader from "./SectionHeader";
 
 const SPACING_TOKENS = [
   { token: "--mr-space-xs", value: 16, usage: "Inner gaps, tight spacing" },
@@ -71,27 +71,11 @@ export default function SpacingSection() {
         className="border-t pt-12"
         style={{ borderColor: "var(--mr-border-default)" }}
       >
-        {/* Section header */}
-        <span
-          className="text-lg font-medium block mb-2"
-          style={{ ...MONO, color: "var(--mr-text-primary)" }}
-        >
-          <span style={{ color: "#4F769A" }}>//</span> SPACING
-        </span>
-        <h2
-          className="text-[36px] font-medium leading-[1.2] tracking-tight mb-3"
-          style={{ color: "var(--mr-text-primary)" }}
-        >
-          Spacing
-        </h2>
-        <p
-          className="text-[17px] leading-[1.6] max-w-[560px] mb-12"
-          style={{ color: "var(--mr-text-muted)" }}
-        >
-          Six named spacing tokens, four border radii, and three motion
-          presets. All values are defined in tokens.css and referenced via
-          CSS custom properties.
-        </p>
+        <SectionHeader
+          marker="SPACING"
+          title="Spacing"
+          description="Six named spacing tokens, four border radii, and three motion presets. All values are defined in tokens.css and referenced via CSS custom properties."
+        />
 
         {/* Named Spacing Tokens */}
         <div className="mb-16">

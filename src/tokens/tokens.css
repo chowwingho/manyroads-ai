@@ -1,5 +1,5 @@
 /* ========================================
-   MANY ROADS DESIGN TOKENS
+   Many Roads Design Tokens — v1.5 — 2026-02-20
    Single source of truth for all visual values
    ======================================== */
 
@@ -37,6 +37,32 @@
   --mr-shadow-sm: 0 1px 2px rgba(38, 38, 37, 0.05);
   --mr-shadow-md: 0 4px 12px rgba(38, 38, 37, 0.08);
   --mr-shadow-lg: 0 8px 24px rgba(38, 38, 37, 0.12);
+
+  /* --- Accent --- */
+  --mr-accent-default: #4F769A;
+
+  /* --- Status / Functional Colors --- */
+  --mr-status-positive: #3D7A41;
+  --mr-status-warning: #C47030;
+  --mr-status-critical: #B5382A;
+  --mr-status-neutral: var(--mr-text-muted);
+
+  /* --- Form Inputs --- */
+  --mr-input-bg: var(--mr-bg-page);
+  --mr-input-border: var(--mr-border-default);
+  --mr-input-border-focus: var(--mr-text-primary);
+  --mr-input-border-error: var(--mr-status-critical);
+  --mr-input-text: var(--mr-text-primary);
+  --mr-input-placeholder: var(--mr-text-muted);
+  --mr-input-disabled-opacity: 0.4;
+  --mr-input-padding-x: 16px;
+  --mr-input-padding-y: 12px;
+  --mr-input-radius: var(--mr-radius-md);
+
+  /* --- Breakpoints (reference — Tailwind defaults) --- */
+  /* sm: 640px | md: 768px | lg: 1024px | xl: 1280px */
+  /* These are documented as comments since CSS custom properties
+     can't be used in media queries. Use Tailwind responsive prefixes. */
 }
 
 /* --- Light Mode Colors (default) --- */
@@ -94,4 +120,9 @@
   --mr-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
   --mr-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
   --mr-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4);
+
+  /* --- Status (adjusted for dark bg contrast) --- */
+  --mr-status-positive: #4A9A50;
+  --mr-status-warning: #D4833A;
+  --mr-status-critical: #D04A3A;
 }

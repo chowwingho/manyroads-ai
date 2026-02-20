@@ -1,6 +1,6 @@
 import CodeBlock from "./CodeBlock";
-
-const MONO = { fontFamily: '"Geist Mono", monospace' };
+import { MONO } from "./constants";
+import SectionHeader from "./SectionHeader";
 
 const BUTTON_VARIANTS = [
   {
@@ -69,27 +69,11 @@ export default function ButtonsSection() {
         className="border-t pt-12"
         style={{ borderColor: "var(--mr-border-default)" }}
       >
-        {/* Section header */}
-        <span
-          className="text-lg font-medium block mb-2"
-          style={{ ...MONO, color: "var(--mr-text-primary)" }}
-        >
-          <span style={{ color: "#4F769A" }}>//</span> BUTTONS
-        </span>
-        <h2
-          className="text-[36px] font-medium leading-[1.2] tracking-tight mb-3"
-          style={{ color: "var(--mr-text-primary)" }}
-        >
-          Buttons
-        </h2>
-        <p
-          className="text-[17px] leading-[1.6] max-w-[560px] mb-12"
-          style={{ color: "var(--mr-text-muted)" }}
-        >
-          Three button variants, all in Geist Mono. Warm neutral ramp for
-          backgrounds, one-step darkening on hover. Trailing underscore is a
-          brand convention.
-        </p>
+        <SectionHeader
+          marker="BUTTONS"
+          title="Buttons"
+          description="Three button variants, all in Geist Mono. Warm neutral ramp for backgrounds, one-step darkening on hover. Trailing underscore is a brand convention."
+        />
 
         {/* Button Variants */}
         <div className="flex flex-col gap-8 mb-16">

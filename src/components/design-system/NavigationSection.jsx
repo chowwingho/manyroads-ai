@@ -1,6 +1,6 @@
 import CodeBlock from "./CodeBlock";
-
-const MONO = { fontFamily: '"Geist Mono", monospace' };
+import { MONO } from "./constants";
+import SectionHeader from "./SectionHeader";
 
 const NAVBAR_SPECS = [
   { property: "Position", value: "sticky top-0" },
@@ -27,26 +27,11 @@ export default function NavigationSection() {
         className="border-t pt-12"
         style={{ borderColor: "var(--mr-border-default)" }}
       >
-        {/* Section header */}
-        <span
-          className="text-lg font-medium block mb-2"
-          style={{ ...MONO, color: "var(--mr-text-primary)" }}
-        >
-          <span style={{ color: "#4F769A" }}>//</span> NAVIGATION
-        </span>
-        <h2
-          className="text-[36px] font-medium leading-[1.2] tracking-tight mb-3"
-          style={{ color: "var(--mr-text-primary)" }}
-        >
-          Navigation
-        </h2>
-        <p
-          className="text-[17px] leading-[1.6] max-w-[560px] mb-12"
-          style={{ color: "var(--mr-text-muted)" }}
-        >
-          Sticky navbar and always-dark footer. Both use Geist Mono for all
-          navigation text.
-        </p>
+        <SectionHeader
+          marker="NAVIGATION"
+          title="Navigation"
+          description="Sticky navbar and always-dark footer. Both use Geist Mono for all navigation text."
+        />
 
         {/* Navbar */}
         <div className="mb-16">

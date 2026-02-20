@@ -12,8 +12,9 @@ import CardsSection from "../components/design-system/CardsSection";
 import NavigationSection from "../components/design-system/NavigationSection";
 import StatsSection from "../components/design-system/StatsSection";
 import MarkersSection from "../components/design-system/MarkersSection";
-
-const MONO = { fontFamily: '"Geist Mono", monospace' };
+import ResponsiveSection from "../components/design-system/ResponsiveSection";
+import FormInputsSection from "../components/design-system/FormInputsSection";
+import { MONO } from "../components/design-system/constants";
 
 export default function DesignSystemPage() {
   const [dark, setDark] = useState(() => {
@@ -72,7 +73,7 @@ export default function DesignSystemPage() {
               className="flex gap-6 text-[14px]"
               style={{ ...MONO, color: "var(--mr-text-muted)" }}
             >
-              <span>v1.1</span>
+              <span>v1.5</span>
               <span>2026-02-20</span>
               <span>Geist Sans + Geist Mono</span>
             </div>
@@ -93,6 +94,10 @@ export default function DesignSystemPage() {
           <NavigationSection />
           <StatsSection />
           <MarkersSection />
+
+          {/* Patterns */}
+          <ResponsiveSection />
+          <FormInputsSection />
         </div>
 
         {/* Page footer */}
@@ -108,7 +113,7 @@ export default function DesignSystemPage() {
               className="text-[14px]"
               style={{ color: "var(--mr-text-muted)" }}
             >
-              Many Roads &lt;AI&gt; &mdash; Design System Reference v1.1
+              Many Roads &lt;AI&gt; &mdash; Design System Reference v1.5
             </span>
             <span
               className="text-[14px]"

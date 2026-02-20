@@ -1,6 +1,5 @@
 import { useState, useCallback } from "react";
-
-const MONO = { fontFamily: '"Geist Mono", monospace' };
+import { MONO } from "./constants";
 
 export default function CodeBlock({ children }) {
   const [copied, setCopied] = useState(false);
