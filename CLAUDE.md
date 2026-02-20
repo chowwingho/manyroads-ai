@@ -2,13 +2,13 @@
 
 ## Overview
 Two single-page website template variants built with React 19, Vite 7, and Tailwind CSS v4:
-- **V1** (`/v1`) — Architecture firm template (Fieldwork), in `FieldworkV1.jsx`
+- **V1** (`/v1`) — Legacy architecture firm template, in `FieldworkV1.jsx`
 - **V2** (`/v2`) — AI coding tools consultancy (Many Roads AI / MRAI), in `ManyroadsV2.jsx`
 
 An index page at `/` links to both variants.
 
 ## Repository & Deployment
-- **GitHub:** https://github.com/chowwingho/manyroads-ai
+- **GitHub:** https://github.com/Many-Roads-Studios/website-ai-design-system
 - **Branch:** `main`
 - **Hosting:** Vercel — `vercel.json` rewrites all routes to `/index.html` for client-side routing
 
@@ -26,8 +26,8 @@ src/
   App.jsx               # BrowserRouter — /, /v1, /v2
   index.css             # Tailwind import, @font-face, dark mode variant, blink-cursor keyframes
   IndexPage.jsx         # Landing page with links to V1/V2
-  FieldworkV1.jsx       # V1 — architecture firm template
-  ManyroadsV2.jsx       # V2 — Many Roads AI template (exported as FieldworkV2)
+  FieldworkV1.jsx       # V1 — legacy architecture firm template
+  ManyroadsV2.jsx       # V2 — Many Roads AI (site v1.7)
 vercel.json             # SPA rewrites for Vercel deployment
 color-tokens.md         # Detailed color token reference
 ```
@@ -79,9 +79,10 @@ Full reference with per-element mapping: `color-tokens.md`
 Elements intentionally kept at `text-lg` (18px): `SectionLabel`, navbar logo, navbar links, `SecondaryLink`, `PrimaryButton`, `TypewriterButton`, pathway card buttons, "or talk to our team" links, service card numbers/titles, footer contact labels/values, footer nav/social links.
 
 ## Layout
-- All sections use `max-w-[1280px] mx-auto px-12` inner container
+- All sections use `max-w-[1280px] mx-auto` inner container with responsive padding (`px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12`)
 - Background colors remain full-width on outer `<section>`/`<footer>` elements
-- Desktop-only — no responsive breakpoints yet
+- Responsive breakpoints: sm (640px), md (768px), lg (1024px), xl (1280px)
+- Hamburger navigation below md (768px)
 
 ## V2 Section Structure
 
@@ -115,10 +116,9 @@ Elements intentionally kept at `text-lg` (18px): `SectionLabel`, navbar logo, na
 - `HERO_PHRASES` — 3 typewriter phrases
 
 ## Notes
-- **Export name:** `ManyroadsV2.jsx` still exports `FieldworkV2` — functional but inconsistent with filename
-- **Unused V1 data:** `PROJECTS`, `TESTIMONIALS`, `FAQ_ITEMS`, `ArrowIcon`, `ChevronIcon` remain in `ManyroadsV2.jsx` — can be cleaned up
 - **Asset URLs:** `ASSETS` object contains temporary Figma CDN URLs (expire ~7 days). Replace before deploying
-- **Satoshi font:** still linked in `index.html` from Fontshare — V1 remnant, not used by V2
+- **Satoshi font:** still linked in `index.html` from Fontshare — used by V1, not by V2
+- **V1 naming:** `FieldworkV1.jsx` retains "Fieldwork" branding as it's the original architecture firm template
 
 ## Commands
 ```bash

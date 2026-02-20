@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import IndexPage from "./IndexPage";
-import FieldworkV1 from "./FieldworkV1";
+import FieldworkV1 from "./FieldworkV1"; // V1 — legacy architecture firm template
 import ManyroadsV2 from "./ManyroadsV2";
 import DesignSystemPage from "./pages/DesignSystemPage";
 

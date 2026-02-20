@@ -4,8 +4,8 @@ export default function IndexPage() {
   return (
     <div className="bg-[#FAF9F6] min-h-screen flex items-center justify-center" style={{ fontFamily: "'Satoshi', sans-serif" }}>
       <div className="text-center">
-        <h1 className="text-4xl font-medium text-[#262625] mb-2">FIELDWORK</h1>
-        <p className="text-lg text-[#888888] mb-12">Template variations</p>
+        <h1 className="text-4xl font-medium text-[#262625] mb-2">MANY ROADS AI</h1>
+        <p className="text-lg text-[#888888] mb-12">Site variants</p>
         <div className="flex gap-6">
           <Link
             to="/v1"
