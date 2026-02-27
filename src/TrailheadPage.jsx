@@ -1,6 +1,6 @@
 'use client'
 // Trailhead Page — Phase 1+2+3 — 2026-02-26
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useSyncExternalStore } from "react";
 
 // =============================================================================
 // DATA
@@ -652,13 +652,15 @@ function Footer() {
 // MAIN COMPONENT
 // =============================================================================
 export default function TrailheadPage() {
-  const [dark, setDark] = useState(false);
-  const [accent, setAccent] = useState("#4F769A");
+  const systemDark = useSyncExternalStore(
+    (cb) => { const mq = window.matchMedia("(prefers-color-scheme: dark)"); mq.addEventListener("change", cb); return () => mq.removeEventListener("change", cb); },
+    () => window.matchMedia("(prefers-color-scheme: dark)").matches,
+    () => false,
+  );
+  const [darkOverride, setDarkOverride] = useState(null);
+  const dark = darkOverride ?? systemDark;
 
-  // Read system preference after hydration to avoid SSR mismatch
-  useEffect(() => {
-    setDark(window.matchMedia("(prefers-color-scheme: dark)").matches);
-  }, []);
+  const [accent, setAccent] = useState("#4F769A");
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
@@ -678,7 +680,7 @@ export default function TrailheadPage() {
         background: "var(--mr-bg-page)",
       }}
     >
-      <Navbar dark={dark} onToggle={() => setDark(!dark)} accent={accent} onAccentChange={setAccent} />
+      <Navbar dark={dark} onToggle={() => setDarkOverride(!dark)} accent={accent} onAccentChange={setAccent} />
       <main>
         <HeroSection />
         <LogoBar />
