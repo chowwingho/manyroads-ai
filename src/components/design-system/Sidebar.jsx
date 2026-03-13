@@ -14,22 +14,33 @@ const NAV_GROUPS = [
   {
     label: "FOUNDATIONS",
     items: [
-      { id: "colors", label: "Colors" },
+      { id: "color-scales", label: "Color Scales" },
+      { id: "colors", label: "Core Tokens" },
       { id: "typography", label: "Typography" },
       { id: "spacing", label: "Spacing" },
-      { id: "buttons", label: "Buttons" },
       { id: "grid-layout", label: "Grid & Layout" },
-      { id: "icons", label: "Icons" },
       { id: "shadows", label: "Shadows" },
     ],
   },
   {
     label: "COMPONENTS",
     items: [
+      { id: "buttons", label: "Buttons" },
+      { id: "badges", label: "Badges" },
+      { id: "notes", label: "Notes & Callouts" },
       { id: "cards", label: "Cards" },
+      { id: "collapse", label: "Collapse" },
+      { id: "code-blocks", label: "Code Blocks" },
+      { id: "toasts", label: "Toasts" },
       { id: "navigation", label: "Navigation" },
-      { id: "stats-row", label: "Stats Row" },
-      { id: "section-markers", label: "Section Markers" },
+    ],
+  },
+  {
+    label: "DATA VISUALIZATION",
+    items: [
+      { id: "score-system", label: "Score System" },
+      { id: "gauges", label: "Gauges" },
+      { id: "status-indicators", label: "Status Indicators" },
     ],
   },
   {
@@ -37,11 +48,10 @@ const NAV_GROUPS = [
     items: [
       { id: "responsive", label: "Responsive" },
       { id: "form-inputs", label: "Form Inputs" },
+      { id: "stats-row", label: "Stats Row" },
+      { id: "section-markers", label: "Section Markers" },
     ],
   },
-  /* More PATTERNS sections planned: Section Anatomy, Page Layouts, Dark/Light Rules */
-  /* BRAND group — add back when sections are built:
-     Logo, Voice & Tone, Wordmark */
 ];
 
 const ALL_IDS = NAV_GROUPS.flatMap((g) => g.items.map((i) => i.id));
@@ -90,7 +100,7 @@ export default function Sidebar({ dark, onToggle }) {
       <div className="min-h-0 overflow-y-auto">
         {/* Back link */}
         <Link
-          href="/v2"
+          href="/"
           className="text-[13px] block mb-6 transition-colors hover:opacity-70"
           style={{ ...MONO, color: "var(--mr-text-muted)" }}
         >
@@ -109,7 +119,7 @@ export default function Sidebar({ dark, onToggle }) {
             className="text-[13px]"
             style={{ ...MONO, color: "var(--mr-text-muted)" }}
           >
-            v1.6 &middot; 2026-02-22
+            v2.0 &middot; 2026-03-13
           </span>
         </div>
 

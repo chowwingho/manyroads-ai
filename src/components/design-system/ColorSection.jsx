@@ -163,10 +163,26 @@ export default function ColorSection() {
         style={{ borderColor: "var(--mr-border-default)" }}
       >
         <SectionHeader
-          marker="COLOR_TOKENS"
-          title="Colors"
-          description="Warm neutrals across 8 steps. Every token has a light and dark pair. The page's dark mode toggle switches the live swatches; static hex values are always visible."
+          marker="FOUNDATIONS"
+          title="Core Tokens"
+          description="Core background, text, border, and footer tokens. Every token has a light and dark pair. The page's dark mode toggle switches the live swatches; static hex values are always visible."
         />
+
+        {/* Context note */}
+        <div
+          className="mr-note mr-note-info mb-10"
+        >
+          These are the core semantic tokens. For the full 10-step hue scales (green, red, amber, blue), see{" "}
+          <button
+            onClick={() => document.getElementById("color-scales")?.scrollIntoView({ behavior: "smooth" })}
+            className="underline underline-offset-2 cursor-pointer"
+            style={{ color: "var(--mr-note-info-text)" }}
+          >
+            Color Scales
+          </button>{" "}
+          above. Accent and status tokens are now aliases — e.g.{" "}
+          <code style={{ fontFamily: "var(--mr-font-mono)" }}>--mr-accent-default</code> → <code style={{ fontFamily: "var(--mr-font-mono)" }}>var(--mr-green-7)</code>.
+        </div>
 
         {/* Color ramps */}
         <div className="mb-16">

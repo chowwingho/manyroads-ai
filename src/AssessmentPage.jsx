@@ -73,19 +73,9 @@ function PromptBlock({ number, title, filename, lineCount, description, version,
         </h2>
 
         {/* Code block container */}
-        <div
-          className="overflow-hidden"
-          style={{
-            background: "var(--mr-bg-card)",
-            border: "1px solid var(--mr-border-default)",
-            borderRadius: "var(--mr-radius-lg)",
-          }}
-        >
+        <div className="mr-code-block">
           {/* Header bar */}
-          <div
-            className="flex items-center justify-between px-4 py-3"
-            style={{ borderBottom: "1px solid var(--mr-border-default)" }}
-          >
+          <div className="mr-code-header">
             <span className="text-xs" style={{ ...MONO, color: "var(--mr-text-muted)" }}>
               {filename}
             </span>
@@ -107,14 +97,14 @@ function PromptBlock({ number, title, filename, lineCount, description, version,
           </div>
 
           {/* Code preview body */}
-          <div className="relative" style={{ maxHeight: 200, overflow: "hidden" }}>
+          <div className="mr-code-body" style={{ maxHeight: 200 }}>
             <pre
-              className="px-4 py-4 text-xs leading-6 overflow-x-auto"
-              style={{ ...MONO, color: "var(--mr-text-muted)", margin: 0, background: "var(--mr-bg-code)" }}
+              className="text-xs leading-6 overflow-x-auto"
+              style={{ ...MONO, color: "var(--mr-text-muted)", margin: 0 }}
             >
               {lines.slice(0, 12).map((line, i) => (
                 <div key={i} className="flex gap-4">
-                  <span style={{ opacity: 0.3, userSelect: "none", minWidth: "1.5rem", textAlign: "right" }}>
+                  <span className="mr-code-line-num">
                     {i + 1}
                   </span>
                   <span>{line || " "}</span>
@@ -235,8 +225,12 @@ function BeforeYouBegin() {
               then compare.
             </p>
             <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
-              <strong style={{ color: "var(--mr-text-primary)" }}>Two prompts, two conversations.</strong>{" "}
-              Prompt 1 is the interview. Prompt 2 visualizes your results. Run them in separate conversations.
+              <strong style={{ color: "var(--mr-text-primary)" }}>One prompt. Then visualize.</strong>{" "}
+              Prompt 1 is the interview. When it's done, paste the markdown output into our{" "}
+              <Link href="/report" style={{ color: "var(--mr-accent-default)" }}>
+                report viewer
+              </Link>{" "}
+              to see your results. Alternatively, use Prompt 2 to generate a standalone HTML file.
             </p>
           </div>
         </div>
@@ -256,12 +250,24 @@ function HandoffInstructions() {
           <p className="text-2xl" style={{ color: "var(--mr-text-muted)", opacity: 0.4 }}>↓</p>
           <p className="text-[17px] leading-[1.6] max-w-lg" style={{ color: "var(--mr-text-muted)" }}>
             Your AI will generate a detailed markdown report with scores across all 13 areas. Copy the full report
-            output, then open a new conversation and paste it along with{" "}
-            <strong style={{ color: "var(--mr-text-primary)" }}>Prompt 2</strong> below.
+            output and paste it into our hosted report viewer to visualize your results instantly.
           </p>
           <p className="text-2xl" style={{ color: "var(--mr-text-muted)", opacity: 0.4 }}>↓</p>
-          <p className="text-sm font-medium" style={{ ...MONO, color: "var(--mr-text-muted)" }}>
-            Continue to Prompt 2
+          <Link
+            href="/report"
+            className="text-sm font-medium px-5 py-2.5 inline-block"
+            style={{
+              ...MONO,
+              background: "var(--mr-accent-default)",
+              color: "#FFFFFF",
+              borderRadius: "var(--mr-radius-md)",
+              transition: "background-color var(--mr-transition-fast)",
+            }}
+          >
+            Visualize your results at /report_
+          </Link>
+          <p className="text-sm" style={{ color: "var(--mr-text-muted)", opacity: 0.6 }}>
+            Or use Prompt 2 below to generate a standalone HTML file with your AI.
           </p>
         </div>
       </div>

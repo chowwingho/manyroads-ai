@@ -1,8 +1,8 @@
-# Many Roads AI — Design System Reference
+# Leading Intelligence — Design System Reference
 
-**Version:** 1.9 · **Updated:** 2026-03-02 · **Fonts:** Geist Sans + Geist Mono
+**Version:** 2.0 · **Updated:** 2026-03-13 · **Fonts:** Geist Sans + Geist Mono
 
-This document is the standalone reference for building pages and components that are visually consistent with the Many Roads AI site. All visual values come from CSS custom properties defined in `src/tokens/tokens.css`. Never hardcode hex values — always use `var(--mr-*)` tokens.
+This document is the standalone reference for building pages and components that are visually consistent with the Leading Intelligence site. All visual values come from CSS custom properties defined in `src/tokens/tokens.css`. Never hardcode hex values — always use `var(--mr-*)` tokens.
 
 ---
 
@@ -79,12 +79,67 @@ const ACCENT_OPTIONS = [
 
 ### Status Colors
 
-| Token | Light | Dark | Usage |
-|-------|-------|------|-------|
-| `--mr-status-positive` | `#3D7A41` | `#4A9A50` | Success states |
-| `--mr-status-warning` | `#C47030` | `#D4833A` | Warning states |
-| `--mr-status-critical` | `#B5382A` | `#D04A3A` | Error states |
-| `--mr-status-neutral` | `var(--mr-text-muted)` | `var(--mr-text-muted)` | Informational |
+Status tokens are now **aliases** that resolve via the color scale system. No direct hex values.
+
+| Token | Resolves to | Usage |
+|-------|-------------|-------|
+| `--mr-status-positive` | `var(--mr-green-7)` | Success states |
+| `--mr-status-warning` | `var(--mr-amber-7)` | Warning states |
+| `--mr-status-critical` | `var(--mr-red-7)` | Error states |
+| `--mr-status-neutral` | `var(--mr-text-muted)` | Informational |
+
+---
+
+## 1b. Color Scales
+
+Adopting a 10-step scale model per hue (Geist-style). Each hue has 10 solid steps and 8 alpha variants.
+
+### Step Role Assignments
+
+| Steps | Role | Examples |
+|-------|------|---------|
+| 1–3 | Component backgrounds | tinted card bg, hover bg |
+| 4–6 | Borders | default border, hover border |
+| 7–8 | Solid fills | badge bg, button bg |
+| 9–10 | Text and icons | body text on tinted bg |
+
+Alpha variants (`-a1` through `-a8`) are transparent and layer cleanly on any background.
+
+### Hues
+
+| Hue | Prefix | Primary use |
+|-----|--------|-------------|
+| Green | `--mr-green-*` | Brand accent, success, score 2–3 |
+| Red | `--mr-red-*` | Score 0, critical, errors |
+| Amber | `--mr-amber-*` | Score 1, warnings |
+| Blue | `--mr-blue-*` | NS/Not Sure, informational |
+
+### Token Naming
+
+```
+--mr-{hue}-{step}     solid color    e.g. --mr-green-7
+--mr-{hue}-a{step}    alpha variant  e.g. --mr-red-a3
+```
+
+### Alias Relationship
+
+Existing accent and status tokens remain valid — they are now aliases:
+
+```css
+--mr-accent-subtle  → var(--mr-green-2)     (light) / var(--mr-green-a3) (dark)
+--mr-accent-default → var(--mr-green-7)
+--mr-accent-hover   → var(--mr-green-8)
+--mr-accent-active  → var(--mr-green-9)
+--mr-status-positive → var(--mr-green-7)
+--mr-status-warning  → var(--mr-amber-7)
+--mr-status-critical → var(--mr-red-7)
+```
+
+### When to Use Scale vs Semantic Tokens
+
+- **Use semantic tokens** for standard patterns: `.mr-badge-green`, `.mr-note-error`, `--mr-status-positive`
+- **Use scale tokens directly** for precise one-off needs: `var(--mr-red-a3)` as a tinted background, `var(--mr-green-9)` for score-3 dark fill
+- **Never hardcode hex** — even for one-off values, add a token first
 
 ### Shadows
 
@@ -484,6 +539,148 @@ For muted underlined CTAs (e.g., "See a sample report →"):
 
 ---
 
+## 5b. New Component Patterns
+
+### Badge
+
+Compact status labels. Apply base class + variant class.
+
+```jsx
+{/* Subtle — colored bg, dark text */}
+<span className="mr-badge mr-badge-green">Score 2</span>
+<span className="mr-badge mr-badge-red">Not Ready</span>
+<span className="mr-badge mr-badge-amber">In Progress</span>
+<span className="mr-badge mr-badge-blue">Not Sure</span>
+
+{/* Solid — filled bg, white text */}
+<span className="mr-badge mr-badge-green-solid">Ready</span>
+<span className="mr-badge mr-badge-red-solid">Critical</span>
+
+{/* Score 3 — uses green-9 (darker than step 7) */}
+<span className="mr-badge" style={{ background: "var(--mr-green-9)", color: "#FFFFFF" }}>
+  3 — Exemplary
+</span>
+```
+
+**When subtle vs. solid:** Use subtle for general labels and status indicators. Use solid for primary status calls-to-action or high-emphasis states.
+
+### Note / Callout
+
+Left-bordered callout boxes. Apply base class + variant class.
+
+```jsx
+<div className="mr-note mr-note-success">Solid practice with consistent adoption.</div>
+<div className="mr-note mr-note-warning">Manual steps introduce deployment variance.</div>
+<div className="mr-note mr-note-error">No incident runbook — critical minimum missing.</div>
+<div className="mr-note mr-note-info">This question was marked NS — excluded from score.</div>
+```
+
+### Collapse
+
+Expand/collapse cards using `useRef` + `scrollHeight` for smooth animation.
+
+```jsx
+'use client'
+import { useState, useRef } from "react";
+
+function CollapseCard({ title, score, borderColor, children }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+  return (
+    <div style={{ borderLeft: `3px solid ${borderColor}` }}>
+      <button onClick={() => setOpen(v => !v)}>{title}</button>
+      <div
+        className="mr-collapse-content"
+        style={{ maxHeight: open ? ref.current?.scrollHeight + "px" : "0px" }}
+        ref={ref}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+```
+
+### Code Block
+
+Structured code display with header, line numbers, and copy button.
+
+```jsx
+<div className="mr-code-block">
+  <div className="mr-code-header">
+    <span style={MONO}>filename.js</span>
+    <button onClick={handleCopy}>Copy</button>
+  </div>
+  <div className="mr-code-body">
+    <div>
+      <span className="mr-code-line-num">1</span>
+      const result = compute();
+    </div>
+  </div>
+</div>
+```
+
+Tokens: `--mr-bg-code` (green-1), `--mr-bg-code-header` (green-a2), `--mr-code-line-number` (green-a5).
+
+### Toast
+
+Auto-dismiss notification using opacity + transform transition.
+
+```jsx
+<div
+  className="mr-toast"
+  style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(4px)" }}
+>
+  ✓ Copied to clipboard
+</div>
+```
+
+Trigger with `setVisible(true)` + `setTimeout(() => setVisible(false), 1500)`.
+
+### Score System Color Reference
+
+| Score | Solid bg | Subtle bg | Text |
+|-------|----------|-----------|------|
+| 0 — Not Ready | `var(--mr-red-7)` | `var(--mr-red-2)` | `var(--mr-red-9)` |
+| 1 — Some Progress | `var(--mr-amber-7)` | `var(--mr-amber-2)` | `var(--mr-amber-9)` |
+| 2 — Ready | `var(--mr-green-7)` | `var(--mr-green-2)` | `var(--mr-green-9)` |
+| 3 — Exemplary | `var(--mr-green-9)` | `var(--mr-green-3)` | `var(--mr-green-10)` |
+| NS — Not Sure | `var(--mr-blue-7)` | `var(--mr-blue-2)` | `var(--mr-blue-9)` |
+
+### Gauge (SVG Arc)
+
+Pure SVG arc gauge — no Chart.js required. Fill color maps to score band.
+
+```jsx
+// fraction = Math.min(value / max, 1)
+// startAngle = 220°, totalArc = 260°
+// fillEndAngle = startAngle - fraction * totalArc
+// Track path: full 260° arc in var(--mr-border-default)
+// Fill path: partial arc in score color (var(--mr-red-7) / --mr-amber-7 / --mr-green-7)
+```
+
+For Chart.js: `type: "doughnut"`, `circumference: Math.PI * 1.5`, `rotation: -Math.PI * 0.75`.
+
+### Status Indicators
+
+```jsx
+{/* Pass/Fail */}
+<div style={{ background: pass ? "var(--mr-green-7)" : "var(--mr-red-7)", color: "#FFF" }}>
+  {pass ? "✓" : "✕"}
+</div>
+
+{/* Status dot */}
+<div className="w-2.5 h-2.5 rounded-full" style={{ background: "var(--mr-green-7)" }} />
+
+{/* Left-border accent card */}
+<div style={{ borderLeft: "3px solid var(--mr-red-7)" }}>
+  <span className="mr-badge mr-badge-red">0 — Not Ready</span>
+  Finding text here.
+</div>
+```
+
+---
+
 ## 6. Dark Mode
 
 ### How It Works (Recommended Pattern)
@@ -705,4 +902,8 @@ Before submitting any code, verify:
 - [ ] Hover states use `.mr-btn-*` or `.mr-link-*` utility classes, not inline `:hover`
 - [ ] Section labels follow `// 0X — LABEL_NAME` format
 - [ ] CTA buttons use trailing underscore convention
-- [ ] `npm run build` passes with no errors
+- [ ] Score-related colors use `--mr-{hue}-{step}` tokens, not hardcoded hex
+- [ ] Status badges use `.mr-badge-{color}` classes
+- [ ] Callouts/notes use `.mr-note-{type}` classes
+- [ ] New color values use the scale system — do not add one-off colors
+- [ ] `npm run dev` — no errors

@@ -6,6 +6,7 @@ import Navbar from "./components/shared/Navbar";
 import Footer from "./components/shared/Footer";
 import SectionLabel from "./components/shared/SectionLabel";
 import SolidButton from "./components/shared/SolidButton";
+import GhostButton from "./components/shared/GhostButton";
 import BrowserFrameMockup from "./components/shared/BrowserFrameMockup";
 import { MONO } from "./components/shared/constants";
 
@@ -89,14 +90,7 @@ function SampleReportHeader() {
         </p>
 
         {/* Fictional company banner */}
-        <div
-          className="rounded-lg p-5"
-          style={{
-            background: "var(--mr-bg-card)",
-            borderLeft: "3px solid var(--mr-status-warning)",
-            borderRadius: "var(--mr-radius-md)",
-          }}
-        >
+        <div className="mr-note mr-note-warning">
           <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
             This report was generated for{" "}
             <strong style={{ color: "var(--mr-text-primary)" }}>Acme Engineering</strong>, a fictional 120-person
@@ -266,6 +260,7 @@ function SampleReportCta() {
             interactive dashboard — just like the one above, but with your team&rsquo;s real data.
           </p>
           <SolidButton href="/assessment">Get the assessment prompt_</SolidButton>
+          <GhostButton href="/report">Or visualize a report_</GhostButton>
           <Link href="#contact" className="text-[17px] underline" style={{ color: "var(--mr-text-muted)" }}>
             Or book a guided session_
           </Link>

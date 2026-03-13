@@ -2,6 +2,7 @@
 import { useSyncExternalStore, useEffect } from "react";
 import Sidebar from "../components/design-system/Sidebar";
 import PrinciplesSection from "../components/design-system/PrinciplesSection";
+import ColorScalesSection from "../components/design-system/ColorScalesSection";
 import ColorSection from "../components/design-system/ColorSection";
 import TypographySection from "../components/design-system/TypographySection";
 import ButtonsSection from "../components/design-system/ButtonsSection";
@@ -9,12 +10,20 @@ import SpacingSection from "../components/design-system/SpacingSection";
 import GridSection from "../components/design-system/GridSection";
 import IconsSection from "../components/design-system/IconsSection";
 import ShadowsSection from "../components/design-system/ShadowsSection";
+import BadgesSection from "../components/design-system/BadgesSection";
+import NotesSection from "../components/design-system/NotesSection";
 import CardsSection from "../components/design-system/CardsSection";
+import CollapseSection from "../components/design-system/CollapseSection";
+import CodeBlocksSection from "../components/design-system/CodeBlocksSection";
+import ToastsSection from "../components/design-system/ToastsSection";
 import NavigationSection from "../components/design-system/NavigationSection";
 import StatsSection from "../components/design-system/StatsSection";
 import MarkersSection from "../components/design-system/MarkersSection";
 import ResponsiveSection from "../components/design-system/ResponsiveSection";
 import FormInputsSection from "../components/design-system/FormInputsSection";
+import ScoreSystemSection from "../components/design-system/ScoreSystemSection";
+import GaugesSection from "../components/design-system/GaugesSection";
+import StatusIndicatorsSection from "../components/design-system/StatusIndicatorsSection";
 import { MONO } from "../components/design-system/constants";
 
 // External store for theme preference (localStorage-backed)
@@ -68,43 +77,56 @@ export default function DesignSystemPage() {
               className="text-[56px] font-medium leading-[1.2] tracking-tight mb-3"
               style={{ color: "var(--mr-text-primary)" }}
             >
-              Many Roads &lt;AI&gt;
+              Leading Intelligence
             </h1>
             <p
               className="text-[17px] leading-[1.6] max-w-[640px] mb-6"
               style={{ color: "var(--mr-text-muted)" }}
             >
-              Living visual reference for all design tokens, typography,
-              spacing, grid, and component patterns used in the V2 site. Built
-              to keep the team aligned.
+              Living visual reference for all design tokens, color scales,
+              typography, and component patterns. Built to keep the team aligned
+              across marketing pages and product UI.
             </p>
             <div
               className="flex gap-6 text-[14px]"
               style={{ ...MONO, color: "var(--mr-text-muted)" }}
             >
-              <span>v1.6</span>
-              <span>2026-02-22</span>
+              <span>v2.0</span>
+              <span>2026-03-13</span>
               <span>Geist Sans + Geist Mono</span>
             </div>
           </header>
 
-          {/* Foundations */}
+          {/* Overview */}
           <PrinciplesSection />
+
+          {/* Foundations */}
+          <ColorScalesSection />
           <ColorSection />
           <TypographySection />
           <SpacingSection />
-          <ButtonsSection />
           <GridSection />
           <IconsSection />
           <ShadowsSection />
 
           {/* Components */}
+          <ButtonsSection />
+          <BadgesSection />
+          <NotesSection />
           <CardsSection />
+          <CollapseSection />
+          <CodeBlocksSection />
+          <ToastsSection />
           <NavigationSection />
-          <StatsSection />
-          <MarkersSection />
+
+          {/* Data Visualization */}
+          <ScoreSystemSection />
+          <GaugesSection />
+          <StatusIndicatorsSection />
 
           {/* Patterns */}
+          <StatsSection />
+          <MarkersSection />
           <ResponsiveSection />
           <FormInputsSection />
         </div>
@@ -122,13 +144,13 @@ export default function DesignSystemPage() {
               className="text-[14px]"
               style={{ color: "var(--mr-text-muted)" }}
             >
-              Many Roads &lt;AI&gt; &mdash; Design System Reference v1.6
+              Leading Intelligence &mdash; Design System Reference v2.0
             </span>
             <span
               className="text-[14px]"
               style={{ ...MONO, color: "var(--mr-text-muted)" }}
             >
-              2026-02-22
+              2026-03-13
             </span>
           </div>
         </footer>

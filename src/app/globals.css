@@ -116,10 +116,17 @@ h1, h2, h3 {
   color: var(--mr-footer-text);
 }
 
-/* Toast notification for copy button */
+/* Toast notification */
 .mr-toast {
-  background: var(--mr-accent-default);
-  color: var(--mr-accent-on);
+  background: var(--mr-toast-bg);
+  color: var(--mr-toast-text);
+  font-family: var(--mr-font-mono);
+  font-size: 13px;
+  padding: 10px 16px;
+  border-radius: var(--mr-radius-md);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   transition: opacity 300ms ease, transform 300ms ease;
 }
 
@@ -127,6 +134,118 @@ h1, h2, h3 {
 .mr-border-dashed {
   border: 1px dashed var(--mr-border-default);
   border-radius: var(--mr-radius-lg);
+}
+
+/* ── Badge variants ── */
+.mr-badge {
+  font-family: var(--mr-font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: var(--mr-radius-sm);
+  line-height: 1.4;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+.mr-badge-green {
+  background: var(--mr-badge-green-bg);
+  color: var(--mr-badge-green-text);
+}
+.mr-badge-green-solid {
+  background: var(--mr-badge-green-solid-bg);
+  color: var(--mr-badge-green-solid-text);
+}
+.mr-badge-red {
+  background: var(--mr-badge-red-bg);
+  color: var(--mr-badge-red-text);
+}
+.mr-badge-red-solid {
+  background: var(--mr-badge-red-solid-bg);
+  color: var(--mr-badge-red-solid-text);
+}
+.mr-badge-amber {
+  background: var(--mr-badge-amber-bg);
+  color: var(--mr-badge-amber-text);
+}
+.mr-badge-amber-solid {
+  background: var(--mr-badge-amber-solid-bg);
+  color: var(--mr-badge-amber-solid-text);
+}
+.mr-badge-blue {
+  background: var(--mr-badge-blue-bg);
+  color: var(--mr-badge-blue-text);
+}
+.mr-badge-blue-solid {
+  background: var(--mr-badge-blue-solid-bg);
+  color: var(--mr-badge-blue-solid-text);
+}
+
+/* ── Note / Callout variants ── */
+.mr-note {
+  padding: 12px 16px;
+  border-radius: var(--mr-radius-md);
+  border-left: 3px solid;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.mr-note-success {
+  background: var(--mr-note-success-bg);
+  border-color: var(--mr-note-success-border);
+  color: var(--mr-note-success-text);
+}
+.mr-note-warning {
+  background: var(--mr-note-warning-bg);
+  border-color: var(--mr-note-warning-border);
+  color: var(--mr-note-warning-text);
+}
+.mr-note-error {
+  background: var(--mr-note-error-bg);
+  border-color: var(--mr-note-error-border);
+  color: var(--mr-note-error-text);
+}
+.mr-note-info {
+  background: var(--mr-note-info-bg);
+  border-color: var(--mr-note-info-border);
+  color: var(--mr-note-info-text);
+}
+
+/* ── Collapse / Expandable card ── */
+.mr-collapse-content {
+  overflow: hidden;
+  transition: max-height var(--mr-transition-base);
+}
+
+/* ── Code block ── */
+.mr-code-block {
+  background: var(--mr-bg-code);
+  border: 1px solid var(--mr-border-default);
+  border-radius: var(--mr-radius-lg);
+  overflow: hidden;
+}
+.mr-code-header {
+  background: var(--mr-bg-code-header);
+  padding: 10px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--mr-border-default);
+}
+.mr-code-body {
+  padding: 16px 20px;
+  font-family: var(--mr-font-mono);
+  font-size: 13px;
+  line-height: 1.8;
+  overflow: hidden;
+  position: relative;
+}
+.mr-code-line-num {
+  color: var(--mr-code-line-number);
+  display: inline-block;
+  width: 32px;
+  text-align: right;
+  margin-right: 16px;
+  user-select: none;
 }
 
 /* Command palette */

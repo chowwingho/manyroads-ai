@@ -1,5 +1,5 @@
 /* ========================================
-   Many Roads Design Tokens — v1.6 — 2026-02-22
+   Leading Intelligence Design Tokens — v2.0 — 2026-03-13
    Single source of truth for all visual values
    ======================================== */
 
@@ -38,10 +38,10 @@
   --mr-shadow-md: 0 4px 12px rgba(38, 38, 37, 0.08);
   --mr-shadow-lg: 0 8px 24px rgba(38, 38, 37, 0.12);
 
-  /* --- Status / Functional Colors --- */
+  /* --- Status / Functional Colors (fallback for unthemed contexts) --- */
   --mr-status-positive: #3D7A41;
-  --mr-status-warning: #C47030;
-  --mr-status-critical: #B5382A;
+  --mr-status-warning: #B8892A;
+  --mr-status-critical: #C44040;
   --mr-status-neutral: var(--mr-text-muted);
 
   /* --- Form Inputs --- */
@@ -62,7 +62,9 @@
      can't be used in media queries. Use Tailwind responsive prefixes. */
 }
 
-/* --- Light Mode Colors (default) --- */
+/* ============================================================
+   Light Mode Colors (default)
+   ============================================================ */
 :root, [data-theme="light"] {
   /* Backgrounds */
   --mr-bg-page: #FAF9F6;
@@ -70,7 +72,6 @@
   --mr-bg-button-primary: #E8E6DD;
   --mr-bg-button-pathway: #D1CFC6;
   --mr-bg-card-elevated: #EBEAE5;
-  --mr-bg-code: #E3E1D8;
 
   /* Text */
   --mr-text-primary: #262625;
@@ -89,15 +90,162 @@
   --mr-footer-sub: rgba(255, 255, 255, 0.6);
   --mr-footer-divider: rgba(255, 255, 255, 0.15);
 
-  /* --- Accent (Brand Green — light mode) --- */
-  --mr-accent-subtle: #E7ECE3;
-  --mr-accent-default: #3D7A41;
-  --mr-accent-hover: #336737;
-  --mr-accent-active: #2B572E;
+  /* ── Green Scale (brand accent + success + score 2–3) ── */
+  --mr-green-1: #F2F8F2;
+  --mr-green-2: #E7ECE3;
+  --mr-green-3: #D4E4D5;
+  --mr-green-4: #B5D3B7;
+  --mr-green-5: #8FBD92;
+  --mr-green-6: #6AA86E;
+  --mr-green-7: #3D7A41;
+  --mr-green-8: #336737;
+  --mr-green-9: #2B572E;
+  --mr-green-10: #1E3D20;
+  --mr-green-a1: rgba(61, 122, 65, 0.03);
+  --mr-green-a2: rgba(61, 122, 65, 0.06);
+  --mr-green-a3: rgba(61, 122, 65, 0.10);
+  --mr-green-a4: rgba(61, 122, 65, 0.16);
+  --mr-green-a5: rgba(61, 122, 65, 0.24);
+  --mr-green-a6: rgba(61, 122, 65, 0.36);
+  --mr-green-a7: rgba(61, 122, 65, 0.56);
+  --mr-green-a8: rgba(61, 122, 65, 0.72);
+
+  /* ── Red Scale (score 0 + critical + errors) ── */
+  --mr-red-1: #FEF5F4;
+  --mr-red-2: #FDF2F2;
+  --mr-red-3: #FADDDA;
+  --mr-red-4: #F5C1BC;
+  --mr-red-5: #E99B93;
+  --mr-red-6: #DA7268;
+  --mr-red-7: #C44040;
+  --mr-red-8: #A83535;
+  --mr-red-9: #8C2C2C;
+  --mr-red-10: #6E2222;
+  --mr-red-a1: rgba(196, 64, 64, 0.03);
+  --mr-red-a2: rgba(196, 64, 64, 0.06);
+  --mr-red-a3: rgba(196, 64, 64, 0.10);
+  --mr-red-a4: rgba(196, 64, 64, 0.16);
+  --mr-red-a5: rgba(196, 64, 64, 0.28);
+  --mr-red-a6: rgba(196, 64, 64, 0.44);
+  --mr-red-a7: rgba(196, 64, 64, 0.64);
+  --mr-red-a8: rgba(196, 64, 64, 0.80);
+
+  /* ── Amber Scale (score 1 + warnings) ── */
+  --mr-amber-1: #FEFBF4;
+  --mr-amber-2: #FDF6E8;
+  --mr-amber-3: #FAEDD0;
+  --mr-amber-4: #F3DDB0;
+  --mr-amber-5: #E5C480;
+  --mr-amber-6: #D4A84E;
+  --mr-amber-7: #B8892A;
+  --mr-amber-8: #9A7324;
+  --mr-amber-9: #7D5D1E;
+  --mr-amber-10: #5E4616;
+  --mr-amber-a1: rgba(184, 137, 42, 0.03);
+  --mr-amber-a2: rgba(184, 137, 42, 0.07);
+  --mr-amber-a3: rgba(184, 137, 42, 0.12);
+  --mr-amber-a4: rgba(184, 137, 42, 0.20);
+  --mr-amber-a5: rgba(184, 137, 42, 0.32);
+  --mr-amber-a6: rgba(184, 137, 42, 0.50);
+  --mr-amber-a7: rgba(184, 137, 42, 0.68);
+  --mr-amber-a8: rgba(184, 137, 42, 0.82);
+
+  /* ── Blue Scale (NS/Not Sure + informational) ── */
+  --mr-blue-1: #F4F7FA;
+  --mr-blue-2: #EBF0F5;
+  --mr-blue-3: #D6E2ED;
+  --mr-blue-4: #B8CFDF;
+  --mr-blue-5: #90B4CC;
+  --mr-blue-6: #6A97B5;
+  --mr-blue-7: #4F769A;
+  --mr-blue-8: #426484;
+  --mr-blue-9: #36526C;
+  --mr-blue-10: #2A4054;
+  --mr-blue-a1: rgba(79, 118, 154, 0.03);
+  --mr-blue-a2: rgba(79, 118, 154, 0.07);
+  --mr-blue-a3: rgba(79, 118, 154, 0.12);
+  --mr-blue-a4: rgba(79, 118, 154, 0.20);
+  --mr-blue-a5: rgba(79, 118, 154, 0.32);
+  --mr-blue-a6: rgba(79, 118, 154, 0.50);
+  --mr-blue-a7: rgba(79, 118, 154, 0.68);
+  --mr-blue-a8: rgba(79, 118, 154, 0.82);
+
+  /* ── Accent aliases → green scale ── */
+  --mr-accent-subtle: var(--mr-green-2);
+  --mr-accent-default: var(--mr-green-7);
+  --mr-accent-hover: var(--mr-green-8);
+  --mr-accent-active: var(--mr-green-9);
   --mr-accent-on: #FFFFFF;
+
+  /* ── Status aliases → hue scales ── */
+  --mr-status-positive: var(--mr-green-7);
+  --mr-status-warning: var(--mr-amber-7);
+  --mr-status-critical: var(--mr-red-7);
+  --mr-status-neutral: var(--mr-text-muted);
+
+  /* ── Convenience aliases ── */
+  --mr-bg-danger-subtle: var(--mr-red-2);
+  --mr-bg-code: var(--mr-green-1);
+
+  /* ── Badge tokens ── */
+  --mr-badge-green-bg: var(--mr-green-2);
+  --mr-badge-green-text: var(--mr-green-9);
+  --mr-badge-green-solid-bg: var(--mr-green-7);
+  --mr-badge-green-solid-text: #FFFFFF;
+
+  --mr-badge-red-bg: var(--mr-red-2);
+  --mr-badge-red-text: var(--mr-red-9);
+  --mr-badge-red-solid-bg: var(--mr-red-7);
+  --mr-badge-red-solid-text: #FFFFFF;
+
+  --mr-badge-amber-bg: var(--mr-amber-2);
+  --mr-badge-amber-text: var(--mr-amber-9);
+  --mr-badge-amber-solid-bg: var(--mr-amber-7);
+  --mr-badge-amber-solid-text: #FFFFFF;
+
+  --mr-badge-blue-bg: var(--mr-blue-2);
+  --mr-badge-blue-text: var(--mr-blue-9);
+  --mr-badge-blue-solid-bg: var(--mr-blue-7);
+  --mr-badge-blue-solid-text: #FFFFFF;
+
+  /* ── Note / Callout tokens ── */
+  --mr-note-success-bg: var(--mr-green-1);
+  --mr-note-success-border: var(--mr-green-4);
+  --mr-note-success-text: var(--mr-green-9);
+
+  --mr-note-warning-bg: var(--mr-amber-1);
+  --mr-note-warning-border: var(--mr-amber-4);
+  --mr-note-warning-text: var(--mr-amber-9);
+
+  --mr-note-error-bg: var(--mr-red-1);
+  --mr-note-error-border: var(--mr-red-4);
+  --mr-note-error-text: var(--mr-red-9);
+
+  --mr-note-info-bg: var(--mr-blue-1);
+  --mr-note-info-border: var(--mr-blue-4);
+  --mr-note-info-text: var(--mr-blue-9);
+
+  /* ── Code block tokens ── */
+  --mr-bg-code-header: var(--mr-green-a2);
+  --mr-code-line-number: var(--mr-green-a5);
+
+  /* ── Mauve (Tooling section accent) ── */
+  --mr-mauve-7: #8A708A;
+
+  /* ── Section color aliases (report page) ── */
+  --mr-section-artifacts: var(--mr-green-7);
+  --mr-section-process: var(--mr-blue-7);
+  --mr-section-tooling: var(--mr-mauve-7);
+  --mr-section-culture: var(--mr-amber-7);
+
+  /* ── Toast tokens ── */
+  --mr-toast-bg: var(--mr-green-7);
+  --mr-toast-text: #FFFFFF;
 }
 
-/* --- Dark Mode Colors --- */
+/* ============================================================
+   Dark Mode Colors
+   ============================================================ */
 [data-theme="dark"] {
   /* Backgrounds */
   --mr-bg-page: #1A1A18;
@@ -105,7 +253,6 @@
   --mr-bg-button-primary: #333331;
   --mr-bg-button-pathway: #3D3D3A;
   --mr-bg-card-elevated: #2E2E2C;
-  --mr-bg-code: #1E1E1C;
 
   /* Text */
   --mr-text-primary: #ECECEA;
@@ -129,15 +276,103 @@
   --mr-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
   --mr-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4);
 
-  /* --- Status (adjusted for dark bg contrast) --- */
-  --mr-status-positive: #4A9A50;
-  --mr-status-warning: #D4833A;
-  --mr-status-critical: #D04A3A;
+  /* ── Green Scale (dark) ── */
+  --mr-green-1: #0F1F10;
+  --mr-green-2: #162A17;
+  --mr-green-3: #1E3820;
+  --mr-green-4: #27472A;
+  --mr-green-5: #355E38;
+  --mr-green-6: #4A7D4D;
+  --mr-green-7: #6F9C72;
+  --mr-green-8: #5E8B61;
+  --mr-green-9: #8BB98E;
+  --mr-green-10: #B0D4B2;
+  --mr-green-a1: rgba(111, 156, 114, 0.04);
+  --mr-green-a2: rgba(111, 156, 114, 0.08);
+  --mr-green-a3: rgba(111, 156, 114, 0.12);
+  --mr-green-a4: rgba(111, 156, 114, 0.18);
+  --mr-green-a5: rgba(111, 156, 114, 0.26);
+  --mr-green-a6: rgba(111, 156, 114, 0.40);
+  --mr-green-a7: rgba(111, 156, 114, 0.60);
+  --mr-green-a8: rgba(111, 156, 114, 0.76);
 
-  /* --- Accent (adjusted for dark backgrounds) --- */
-  --mr-accent-subtle: rgba(61, 122, 65, 0.12);
-  --mr-accent-default: #6F9C72;
-  --mr-accent-hover: #5E8B61;
-  --mr-accent-active: #4E7A51;
+  /* ── Red Scale (dark) ── */
+  --mr-red-1: #1F1212;
+  --mr-red-2: #2C1616;
+  --mr-red-3: #3D1C1C;
+  --mr-red-4: #522424;
+  --mr-red-5: #6E3030;
+  --mr-red-6: #943F3F;
+  --mr-red-7: #D04A3A;
+  --mr-red-8: #B84038;
+  --mr-red-9: #E8756A;
+  --mr-red-10: #F2A9A0;
+  --mr-red-a1: rgba(208, 74, 58, 0.04);
+  --mr-red-a2: rgba(208, 74, 58, 0.08);
+  --mr-red-a3: rgba(208, 74, 58, 0.12);
+  --mr-red-a4: rgba(208, 74, 58, 0.18);
+  --mr-red-a5: rgba(208, 74, 58, 0.28);
+  --mr-red-a6: rgba(208, 74, 58, 0.44);
+  --mr-red-a7: rgba(208, 74, 58, 0.64);
+  --mr-red-a8: rgba(208, 74, 58, 0.80);
+
+  /* ── Amber Scale (dark) ── */
+  --mr-amber-1: #1C1810;
+  --mr-amber-2: #272014;
+  --mr-amber-3: #362C1A;
+  --mr-amber-4: #483B22;
+  --mr-amber-5: #60502E;
+  --mr-amber-6: #82693C;
+  --mr-amber-7: #D4833A;
+  --mr-amber-8: #B8892A;
+  --mr-amber-9: #E8AD5C;
+  --mr-amber-10: #F2CFA0;
+  --mr-amber-a1: rgba(212, 131, 58, 0.04);
+  --mr-amber-a2: rgba(212, 131, 58, 0.08);
+  --mr-amber-a3: rgba(212, 131, 58, 0.14);
+  --mr-amber-a4: rgba(212, 131, 58, 0.20);
+  --mr-amber-a5: rgba(212, 131, 58, 0.30);
+  --mr-amber-a6: rgba(212, 131, 58, 0.46);
+  --mr-amber-a7: rgba(212, 131, 58, 0.66);
+  --mr-amber-a8: rgba(212, 131, 58, 0.80);
+
+  /* ── Blue Scale (dark) ── */
+  --mr-blue-1: #111820;
+  --mr-blue-2: #172029;
+  --mr-blue-3: #1E2D3A;
+  --mr-blue-4: #283C4E;
+  --mr-blue-5: #365268;
+  --mr-blue-6: #4A6D88;
+  --mr-blue-7: #6A97B5;
+  --mr-blue-8: #5A859E;
+  --mr-blue-9: #88B4D0;
+  --mr-blue-10: #B0D0E4;
+  --mr-blue-a1: rgba(106, 151, 181, 0.04);
+  --mr-blue-a2: rgba(106, 151, 181, 0.08);
+  --mr-blue-a3: rgba(106, 151, 181, 0.12);
+  --mr-blue-a4: rgba(106, 151, 181, 0.20);
+  --mr-blue-a5: rgba(106, 151, 181, 0.30);
+  --mr-blue-a6: rgba(106, 151, 181, 0.46);
+  --mr-blue-a7: rgba(106, 151, 181, 0.66);
+  --mr-blue-a8: rgba(106, 151, 181, 0.80);
+
+  /* ── Accent aliases → green scale (same expressions, dark values auto-resolve) ── */
+  --mr-accent-subtle: var(--mr-green-a3);
+  --mr-accent-default: var(--mr-green-7);
+  --mr-accent-hover: var(--mr-green-8);
+  --mr-accent-active: var(--mr-green-9);
   --mr-accent-on: #FFFFFF;
+
+  /* ── Status aliases → hue scales ── */
+  --mr-status-positive: var(--mr-green-7);
+  --mr-status-warning: var(--mr-amber-7);
+  --mr-status-critical: var(--mr-red-7);
+  --mr-status-neutral: var(--mr-text-muted);
+
+  /* ── Convenience aliases ── */
+  --mr-bg-danger-subtle: var(--mr-red-a2);
+  --mr-bg-code: var(--mr-green-1);
+
+  /* ── Mauve (Tooling section accent) ── */
+  --mr-mauve-7: #A88EA8;
 }

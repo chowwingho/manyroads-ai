@@ -62,7 +62,7 @@ const STEPS = [
   {
     num: "03",
     title: "Visualize your results",
-    desc: "Use the second prompt to turn your markdown report into an interactive HTML dashboard — radar charts, area breakdowns, and a prioritized action plan.",
+    desc: "Paste your markdown report into our hosted report viewer at leadingintelligence.com/report — radar charts, area breakdowns, and a prioritized action plan, all in your browser.",
   },
 ];
 
@@ -314,7 +314,7 @@ function HowItWorksSection() {
             className="text-2xl md:text-3xl lg:text-[36px] font-medium leading-[1.2] mt-4 mb-10"
             style={{ color: "var(--mr-text-primary)" }}
           >
-            Three steps. Two prompts. One clear picture.
+            Three steps. One prompt. One clear picture.
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -472,15 +472,7 @@ function ServiceTiersSection() {
                       {tier.name}
                     </h3>
                     {tier.badge && (
-                      <span
-                        className="text-xs px-2 py-0.5 font-medium shrink-0 ml-2"
-                        style={{
-                          ...MONO,
-                          background: "var(--mr-accent-default)",
-                          color: "var(--mr-accent-on)",
-                          borderRadius: "var(--mr-radius-sm)",
-                        }}
-                      >
+                      <span className="mr-badge mr-badge-green-solid shrink-0 ml-2" style={MONO}>
                         {tier.badge}
                       </span>
                     )}
