@@ -36,19 +36,19 @@ export default function Navbar({ dark, onToggle }) {
       style={{ background: "var(--mr-bg-page)", borderBottom: "1px solid var(--mr-border-default)" }}
       ref={menuRef}
     >
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 flex items-center justify-between h-16">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 flex items-center justify-between h-12">
         {/* Logo */}
         <Link href="/">
-          <Logo className="h-6 md:h-7 w-auto" style={{ color: "var(--mr-text-primary)" }} />
+          <Logo className="h-5 md:h-6 w-auto" style={{ color: "var(--mr-text-primary)" }} />
         </Link>
 
         {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-6">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="text-base font-medium mr-link-nav"
+              className="text-sm font-medium mr-link-nav"
               style={{ ...MONO, color: "var(--mr-text-muted)" }}
             >
               {link.label}
@@ -60,14 +60,14 @@ export default function Navbar({ dark, onToggle }) {
         <div className="flex items-center gap-3">
           <button
             onClick={onToggle}
-            className="hidden md:inline-flex text-sm mr-btn-toggle rounded-lg px-3 py-1.5 cursor-pointer"
+            className="hidden md:inline-flex text-xs mr-btn-toggle rounded-md px-2 py-0.5 cursor-pointer"
             style={MONO}
           >
             {dark ? "[ light_ ]" : "[ dark_ ]"}
           </button>
           <Link
             href="/assessment"
-            className="hidden md:inline-flex items-center mr-btn-primary px-5 py-2.5 rounded-lg text-base font-medium w-fit"
+            className="hidden md:inline-flex items-center mr-btn-primary px-4 py-2 rounded-md text-sm font-medium w-fit"
             style={MONO}
           >
             Get the prompt_
@@ -93,7 +93,7 @@ export default function Navbar({ dark, onToggle }) {
               key={link.href}
               href={link.href}
               onClick={() => setMenuOpen(false)}
-              className="text-base font-medium py-2 mr-link-nav"
+              className="text-sm font-medium py-1.5 mr-link-nav"
               style={{ ...MONO, color: "var(--mr-text-muted)" }}
             >
               {link.label}
@@ -102,14 +102,14 @@ export default function Navbar({ dark, onToggle }) {
           <Link
             href="/assessment"
             onClick={() => setMenuOpen(false)}
-            className="inline-flex items-center mr-btn-primary px-5 py-2.5 rounded-lg text-base font-medium w-fit mt-2"
+            className="inline-flex items-center mr-btn-primary px-4 py-2 rounded-md text-sm font-medium w-fit mt-2"
             style={MONO}
           >
             Get the prompt_
           </Link>
           <button
             onClick={onToggle}
-            className="text-sm mr-btn-toggle rounded-lg px-3 py-1.5 w-fit cursor-pointer"
+            className="text-xs mr-btn-toggle rounded-md px-2 py-0.5 w-fit cursor-pointer"
             style={MONO}
           >
             {dark ? "[ light_ ]" : "[ dark_ ]"}

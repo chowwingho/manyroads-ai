@@ -80,18 +80,18 @@ function SampleReportHeader() {
         </Link>
 
         <h1
-          className="text-3xl sm:text-4xl lg:text-[56px] font-medium leading-[1.1] tracking-tight mb-4"
+          className="text-3xl sm:text-4xl lg:text-5xl font-medium leading-[1.1] tracking-tight mb-4"
           style={{ color: "var(--mr-text-primary)" }}
         >
           Sample Assessment Report
         </h1>
-        <p className="text-[17px] leading-[1.6] max-w-2xl mb-8" style={{ color: "var(--mr-text-muted)" }}>
+        <p className="text-[15px] leading-[1.6] max-w-2xl mb-8" style={{ color: "var(--mr-text-muted)" }}>
           See what you&rsquo;ll get after running the AI Readiness Assessment with your team.
         </p>
 
         {/* Fictional company banner */}
         <div className="mr-note mr-note-warning">
-          <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
+          <p className="text-[15px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
             This report was generated for{" "}
             <strong style={{ color: "var(--mr-text-primary)" }}>Acme Engineering</strong>, a fictional 120-person
             startup. The scores and findings represent a typical assessment — your results will reflect your
@@ -133,11 +133,11 @@ function ReportEmbed() {
         </div>
 
         {/* Annotation cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
           {ANNOTATION_CARDS.map((card) => (
             <div
               key={card.title}
-              className="rounded-lg p-6"
+              className="rounded-lg p-4"
               style={{
                 background: "var(--mr-bg-card)",
                 border: "1px solid var(--mr-border-default)",
@@ -147,7 +147,7 @@ function ReportEmbed() {
               <p className="text-sm font-medium mb-2" style={{ ...MONO, color: "var(--mr-accent-default)" }}>
                 {card.title}
               </p>
-              <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
+              <p className="text-[15px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
                 {card.desc}
               </p>
             </div>
@@ -160,22 +160,22 @@ function ReportEmbed() {
 
 function ReportSectionsWalkthrough() {
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-12 md:py-16">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
-        <div className="pt-12 md:pt-16" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+        <div className="pt-8 md:pt-12" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
           <SectionLabel>// WHAT_THE_REPORT_COVERS</SectionLabel>
           <h2
-            className="text-2xl md:text-3xl lg:text-[36px] font-medium leading-[1.2] mt-4 mb-10"
+            className="text-xl md:text-2xl lg:text-[32px] font-medium leading-[1.2] mt-3 mb-8"
             style={{ color: "var(--mr-text-primary)" }}
           >
             Four sections. Each one earns its place.
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {REPORT_SECTIONS.map((section) => (
               <div
                 key={section.num}
-                className="rounded-lg p-6 flex flex-col gap-4"
+                className="rounded-lg p-5 flex flex-col gap-3"
                 style={{
                   background: "var(--mr-bg-card)",
                   border: "1px solid var(--mr-border-default)",
@@ -187,10 +187,10 @@ function ReportSectionsWalkthrough() {
                     ({section.num})
                   </span>
                 </div>
-                <h3 className="text-xl font-medium" style={{ color: "var(--mr-text-primary)" }}>
+                <h3 className="text-lg font-medium" style={{ color: "var(--mr-text-primary)" }}>
                   {section.title}
                 </h3>
-                <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
+                <p className="text-[15px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
                   {section.desc}
                 </p>
               </div>
@@ -204,32 +204,32 @@ function ReportSectionsWalkthrough() {
 
 function DifferentiatorsSection() {
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-12 md:py-16">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
-        <div className="pt-12 md:pt-16" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+        <div className="pt-8 md:pt-12" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
           <SectionLabel>// NOT_A_GENERIC_QUIZ</SectionLabel>
           <h2
-            className="text-2xl md:text-3xl lg:text-[36px] font-medium leading-[1.2] mt-4 mb-10"
+            className="text-xl md:text-2xl lg:text-[32px] font-medium leading-[1.2] mt-3 mb-8"
             style={{ color: "var(--mr-text-primary)" }}
           >
             What makes this different.
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {DIFFERENTIATORS.map((d) => (
               <div
                 key={d.title}
-                className="rounded-lg p-6 flex flex-col gap-4"
+                className="rounded-lg p-5 flex flex-col gap-3"
                 style={{
                   background: "var(--mr-bg-card)",
                   border: "1px solid var(--mr-border-default)",
                   borderRadius: "var(--mr-radius-md)",
                 }}
               >
-                <h3 className="text-xl font-medium" style={{ color: "var(--mr-text-primary)" }}>
+                <h3 className="text-lg font-medium" style={{ color: "var(--mr-text-primary)" }}>
                   {d.title}
                 </h3>
-                <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
+                <p className="text-[15px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
                   {d.desc}
                 </p>
               </div>
@@ -243,25 +243,25 @@ function DifferentiatorsSection() {
 
 function SampleReportCta() {
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-12 md:py-16">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
         <div
-          className="rounded-xl p-8 md:p-12 lg:p-16 text-center flex flex-col items-center gap-6"
+          className="rounded-xl p-6 md:p-10 lg:p-12 text-center flex flex-col items-center gap-5"
           style={{ background: "var(--mr-bg-card)" }}
         >
           <h2
-            className="text-2xl md:text-3xl lg:text-[36px] font-medium leading-[1.2]"
+            className="text-xl md:text-2xl lg:text-[32px] font-medium leading-[1.2]"
             style={{ color: "var(--mr-text-primary)" }}
           >
             See where your team actually stands.
           </h2>
-          <p className="text-[17px] leading-[1.6] max-w-xl" style={{ color: "var(--mr-text-muted)" }}>
+          <p className="text-[15px] leading-[1.6] max-w-xl" style={{ color: "var(--mr-text-muted)" }}>
             The assessment takes ~25 minutes and works with any AI assistant. You&rsquo;ll get a scored report and
             interactive dashboard — just like the one above, but with your team&rsquo;s real data.
           </p>
           <SolidButton href="/assessment">Get the assessment prompt_</SolidButton>
           <GhostButton href="/report">Or visualize a report_</GhostButton>
-          <Link href="#contact" className="text-[17px] underline" style={{ color: "var(--mr-text-muted)" }}>
+          <Link href="#contact" className="text-[15px] underline" style={{ color: "var(--mr-text-muted)" }}>
             Or book a guided session_
           </Link>
         </div>

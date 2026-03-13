@@ -17,11 +17,11 @@ export default function Footer({ dark, onToggle }) {
   return (
     <footer
       id="contact"
-      className="py-16 md:py-20 lg:py-24"
+      className="py-12 md:py-16 lg:py-20"
       style={{ background: "var(--mr-footer-bg)", color: "var(--mr-footer-text)" }}
     >
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
-        <div className="max-w-md mb-16">
+        <div className="max-w-md mb-12">
           <Logo className="h-8 w-auto mb-3" style={{ color: "var(--mr-footer-text)" }} />
           <p className="text-sm leading-[1.6] mb-6" style={{ color: "var(--mr-footer-sub)" }}>
             AI readiness assessments for engineering teams navigating AI adoption.
@@ -40,15 +40,15 @@ export default function Footer({ dark, onToggle }) {
           </div>
         </div>
 
-        <div className="mb-12 md:mb-16 lg:mb-24" style={{ borderTop: "1px solid var(--mr-footer-divider)" }} />
+        <div className="mb-10 md:mb-12 lg:mb-16" style={{ borderTop: "1px solid var(--mr-footer-divider)" }} />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16">
           {/* Contact */}
           <div>
-            <p className="text-lg font-medium mb-2" style={{ color: "var(--mr-footer-sub)" }}>Email</p>
+            <p className="text-xs font-medium uppercase tracking-wider mb-2" style={{ color: "var(--mr-footer-sub)" }}>Email</p>
             <a
               href="mailto:hello@leadingintelligence.ai"
-              className="text-lg font-medium hover:opacity-70 transition-opacity"
+              className="text-sm font-medium hover:opacity-70 transition-opacity"
               style={{ color: "var(--mr-footer-text)" }}
             >
               hello@leadingintelligence.ai
@@ -57,10 +57,10 @@ export default function Footer({ dark, onToggle }) {
 
           {/* Navigation */}
           <div>
-            <p className="text-lg font-medium mb-4" style={{ color: "var(--mr-footer-sub)" }}>Navigation</p>
+            <p className="text-xs font-medium uppercase tracking-wider mb-3" style={{ color: "var(--mr-footer-sub)" }}>Navigation</p>
             <div className="flex flex-col gap-2">
               {FOOTER_NAV.map((link) => (
-                <Link key={link.href} href={link.href} className="text-lg font-medium mr-link-footer" style={MONO}>
+                <Link key={link.href} href={link.href} className="text-sm font-medium mr-link-footer" style={MONO}>
                   {link.label}
                 </Link>
               ))}
@@ -69,10 +69,10 @@ export default function Footer({ dark, onToggle }) {
 
           {/* Social */}
           <div>
-            <p className="text-lg font-medium mb-4" style={{ color: "var(--mr-footer-sub)" }}>Social</p>
+            <p className="text-xs font-medium uppercase tracking-wider mb-3" style={{ color: "var(--mr-footer-sub)" }}>Social</p>
             <div className="flex flex-col gap-2">
               {FOOTER_SOCIAL.map((link) => (
-                <a key={link} href="#" className="text-lg font-medium mr-link-footer" style={MONO}>
+                <a key={link} href="#" className="text-sm font-medium mr-link-footer" style={MONO}>
                   {link}
                 </a>
               ))}
@@ -82,7 +82,7 @@ export default function Footer({ dark, onToggle }) {
 
         {/* Bottom bar */}
         <div
-          className="mt-12 pt-8 flex flex-wrap items-center justify-between gap-6"
+          className="mt-10 pt-6 flex flex-wrap items-center justify-between gap-6"
           style={{ borderTop: "1px solid var(--mr-footer-divider)" }}
         >
           <div className="flex items-center gap-2">

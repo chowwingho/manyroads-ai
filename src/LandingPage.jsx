@@ -159,26 +159,26 @@ const FAQ_ITEMS = [
 
 function HeroSection() {
   return (
-    <section className="pt-16 pb-12 md:pt-28 md:pb-20">
+    <section className="pt-12 pb-10 md:pt-20 md:pb-16">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
-        <div className="max-w-3xl mx-auto text-center flex flex-col items-center gap-6">
+        <div className="max-w-3xl mx-auto text-center flex flex-col items-center gap-5">
           <h1
-            className="text-3xl sm:text-4xl lg:text-[56px] font-medium leading-[1.1] tracking-tight"
+            className="text-3xl sm:text-4xl lg:text-5xl font-medium leading-[1.1] tracking-tight"
             style={{ color: "var(--mr-text-primary)" }}
           >
             Know exactly where your engineering team stands on AI readiness.
           </h1>
-          <p className="text-[17px] leading-[1.6] max-w-xl" style={{ color: "var(--mr-text-muted)" }}>
+          <p className="text-[15px] leading-[1.6] max-w-xl" style={{ color: "var(--mr-text-muted)" }}>
             A structured assessment framework — built from real consulting engagements — that you can run with any AI assistant in 25 minutes.
           </p>
           <SolidButton href="/assessment">Get the assessment prompt_</SolidButton>
           {/* LLM compatibility strip */}
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            <span className="text-sm" style={{ ...MONO, color: "var(--mr-text-muted)" }}>Works with:</span>
+          <div className="flex flex-wrap items-center justify-center gap-1.5">
+            <span className="text-[13px]" style={{ ...MONO, color: "var(--mr-text-muted)" }}>Works with:</span>
             {["Claude", "ChatGPT", "Gemini", "Any LLM"].map((llm) => (
               <span
                 key={llm}
-                className="text-sm px-3 py-1"
+                className="text-[13px] px-2.5 py-0.5"
                 style={{
                   ...MONO,
                   background: "var(--mr-bg-card)",
@@ -198,12 +198,12 @@ function HeroSection() {
 
 function ReportShowcaseSection() {
   return (
-    <section className="py-16 md:py-24 lg:py-32">
+    <section className="py-12 md:py-16 lg:py-24">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
-        <div className="pt-12 md:pt-16 lg:pt-24" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+        <div className="pt-8 md:pt-12 lg:pt-16" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
           <SectionLabel>// 01 — SAMPLE_OUTPUT</SectionLabel>
           <h2
-            className="text-2xl md:text-3xl lg:text-[36px] font-medium leading-[1.2] mt-4 mb-10"
+            className="text-xl md:text-2xl lg:text-[32px] font-medium leading-[1.2] mt-3 mb-8"
             style={{ color: "var(--mr-text-primary)" }}
           >
             This is what your team gets.
@@ -220,11 +220,11 @@ function ReportShowcaseSection() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-12">
             {ANNOTATION_CARDS.map((card) => (
               <div
                 key={card.title}
-                className="rounded-lg p-6"
+                className="rounded-lg p-4"
                 style={{
                   background: "var(--mr-bg-card)",
                   border: "1px solid var(--mr-border-default)",
@@ -234,7 +234,7 @@ function ReportShowcaseSection() {
                 <p className="text-sm font-medium mb-2" style={{ ...MONO, color: "var(--mr-accent-default)" }}>
                   {card.title}
                 </p>
-                <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
+                <p className="text-[15px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
                   {card.desc}
                 </p>
               </div>
@@ -248,12 +248,12 @@ function ReportShowcaseSection() {
 
 function MethodologySection() {
   return (
-    <section className="py-16 md:py-24 lg:py-32">
+    <section className="py-12 md:py-16 lg:py-24">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
-        <div className="pt-12 md:pt-16 lg:pt-24" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+        <div className="pt-8 md:pt-12 lg:pt-16" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
           <SectionLabel>// 02 — THE_METHODOLOGY</SectionLabel>
           <h2
-            className="text-2xl md:text-3xl lg:text-[36px] font-medium leading-[1.2] mt-4 mb-10"
+            className="text-xl md:text-2xl lg:text-[32px] font-medium leading-[1.2] mt-3 mb-8"
             style={{ color: "var(--mr-text-primary)" }}
           >
             4 categories. 13 areas. 31 assessment points.
@@ -263,21 +263,21 @@ function MethodologySection() {
             {CATEGORIES.map((cat) => (
               <div
                 key={cat.name}
-                className="rounded-lg p-6"
+                className="rounded-lg p-5"
                 style={{
                   background: "var(--mr-bg-card)",
                   border: "1px solid var(--mr-border-default)",
                   borderRadius: "var(--mr-radius-md)",
                 }}
               >
-                <h3 className="text-xl font-medium mb-4" style={{ color: "var(--mr-text-primary)" }}>
+                <h3 className="text-lg font-medium mb-3" style={{ color: "var(--mr-text-primary)" }}>
                   {cat.name}
                 </h3>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-1.5">
                   {cat.areas.map((area) => (
                     <span
                       key={area}
-                      className="text-sm px-2.5 py-1"
+                      className="text-[13px] px-2 py-0.5"
                       style={{
                         ...MONO,
                         background: "var(--mr-bg-button-primary)",
@@ -293,7 +293,7 @@ function MethodologySection() {
             ))}
           </div>
 
-          <p className="text-[17px] leading-[1.6] max-w-3xl" style={{ color: "var(--mr-text-muted)" }}>
+          <p className="text-[15px] leading-[1.6] max-w-3xl" style={{ color: "var(--mr-text-muted)" }}>
             Each area is calibrated against what we&rsquo;ve observed across dozens of engineering teams adopting AI.
             The scoring rubric distinguishes between gaps you know about and blind spots you don&rsquo;t — because
             &ldquo;we&rsquo;re weak here&rdquo; and &ldquo;we don&rsquo;t even know&rdquo; require different responses.
@@ -306,35 +306,35 @@ function MethodologySection() {
 
 function HowItWorksSection() {
   return (
-    <section className="py-16 md:py-24 lg:py-32">
+    <section className="py-12 md:py-16 lg:py-24">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
-        <div className="pt-12 md:pt-16 lg:pt-24" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+        <div className="pt-8 md:pt-12 lg:pt-16" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
           <SectionLabel>// 03 — HOW_IT_WORKS</SectionLabel>
           <h2
-            className="text-2xl md:text-3xl lg:text-[36px] font-medium leading-[1.2] mt-4 mb-10"
+            className="text-xl md:text-2xl lg:text-[32px] font-medium leading-[1.2] mt-3 mb-8"
             style={{ color: "var(--mr-text-primary)" }}
           >
             Three steps. One prompt. One clear picture.
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {STEPS.map((step) => (
               <div
                 key={step.num}
-                className="rounded-lg p-6 flex flex-col gap-4"
+                className="rounded-lg p-5 flex flex-col gap-3"
                 style={{
                   background: "var(--mr-bg-card)",
                   border: "1px solid var(--mr-border-default)",
                   borderRadius: "var(--mr-radius-md)",
                 }}
               >
-                <p className="text-sm font-medium" style={{ ...MONO, color: "var(--mr-accent-default)" }}>
+                <p className="text-[13px] font-medium" style={{ ...MONO, color: "var(--mr-accent-default)" }}>
                   ({step.num})
                 </p>
-                <h3 className="text-xl font-medium" style={{ color: "var(--mr-text-primary)" }}>
+                <h3 className="text-lg font-medium" style={{ color: "var(--mr-text-primary)" }}>
                   {step.title}
                 </h3>
-                <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
+                <p className="text-[15px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
                   {step.desc}
                 </p>
               </div>
@@ -348,22 +348,22 @@ function HowItWorksSection() {
 
 function DiscoveriesSection() {
   return (
-    <section className="py-16 md:py-24 lg:py-32">
+    <section className="py-12 md:py-16 lg:py-24">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
-        <div className="pt-12 md:pt-16 lg:pt-24" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+        <div className="pt-8 md:pt-12 lg:pt-16" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
           <SectionLabel>// 04 — WHAT_TEAMS_DISCOVER</SectionLabel>
           <h2
-            className="text-2xl md:text-3xl lg:text-[36px] font-medium leading-[1.2] mt-4 mb-10"
+            className="text-xl md:text-2xl lg:text-[32px] font-medium leading-[1.2] mt-3 mb-8"
             style={{ color: "var(--mr-text-primary)" }}
           >
             Patterns we see across teams.
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {DISCOVERIES.map((d, i) => (
               <div
                 key={i}
-                className="rounded-lg p-6 flex flex-col gap-4"
+                className="rounded-lg p-5 flex flex-col gap-3"
                 style={{
                   background: "var(--mr-bg-card)",
                   border: "1px solid var(--mr-border-default)",
@@ -373,7 +373,7 @@ function DiscoveriesSection() {
                 <p className="text-5xl font-medium" style={{ ...MONO, color: "var(--mr-accent-default)" }}>
                   {d.stat}
                 </p>
-                <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
+                <p className="text-[15px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
                   {d.insight}
                 </p>
               </div>
@@ -387,12 +387,12 @@ function DiscoveriesSection() {
 
 function TeamSection() {
   return (
-    <section className="py-16 md:py-24 lg:py-32">
+    <section className="py-12 md:py-16 lg:py-24">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
-        <div className="pt-12 md:pt-16 lg:pt-24" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+        <div className="pt-8 md:pt-12 lg:pt-16" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
           <SectionLabel>// 05 — BUILT_BY_PRACTITIONERS</SectionLabel>
           <h2
-            className="text-2xl md:text-3xl lg:text-[36px] font-medium leading-[1.2] mt-4 mb-10"
+            className="text-xl md:text-2xl lg:text-[32px] font-medium leading-[1.2] mt-3 mb-8"
             style={{ color: "var(--mr-text-primary)" }}
           >
             The team behind the framework.
@@ -404,7 +404,7 @@ function TeamSection() {
               {TEAM.map((member) => (
                 <div
                   key={member.num}
-                  className="rounded-lg p-6 flex flex-col gap-3"
+                  className="rounded-lg p-5 flex flex-col gap-3"
                   style={{
                     background: "var(--mr-bg-card)",
                     border: "1px solid var(--mr-border-default)",
@@ -412,17 +412,17 @@ function TeamSection() {
                   }}
                 >
                   <div className="flex items-center gap-3">
-                    <span className="text-sm font-medium" style={{ ...MONO, color: "var(--mr-accent-default)" }}>
+                    <span className="text-[13px] font-medium" style={{ ...MONO, color: "var(--mr-accent-default)" }}>
                       ({member.num})
                     </span>
-                    <h3 className="text-xl font-medium" style={{ color: "var(--mr-text-primary)" }}>
+                    <h3 className="text-lg font-medium" style={{ color: "var(--mr-text-primary)" }}>
                       {member.name}
                     </h3>
                   </div>
-                  <p className="text-base font-medium" style={{ color: "var(--mr-text-muted)" }}>
+                  <p className="text-sm font-medium" style={{ color: "var(--mr-text-muted)" }}>
                     {member.role}
                   </p>
-                  <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
+                  <p className="text-[15px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
                     {member.credential}
                   </p>
                 </div>
@@ -430,7 +430,7 @@ function TeamSection() {
             </div>
 
             {/* Consulting context */}
-            <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
+            <p className="text-[15px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
               Leading Intelligence works with Series B–D tech companies navigating AI adoption. The assessment
               framework is drawn from our consulting engagements — the same methodology our team uses with clients,
               packaged so any engineering team can run it independently.
@@ -444,22 +444,22 @@ function TeamSection() {
 
 function ServiceTiersSection() {
   return (
-    <section className="py-16 md:py-24 lg:py-32">
+    <section className="py-12 md:py-16 lg:py-24">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
-        <div className="pt-12 md:pt-16 lg:pt-24" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+        <div className="pt-8 md:pt-12 lg:pt-16" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
           <SectionLabel>// 06 — WHAT_COMES_NEXT</SectionLabel>
           <h2
-            className="text-2xl md:text-3xl lg:text-[36px] font-medium leading-[1.2] mt-4 mb-10"
+            className="text-xl md:text-2xl lg:text-[32px] font-medium leading-[1.2] mt-3 mb-8"
             style={{ color: "var(--mr-text-primary)" }}
           >
             Go as deep as you need.
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {TIERS.map((tier) => (
               <div
                 key={tier.name}
-                className="rounded-lg p-6 flex flex-col gap-4"
+                className="rounded-lg p-5 flex flex-col gap-3"
                 style={{
                   background: "var(--mr-bg-card)",
                   border: "1px solid var(--mr-border-default)",
@@ -468,21 +468,21 @@ function ServiceTiersSection() {
               >
                 <div>
                   <div className="flex items-start justify-between mb-2">
-                    <h3 className="text-xl font-medium" style={{ color: "var(--mr-text-primary)" }}>
+                    <h3 className="text-lg font-medium" style={{ color: "var(--mr-text-primary)" }}>
                       {tier.name}
                     </h3>
                     {tier.badge && (
-                      <span className="mr-badge mr-badge-green-solid shrink-0 ml-2" style={MONO}>
+                      <span className="mr-badge mr-badge-green-solid mr-badge-sm shrink-0 ml-2" style={MONO}>
                         {tier.badge}
                       </span>
                     )}
                   </div>
-                  <p className="text-sm font-medium" style={{ ...MONO, color: "var(--mr-text-muted)" }}>
+                  <p className="text-[13px] font-medium" style={{ ...MONO, color: "var(--mr-text-muted)" }}>
                     {tier.price}
                   </p>
                 </div>
 
-                <p className="text-[17px] leading-[1.6] flex-1" style={{ color: "var(--mr-text-muted)" }}>
+                <p className="text-[15px] leading-[1.6] flex-1" style={{ color: "var(--mr-text-muted)" }}>
                   {tier.desc}
                 </p>
 
@@ -502,27 +502,27 @@ function ServiceTiersSection() {
 
 function FaqSection() {
   return (
-    <section id="faq" className="py-16 md:py-24 lg:py-32">
+    <section id="faq" className="py-12 md:py-16 lg:py-24">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
-        <div className="pt-12 md:pt-16 lg:pt-24" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+        <div className="pt-8 md:pt-12 lg:pt-16" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-8">
             <div className="md:col-span-4">
               <SectionLabel>// 07 — QUESTIONS</SectionLabel>
               <h2
-                className="text-2xl md:text-3xl lg:text-[36px] font-medium leading-[1.2] mt-4"
+                className="text-xl md:text-2xl lg:text-[32px] font-medium leading-[1.2] mt-3"
                 style={{ color: "var(--mr-text-primary)" }}
               >
                 Questions?
               </h2>
             </div>
 
-            <div className="md:col-start-6 md:col-span-7 flex flex-col gap-8">
+            <div className="md:col-start-6 md:col-span-7 flex flex-col gap-6">
               {FAQ_ITEMS.map((faq) => (
                 <div key={faq.q}>
-                  <p className="text-base font-medium mb-2" style={{ color: "var(--mr-text-primary)" }}>
+                  <p className="text-[15px] font-medium mb-2" style={{ color: "var(--mr-text-primary)" }}>
                     {faq.q}
                   </p>
-                  <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
+                  <p className="text-[15px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
                     {faq.a}
                   </p>
                 </div>
@@ -537,23 +537,23 @@ function FaqSection() {
 
 function FinalCtaSection() {
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-12 md:py-16">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
         <div
-          className="rounded-xl p-8 md:p-12 lg:p-16 text-center flex flex-col items-center gap-6"
+          className="rounded-xl p-6 md:p-10 lg:p-12 text-center flex flex-col items-center gap-5"
           style={{ background: "var(--mr-bg-card)" }}
         >
           <h2
-            className="text-2xl md:text-3xl lg:text-[36px] font-medium leading-[1.2]"
+            className="text-xl md:text-2xl lg:text-[32px] font-medium leading-[1.2]"
             style={{ color: "var(--mr-text-primary)" }}
           >
             Find out where your team stands.
           </h2>
-          <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
+          <p className="text-[15px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
             Free. 25 minutes. Any AI assistant.
           </p>
           <SolidButton href="/assessment">Get the assessment prompt_</SolidButton>
-          <Link href="#contact" className="text-[17px] underline" style={{ color: "var(--mr-text-muted)" }}>
+          <Link href="#contact" className="text-[15px] underline" style={{ color: "var(--mr-text-muted)" }}>
             Or book a guided session_
           </Link>
         </div>

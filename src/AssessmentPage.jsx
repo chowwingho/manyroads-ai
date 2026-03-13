@@ -160,28 +160,28 @@ function PromptBlock({ number, title, filename, lineCount, description, version,
 
 function AssessmentHeader() {
   return (
-    <section className="pt-12 pb-8 md:pt-20 md:pb-12">
+    <section className="pt-10 pb-6 md:pt-16 md:pb-10">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
         <Link href="/" className="text-sm mb-8 inline-block" style={{ ...MONO, color: "var(--mr-text-muted)" }}>
           ← Back to Leading Intelligence
         </Link>
 
         <h1
-          className="text-3xl sm:text-4xl lg:text-[56px] font-medium leading-[1.1] tracking-tight mb-4"
+          className="text-3xl sm:text-4xl lg:text-5xl font-medium leading-[1.1] tracking-tight mb-4"
           style={{ color: "var(--mr-text-primary)" }}
         >
           AI Readiness Assessment
         </h1>
-        <p className="text-[17px] leading-[1.6] max-w-2xl mb-8" style={{ color: "var(--mr-text-muted)" }}>
+        <p className="text-[15px] leading-[1.6] max-w-2xl mb-8" style={{ color: "var(--mr-text-muted)" }}>
           Two prompts. ~25 minutes. A complete picture of where your engineering team stands.
         </p>
 
         {/* Info pills */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1.5">
           {["~25 min", "31 questions", "13 areas", "any LLM"].map((pill) => (
             <span
               key={pill}
-              className="text-sm px-3 py-1"
+              className="text-[13px] px-2.5 py-0.5"
               style={{
                 ...MONO,
                 background: "var(--mr-bg-card)",
@@ -203,28 +203,28 @@ function BeforeYouBegin() {
     <section className="py-8 md:py-12">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
         <div
-          className="rounded-lg p-6 md:p-8"
+          className="rounded-lg p-5 md:p-6"
           style={{
             background: "var(--mr-bg-card)",
             border: "1px solid var(--mr-border-default)",
             borderRadius: "var(--mr-radius-md)",
           }}
         >
-          <h2 className="text-xl font-medium mb-6" style={{ color: "var(--mr-text-primary)" }}>
+          <h2 className="text-xl font-medium mb-5" style={{ color: "var(--mr-text-primary)" }}>
             Before you begin
           </h2>
           <div className="flex flex-col gap-6">
-            <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
+            <p className="text-[15px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
               <strong style={{ color: "var(--mr-text-primary)" }}>Choose your AI.</strong>{" "}
               Works with Claude, ChatGPT, Gemini, or any model that handles long prompts. We recommend Claude or
               ChatGPT for the most consistent scoring.
             </p>
-            <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
+            <p className="text-[15px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
               <strong style={{ color: "var(--mr-text-primary)" }}>Run it solo or as a team.</strong>{" "}
               One person can complete it in ~25 minutes. For richer data, have 2–3 team members run it independently,
               then compare.
             </p>
-            <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
+            <p className="text-[15px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
               <strong style={{ color: "var(--mr-text-primary)" }}>One prompt. Then visualize.</strong>{" "}
               Prompt 1 is the interview. When it's done, paste the markdown output into our{" "}
               <Link href="/report" style={{ color: "var(--mr-accent-default)" }}>
@@ -248,7 +248,7 @@ function HandoffInstructions() {
             After completing the interview
           </p>
           <p className="text-2xl" style={{ color: "var(--mr-text-muted)", opacity: 0.4 }}>↓</p>
-          <p className="text-[17px] leading-[1.6] max-w-lg" style={{ color: "var(--mr-text-muted)" }}>
+          <p className="text-[15px] leading-[1.6] max-w-lg" style={{ color: "var(--mr-text-muted)" }}>
             Your AI will generate a detailed markdown report with scores across all 13 areas. Copy the full report
             output and paste it into our hosted report viewer to visualize your results instantly.
           </p>
@@ -279,16 +279,16 @@ function StayUpdated() {
   const [email, setEmail] = useState("");
 
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-12 md:py-16">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
-        <div className="pt-12 md:pt-16" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+        <div className="pt-8 md:pt-12" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {/* Email capture */}
             <div>
               <h2 className="text-xl font-medium mb-3" style={{ color: "var(--mr-text-primary)" }}>
                 The framework evolves.
               </h2>
-              <p className="text-[17px] leading-[1.6] mb-6" style={{ color: "var(--mr-text-muted)" }}>
+              <p className="text-[15px] leading-[1.6] mb-6" style={{ color: "var(--mr-text-muted)" }}>
                 We update the assessment as we learn from more teams. Drop your email for updated prompts and
                 benchmark data.
               </p>
@@ -335,7 +335,7 @@ function StayUpdated() {
               <h2 className="text-xl font-medium mb-3" style={{ color: "var(--mr-text-primary)" }}>
                 Prefer a raw file?
               </h2>
-              <p className="text-[17px] leading-[1.6] mb-6" style={{ color: "var(--mr-text-muted)" }}>
+              <p className="text-[15px] leading-[1.6] mb-6" style={{ color: "var(--mr-text-muted)" }}>
                 Both prompts are also available as GitHub Gists.
               </p>
               <div className="flex flex-col gap-3">
@@ -365,14 +365,14 @@ function UpsellNudge() {
     <section className="pb-16 md:pb-24">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
         <div
-          className="rounded-lg p-6 md:p-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6"
+          className="rounded-lg p-5 md:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6"
           style={{
             background: "var(--mr-bg-card)",
             border: "1px solid var(--mr-border-default)",
             borderRadius: "var(--mr-radius-md)",
           }}
         >
-          <p className="text-[17px] leading-[1.6] max-w-2xl" style={{ color: "var(--mr-text-muted)" }}>
+          <p className="text-[15px] leading-[1.6] max-w-2xl" style={{ color: "var(--mr-text-muted)" }}>
             Ran the assessment? Our team can walk through your results, identify the highest-leverage improvements,
             and build a 90-day adoption roadmap with you.
           </p>

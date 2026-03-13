@@ -31,6 +31,7 @@ import {
   BAND_COLORS,
   normalizeScore,
   getReadinessBand,
+  getExecReadinessBand,
 } from "./lib/report-parser";
 
 // Register Chart.js components
@@ -85,9 +86,16 @@ function fmt(n) {
   return typeof n === "number" ? n.toFixed(2) : String(n);
 }
 
-function ScoreBadge({ score }) {
+const ENGINEERING_SECTION_IDS = new Set(["artifacts", "process", "tooling", "culture"]);
+
+function getSectionColorVar(section) {
+  if (ENGINEERING_SECTION_IDS.has(section.id)) return `var(--mr-section-${section.id})`;
+  return section.color;
+}
+
+function ScoreBadge({ score, labels = SCORE_LABELS }) {
   const normalized = normalizeScore(score);
-  const label = SCORE_LABELS[normalized] ?? "—";
+  const label = labels[normalized] ?? "—";
   const colorClass = SCORE_BADGE_CLASS[normalized] ?? "mr-badge-red-solid";
   return (
     <span className={`mr-badge ${colorClass} shrink-0`} style={MONO}>
@@ -111,7 +119,7 @@ function NarrativeBody({ text }) {
   return (
     <div className="flex flex-col gap-3">
       {paras.map((p, i) => (
-        <p key={i} className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
+        <p key={i} className="text-[15px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
           {p.trim()}
         </p>
       ))}
@@ -152,7 +160,7 @@ function InputView({ onGenerate }) {
           >
             View Your Report
           </h1>
-          <p className="text-[17px] leading-[1.6] max-w-2xl mb-2" style={{ color: "var(--mr-text-muted)" }}>
+          <p className="text-[15px] leading-[1.6] max-w-2xl mb-2" style={{ color: "var(--mr-text-muted)" }}>
             Paste the markdown report from your AI readiness assessment. Your results will be visualized here.
           </p>
           <p className="text-sm mb-10" style={{ ...MONO, color: "var(--mr-text-muted)", opacity: 0.7 }}>
@@ -179,7 +187,7 @@ function InputView({ onGenerate }) {
           {/* Error state */}
           {error && (
             <div
-              className="mt-4 p-4 text-[17px] leading-[1.6]"
+              className="mt-4 p-4 text-[15px] leading-[1.6]"
               style={{
                 background: "var(--mr-bg-danger-subtle)",
                 border: "1px solid var(--mr-status-critical)",
@@ -232,8 +240,9 @@ function StickyHeader({ reportData, onReset }) {
   const score = derived.overallScore;
   const band = derived.readinessBand;
   const bandColor = BAND_COLORS[band] ?? "#888888";
+  const teamSize = yaml.team_size ?? yaml.engineering_team_size;
   const label = yaml.respondent_role
-    ? `${yaml.respondent_role}${yaml.team_size ? ` · ${yaml.team_size} people` : ""}`
+    ? `${yaml.respondent_role}${teamSize ? ` · ${teamSize} people` : ""}`
     : yaml.assessment_title ?? "AI Readiness Assessment";
 
   return (
@@ -288,12 +297,13 @@ function HeroBanner({ reportData }) {
   const score = derived.overallScore;
   const band = derived.readinessBand;
   const bandColor = BAND_COLORS[band] ?? "#888888";
+  const maxScore = reportData.maxScore ?? 3;
 
   // Doughnut gauge: 270° arc
   const gaugeData = {
     datasets: [
       {
-        data: [score !== null ? score : 0, 3 - (score !== null ? score : 0)],
+        data: [score !== null ? score : 0, maxScore - (score !== null ? score : 0)],
         backgroundColor: [bandColor, "rgba(255,255,255,0.1)"],
         borderWidth: 0,
         circumference: 270,
@@ -309,13 +319,14 @@ function HeroBanner({ reportData }) {
     plugins: { legend: { display: false }, tooltip: { enabled: false } },
   };
 
-  const meta = [yaml.date, yaml.respondent_role, yaml.team_size ? `${yaml.team_size} people` : null]
+  const teamSize = yaml.team_size ?? yaml.engineering_team_size;
+  const meta = [yaml.date, yaml.respondent_role, teamSize ? `${teamSize} people` : null]
     .filter(Boolean)
     .join(" · ");
 
   return (
     <section style={{ background: "var(--mr-footer-bg)" }}>
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 py-16 md:py-24">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 py-8 md:py-12">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-12">
           <div className="flex-1">
             <p className="text-sm mb-3" style={{ ...MONO, color: "var(--mr-footer-sub)" }}>
@@ -328,7 +339,7 @@ function HeroBanner({ reportData }) {
               {yaml.assessment_title ?? "AI Adoption Readiness Assessment"}
             </h1>
             {yaml.assessed_codebase && (
-              <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-footer-sub)" }}>
+              <p className="text-[15px] leading-[1.6]" style={{ color: "var(--mr-footer-sub)" }}>
                 Assessed codebase: {yaml.assessed_codebase}
                 {yaml.primary_languages ? ` · ${yaml.primary_languages}` : ""}
               </p>
@@ -350,7 +361,7 @@ function HeroBanner({ reportData }) {
                   {score !== null ? score.toFixed(2) : "—"}
                 </span>
                 <span className="text-xs mt-1" style={{ ...MONO, color: "var(--mr-footer-sub)" }}>
-                  / 3.00
+                  / {maxScore}.00
                 </span>
               </div>
             </div>
@@ -359,6 +370,30 @@ function HeroBanner({ reportData }) {
               <span className="text-xs mt-1" style={{ ...MONO, color: "rgba(236,236,234,0.4)" }}>
                 {yaml.assessment_layer}
               </span>
+            )}
+            {reportData.format === "exec" && yaml.distribution && (
+              <div className="flex gap-3 mt-2" style={MONO}>
+                {yaml.distribution.yes > 0 && (
+                  <span className="text-xs" style={{ color: "var(--mr-green-7)" }}>
+                    {yaml.distribution.yes} Yes
+                  </span>
+                )}
+                {yaml.distribution.partial > 0 && (
+                  <span className="text-xs" style={{ color: "var(--mr-amber-7)" }}>
+                    {yaml.distribution.partial} Partial
+                  </span>
+                )}
+                {yaml.distribution.no > 0 && (
+                  <span className="text-xs" style={{ color: "var(--mr-red-7)" }}>
+                    {yaml.distribution.no} No
+                  </span>
+                )}
+                {yaml.distribution.not_sure > 0 && (
+                  <span className="text-xs" style={{ color: "var(--mr-blue-7)" }}>
+                    {yaml.distribution.not_sure} NS
+                  </span>
+                )}
+              </div>
             )}
           </div>
         </div>
@@ -400,17 +435,15 @@ function SectionOverview({ reportData }) {
     });
   }, []);
 
+  const sections = reportData.sections;
+  const maxScore = reportData.maxScore ?? 3;
+
   const radarData = {
-    labels: ["Artifacts", "Process", "Tooling", "Culture"],
+    labels: sections.map((s) => s.name),
     datasets: [
       {
         label: "Score",
-        data: [
-          sectionAverages.artifacts ?? 0,
-          sectionAverages.process ?? 0,
-          sectionAverages.tooling ?? 0,
-          sectionAverages.culture ?? 0,
-        ],
+        data: sections.map((s) => sectionAverages[s.id] ?? 0),
         backgroundColor: `${chartColors.accent}26`,
         borderColor: chartColors.accent,
         borderWidth: 2,
@@ -426,7 +459,7 @@ function SectionOverview({ reportData }) {
     scales: {
       r: {
         min: 0,
-        max: 3,
+        max: maxScore,
         ticks: {
           stepSize: 1,
           color: chartColors.muted,
@@ -445,16 +478,16 @@ function SectionOverview({ reportData }) {
       legend: { display: false },
       tooltip: {
         callbacks: {
-          label: (ctx) => ` ${ctx.parsed.r.toFixed(2)} / 3.00`,
+          label: (ctx) => ` ${ctx.parsed.r.toFixed(2)} / ${maxScore}.00`,
         },
       },
     },
   };
 
   return (
-    <section className="py-16 md:py-24" style={{ background: "var(--mr-bg-page)" }}>
+    <section className="py-8 md:py-12" style={{ background: "var(--mr-bg-page)" }}>
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
-        <div className="pt-12 md:pt-16" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+        <div className="pt-6 md:pt-8" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
           <SectionLabel>// 02 — SECTION_OVERVIEW</SectionLabel>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-8 items-center">
@@ -467,23 +500,33 @@ function SectionOverview({ reportData }) {
 
             {/* Section summary cards */}
             <div className="flex flex-col gap-4">
-              {SECTIONS.map((section) => {
+              {sections.map((section) => {
                 const avg = sectionAverages[section.id];
-                const band = avg !== null ? getReadinessBand(avg) : "—";
+                const bandFn = reportData.format === "exec" ? getExecReadinessBand : getReadinessBand;
+                const band = avg !== null ? bandFn(avg) : "—";
                 const SECTION_TINT = {
                   artifacts: "var(--mr-green-a1)",
                   process:   "var(--mr-blue-a1)",
                   tooling:   "var(--mr-bg-card)",
                   culture:   "var(--mr-amber-a1)",
+                  current_ai_state: "var(--mr-blue-a1)",
+                  motivation:       "var(--mr-green-a1)",
+                  org_profile:      "var(--mr-amber-a1)",
+                  engineering:      "var(--mr-green-a1)",
+                  metrics:          "var(--mr-blue-a1)",
+                  talent:           "var(--mr-bg-card)",
+                  security:         "var(--mr-red-a1)",
+                  investment:       "var(--mr-amber-a1)",
+                  alignment:        "var(--mr-bg-card)",
                 };
                 return (
                   <div
                     key={section.id}
-                    className="p-5 flex items-center justify-between gap-4"
+                    className="p-4 flex items-center justify-between gap-3"
                     style={{
                       background: SECTION_TINT[section.id] ?? "var(--mr-bg-card)",
                       border: "1px solid var(--mr-border-default)",
-                      borderLeft: `4px solid var(--mr-section-${section.id})`,
+                      borderLeft: `4px solid ${getSectionColorVar(section)}`,
                       borderRadius: "var(--mr-radius-md)",
                     }}
                   >
@@ -492,7 +535,7 @@ function SectionOverview({ reportData }) {
                         {section.name}
                       </p>
                       <p className="text-sm mt-0.5" style={{ ...MONO, color: "var(--mr-text-muted)" }}>
-                        {avg !== null ? avg.toFixed(2) : "—"} / 3.00
+                        {avg !== null ? avg.toFixed(2) : "—"} / {maxScore}.00
                       </p>
                     </div>
                     <BandBadge band={band} />
@@ -515,20 +558,23 @@ function HeatmapGrid({ reportData }) {
   const scores = reportData.yaml.scores ?? {};
 
   return (
-    <section className="py-16 md:py-24" style={{ background: "var(--mr-bg-page)" }}>
+    <section className="py-8 md:py-12" style={{ background: "var(--mr-bg-page)" }}>
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
-        <div className="pt-12 md:pt-16" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+        <div className="pt-6 md:pt-8" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
           <SectionLabel>// 03 — SCORE_HEATMAP</SectionLabel>
 
-          <div className="mt-8 flex flex-col gap-8">
-            {SECTIONS.map((section) => {
-              const sectionQs = QUESTIONS.filter((q) => q.section === section.id);
+          <div className="mt-8 flex flex-col gap-6">
+            {reportData.sections.map((section) => {
+              const sectionQs = reportData.questions.filter((q) => q.section === section.id);
+              const gridCols = reportData.format === "exec"
+                ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
+                : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-6";
               return (
                 <div key={section.id}>
-                  <p className="text-sm font-medium mb-4" style={{ ...MONO, color: `var(--mr-section-${section.id})` }}>
+                  <p className="text-sm font-medium mb-4" style={{ ...MONO, color: getSectionColorVar(section) }}>
                     // {section.name.toUpperCase()}
                   </p>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                  <div className={`grid ${gridCols} gap-3`}>
                     {sectionQs.map((q) => {
                       const raw = scores[q.id];
                       const normalized = normalizeScore(raw);
@@ -576,7 +622,7 @@ function HeatmapGrid({ reportData }) {
 // SECTION 04 — DETAILED FINDINGS (EXPANDABLE CARDS)
 // =============================================================================
 
-function FindingCard({ question, score, narrative }) {
+function FindingCard({ question, score, narrative, scoreLabels = SCORE_LABELS }) {
   const [open, setOpen] = useState(false);
   const bodyRef = useRef(null);
   const [height, setHeight] = useState(0);
@@ -629,12 +675,12 @@ function FindingCard({ question, score, narrative }) {
           )}
           {!open && !firstLine && (
             <p className="text-sm" style={{ ...MONO, color: "var(--mr-text-muted)" }}>
-              Score: {normalized !== null ? (normalized === "ns" ? "NS" : String(normalized)) : "?"} — {SCORE_LABELS[normalized] ?? "Unknown"}
+              Score: {normalized !== null ? (normalized === "ns" ? "NS" : String(normalized)) : "?"} — {scoreLabels[normalized] ?? "Unknown"}
             </p>
           )}
         </div>
         <div className="flex items-center gap-2 shrink-0 mt-0.5">
-          <ScoreBadge score={score} />
+          <ScoreBadge score={score} labels={scoreLabels} />
           <span className="text-sm" style={{ ...MONO, color: "var(--mr-text-muted)" }}>
             {open ? "▲" : "▼"}
           </span>
@@ -651,7 +697,7 @@ function FindingCard({ question, score, narrative }) {
             {narrative ? (
               <NarrativeBody text={narrative.body} />
             ) : (
-              <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
+              <p className="text-[15px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
                 No detailed narrative available for this area.
               </p>
             )}
@@ -666,13 +712,15 @@ function DetailedFindings({ reportData }) {
   const { yaml, narrative } = reportData;
   const scores = yaml.scores ?? {};
 
+  const questions = reportData.questions;
+
   // Parse individual question findings from narrative.findings body
   function getQuestionNarrative(questionId) {
     const findingsBody = narrative?.findings?.body ?? "";
     if (!findingsBody) return null;
 
     // Try to find a heading like "### q1_standards" or just the question name
-    const q = QUESTIONS.find((q) => q.id === questionId);
+    const q = questions.find((q) => q.id === questionId);
     if (!q) return null;
 
     // Search for the short name or id in the findings body
@@ -692,17 +740,17 @@ function DetailedFindings({ reportData }) {
   }
 
   return (
-    <section className="py-16 md:py-24" style={{ background: "var(--mr-bg-page)" }}>
+    <section className="py-8 md:py-12" style={{ background: "var(--mr-bg-page)" }}>
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
-        <div className="pt-12 md:pt-16" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+        <div className="pt-6 md:pt-8" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
           <SectionLabel>// 04 — DETAILED_FINDINGS</SectionLabel>
 
           <div className="mt-8 flex flex-col gap-10">
-            {SECTIONS.map((section) => {
-              const sectionQs = QUESTIONS.filter((q) => q.section === section.id);
+            {reportData.sections.map((section) => {
+              const sectionQs = questions.filter((q) => q.section === section.id);
               return (
                 <div key={section.id}>
-                  <p className="text-sm font-medium mb-4" style={{ ...MONO, color: `var(--mr-section-${section.id})` }}>
+                  <p className="text-sm font-medium mb-4" style={{ ...MONO, color: getSectionColorVar(section) }}>
                     // {section.name.toUpperCase()}
                   </p>
                   <div className="flex flex-col gap-3">
@@ -712,6 +760,7 @@ function DetailedFindings({ reportData }) {
                         question={q}
                         score={scores[q.id]}
                         narrative={getQuestionNarrative(q.id)}
+                        scoreLabels={reportData.scoreLabels}
                       />
                     ))}
                   </div>
@@ -735,16 +784,16 @@ function RedFlagsSection({ reportData }) {
   if (!redFlags.length) return null;
 
   return (
-    <section className="py-16 md:py-24" style={{ background: "var(--mr-bg-danger-subtle)" }}>
+    <section className="py-8 md:py-12" style={{ background: "var(--mr-bg-danger-subtle)" }}>
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
-        <div className="pt-12 md:pt-16" style={{ borderTop: "1px solid var(--mr-status-critical)" }}>
+        <div className="pt-6 md:pt-8" style={{ borderTop: "1px solid var(--mr-status-critical)" }}>
           <SectionLabel style={{ color: "var(--mr-status-critical)" }}>// 05 — RED_FLAGS</SectionLabel>
 
           <div className="mt-8 flex flex-col gap-4">
             {redFlags.map((flag, i) => (
               <div
                 key={i}
-                className="p-5"
+                className="p-4"
                 style={{
                   background: "var(--mr-bg-card)",
                   border: "1px solid var(--mr-status-critical)",
@@ -752,7 +801,7 @@ function RedFlagsSection({ reportData }) {
                   borderRadius: "var(--mr-radius-md)",
                 }}
               >
-                <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-primary)" }}>
+                <p className="text-[15px] leading-[1.6]" style={{ color: "var(--mr-text-primary)" }}>
                   {flag}
                 </p>
               </div>
@@ -778,18 +827,18 @@ function CriticalMinimumsSection({ reportData }) {
   const scores = reportData.yaml.scores ?? {};
 
   return (
-    <section className="py-16 md:py-24" style={{ background: "var(--mr-bg-page)" }}>
+    <section className="py-8 md:py-12" style={{ background: "var(--mr-bg-page)" }}>
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
-        <div className="pt-12 md:pt-16" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+        <div className="pt-6 md:pt-8" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
           <SectionLabel>// 06 — CRITICAL_MINIMUMS</SectionLabel>
-          <p className="mt-3 text-[17px] leading-[1.6] max-w-2xl" style={{ color: "var(--mr-text-muted)" }}>
+          <p className="mt-3 text-[15px] leading-[1.6] max-w-2xl" style={{ color: "var(--mr-text-muted)" }}>
             These five areas have a minimum threshold of 2 (Ready) for safe AI adoption. Anything below 2 represents a
             meaningful risk.
           </p>
 
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {CRITICAL_MINIMUMS.map((qId) => {
-              const q = QUESTIONS.find((q) => q.id === qId);
+            {reportData.criticalMinimums.map((qId) => {
+              const q = reportData.questions.find((q) => q.id === qId);
               if (!q) return null;
               const raw = scores[qId];
               const normalized = normalizeScore(raw);
@@ -801,7 +850,7 @@ function CriticalMinimumsSection({ reportData }) {
               return (
                 <div
                   key={qId}
-                  className="p-5 flex flex-col gap-3"
+                  className="p-4 flex flex-col gap-3"
                   style={{
                     background: critBg,
                     border: `1px solid ${borderColor}`,
@@ -812,7 +861,7 @@ function CriticalMinimumsSection({ reportData }) {
                     <span className="text-xl" style={{ color: iconColor }}>
                       {pass ? "✓" : "✗"}
                     </span>
-                    <ScoreBadge score={raw} />
+                    <ScoreBadge score={raw} labels={reportData.scoreLabels} />
                   </div>
                   <p className="text-sm font-medium leading-[1.4]" style={{ color: "var(--mr-text-primary)" }}>
                     {q.shortName}
@@ -856,9 +905,9 @@ function RecommendationsSection({ reportData }) {
 
   if (narrative?.recommendations) {
     return (
-      <section className="py-16 md:py-24" style={{ background: "var(--mr-bg-page)" }}>
+      <section className="py-8 md:py-12" style={{ background: "var(--mr-bg-page)" }}>
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
-          <div className="pt-12 md:pt-16" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+          <div className="pt-6 md:pt-8" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
             <SectionLabel>// 07 — RECOMMENDATIONS</SectionLabel>
             <div className="mt-8">
               <NarrativeBody text={narrative.recommendations.body} />
@@ -870,19 +919,21 @@ function RecommendationsSection({ reportData }) {
   }
 
   // Compute from scores
-  const criticalSet = new Set(CRITICAL_MINIMUMS);
+  const criticalMinimums = reportData.criticalMinimums;
+  const questions = reportData.questions;
+  const criticalSet = new Set(criticalMinimums);
   const tier0 = [
-    ...CRITICAL_MINIMUMS.filter((id) => {
+    ...criticalMinimums.filter((id) => {
       const n = normalizeScore(scores[id]);
       return n === 0;
     }),
     ...(redFlags.length ? ["Red flags present"] : []),
   ];
-  const tier1 = CRITICAL_MINIMUMS.filter((id) => normalizeScore(scores[id]) === 1);
-  const tier2 = QUESTIONS.filter(
+  const tier1 = criticalMinimums.filter((id) => normalizeScore(scores[id]) === 1);
+  const tier2 = questions.filter(
     (q) => !criticalSet.has(q.id) && normalizeScore(scores[q.id]) === 1
   ).map((q) => q.id);
-  const tier3 = QUESTIONS.filter(
+  const tier3 = questions.filter(
     (q) => (q.section === "culture" || q.section === "process") && normalizeScore(scores[q.id]) === 1
   ).map((q) => q.id);
 
@@ -890,20 +941,20 @@ function RecommendationsSection({ reportData }) {
 
   function getLabel(id) {
     if (id === "Red flags present") return id;
-    const q = QUESTIONS.find((q) => q.id === id);
+    const q = questions.find((q) => q.id === id);
     return q ? q.name : id;
   }
 
   return (
-    <section className="py-16 md:py-24" style={{ background: "var(--mr-bg-page)" }}>
+    <section className="py-8 md:py-12" style={{ background: "var(--mr-bg-page)" }}>
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
-        <div className="pt-12 md:pt-16" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+        <div className="pt-6 md:pt-8" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
           <SectionLabel>// 07 — RECOMMENDATIONS</SectionLabel>
-          <p className="mt-3 text-[17px] leading-[1.6] max-w-2xl" style={{ color: "var(--mr-text-muted)" }}>
+          <p className="mt-3 text-[15px] leading-[1.6] max-w-2xl" style={{ color: "var(--mr-text-muted)" }}>
             Prioritized based on your scores. Address higher tiers first — they block progress in everything below.
           </p>
 
-          <div className="mt-8 flex flex-col gap-6">
+          <div className="mt-8 flex flex-col gap-4">
             {tiers.map((items, i) => {
               if (!items.length) return null;
               const meta = TIER_META[i];
@@ -924,7 +975,7 @@ function RecommendationsSection({ reportData }) {
                           borderRadius: "var(--mr-radius-md)",
                         }}
                       >
-                        <p className="text-[17px]" style={{ color: "var(--mr-text-primary)" }}>
+                        <p className="text-[15px]" style={{ color: "var(--mr-text-primary)" }}>
                           {getLabel(id)}
                         </p>
                       </div>
@@ -951,14 +1002,21 @@ const ROADMAP_TRACKS = {
   "Long Track":       { threshold: 0,   months: ["Month 1–4", "Month 5–9", "Month 10–18"], colorVar: "var(--mr-red-7)" },
 };
 
+const EXEC_ROADMAP_TRACKS = {
+  "Fast Track":       { threshold: 1.5, months: ["Month 1–2", "Month 3–4", "Month 5–6"],   colorVar: "var(--mr-green-7)" },
+  "Standard Track":   { threshold: 1.0, months: ["Month 1–3", "Month 4–6", "Month 7–9"],   colorVar: "var(--mr-blue-7)" },
+  "Foundation Track": { threshold: 0.5, months: ["Month 1–3", "Month 4–6", "Month 7–12"],  colorVar: "var(--mr-amber-7)" },
+  "Long Track":       { threshold: 0,   months: ["Month 1–4", "Month 5–9", "Month 10–18"], colorVar: "var(--mr-red-7)" },
+};
+
 function RoadmapSection({ reportData }) {
   const { narrative, derived } = reportData;
 
   if (narrative?.roadmap) {
     return (
-      <section className="py-16 md:py-24" style={{ background: "var(--mr-bg-page)" }}>
+      <section className="py-8 md:py-12" style={{ background: "var(--mr-bg-page)" }}>
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
-          <div className="pt-12 md:pt-16" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+          <div className="pt-6 md:pt-8" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
             <SectionLabel>// 08 — ROADMAP</SectionLabel>
             <div className="mt-8">
               <NarrativeBody text={narrative.roadmap.body} />
@@ -970,12 +1028,14 @@ function RoadmapSection({ reportData }) {
   }
 
   const score = derived.overallScore ?? 0;
+  const tracks = reportData.format === "exec" ? EXEC_ROADMAP_TRACKS : ROADMAP_TRACKS;
   let trackName = "Long Track";
-  if (score >= 2.0) trackName = "Fast Track";
-  else if (score >= 1.5) trackName = "Standard Track";
-  else if (score >= 1.0) trackName = "Foundation Track";
+  const [ftKey, stKey, foundKey] = Object.keys(tracks).slice(0, 3);
+  if (score >= tracks[ftKey].threshold) trackName = ftKey;
+  else if (score >= tracks[stKey].threshold) trackName = stKey;
+  else if (score >= tracks[foundKey].threshold) trackName = foundKey;
 
-  const track = ROADMAP_TRACKS[trackName];
+  const track = tracks[trackName];
   const phases = [
     { label: track.months[0], title: "Foundation", desc: "Address critical minimums and red flags. Establish baselines." },
     { label: track.months[1], title: "Pilot", desc: "Introduce AI tooling in low-risk areas. Measure impact." },
@@ -983,9 +1043,9 @@ function RoadmapSection({ reportData }) {
   ];
 
   return (
-    <section className="py-16 md:py-24" style={{ background: "var(--mr-bg-page)" }}>
+    <section className="py-8 md:py-12" style={{ background: "var(--mr-bg-page)" }}>
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
-        <div className="pt-12 md:pt-16" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+        <div className="pt-6 md:pt-8" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
           <SectionLabel>// 08 — ROADMAP</SectionLabel>
           <div className="mt-2 flex items-center gap-3">
             <span
@@ -1011,7 +1071,7 @@ function RoadmapSection({ reportData }) {
                   />
                 )}
                 <div
-                  className="p-5 h-full"
+                  className="p-4 h-full"
                   style={{
                     background: "var(--mr-bg-card)",
                     border: "1px solid var(--mr-border-default)",
@@ -1025,13 +1085,78 @@ function RoadmapSection({ reportData }) {
                   <p className="text-base font-medium mb-2" style={{ color: "var(--mr-text-primary)" }}>
                     {phase.title}
                   </p>
-                  <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
+                  <p className="text-[15px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
                     {phase.desc}
                   </p>
                 </div>
               </div>
             ))}
           </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// =============================================================================
+// SECTION 05b — PERCEPTION CHECK (EXEC ONLY)
+// =============================================================================
+
+function PerceptionCheckSection({ reportData }) {
+  const { yaml, format, questions, scoreLabels } = reportData;
+  if (format !== "exec") return null;
+
+  const checkItems = yaml.perception_check_items ?? [];
+  if (!checkItems.length) return null;
+
+  const scores = yaml.scores ?? {};
+
+  return (
+    <section className="py-8 md:py-12" style={{ background: "var(--mr-bg-page)" }}>
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
+        <div className="pt-6 md:pt-8" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+          <SectionLabel>// PERCEPTION_CHECK</SectionLabel>
+          <p className="mt-3 text-[15px] leading-[1.6] max-w-2xl" style={{ color: "var(--mr-text-muted)" }}>
+            These questions are flagged for comparison with the Layer 2 engineering assessment. Executive perception on
+            these areas is most valuable when validated against engineering ground truth.
+          </p>
+
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {checkItems.map((qId) => {
+              const q = questions.find((q) => q.id === qId);
+              if (!q) return null;
+              const raw = scores[qId];
+              return (
+                <div
+                  key={qId}
+                  className="p-4 flex items-center justify-between gap-3"
+                  style={{
+                    background: "var(--mr-blue-a1)",
+                    border: "1px solid var(--mr-border-default)",
+                    borderLeft: "4px solid var(--mr-blue-5)",
+                    borderRadius: "var(--mr-radius-md)",
+                  }}
+                >
+                  <div>
+                    <p className="text-sm font-medium" style={{ color: "var(--mr-text-primary)" }}>
+                      {q.shortName}
+                    </p>
+                    <p className="text-xs mt-0.5" style={{ ...MONO, color: "var(--mr-text-muted)" }}>
+                      Flag for Layer 2 comparison
+                    </p>
+                  </div>
+                  <ScoreBadge score={raw} labels={scoreLabels} />
+                </div>
+              );
+            })}
+          </div>
+
+          {!yaml.engineering_assessment_completed && (
+            <div className="mt-6 mr-note mr-note-info text-sm" style={MONO}>
+              The Layer 2 engineering assessment has not yet been completed. Run it to validate these perception check
+              items.
+            </div>
+          )}
         </div>
       </div>
     </section>
@@ -1058,16 +1183,16 @@ function NextStepsSection({ reportData }) {
       ];
 
   return (
-    <section className="py-16 md:py-24" style={{ background: "var(--mr-bg-page)" }}>
+    <section className="py-8 md:py-12" style={{ background: "var(--mr-bg-page)" }}>
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
-        <div className="pt-12 md:pt-16" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
+        <div className="pt-6 md:pt-8" style={{ borderTop: "1px solid var(--mr-border-default)" }}>
           <SectionLabel>// 09 — NEXT_STEPS</SectionLabel>
 
           <div className="mt-8 flex flex-col gap-4">
             {steps.map((step, i) => (
               <div
                 key={i}
-                className="p-5 flex gap-4 items-start"
+                className="p-4 flex gap-4 items-start"
                 style={{
                   background: "var(--mr-bg-card)",
                   border: "1px solid var(--mr-border-default)",
@@ -1080,7 +1205,7 @@ function NextStepsSection({ reportData }) {
                 >
                   ({String(i + 1).padStart(2, "0")})
                 </span>
-                <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-primary)" }}>
+                <p className="text-[15px] leading-[1.6]" style={{ color: "var(--mr-text-primary)" }}>
                   {step}
                 </p>
               </div>
@@ -1088,7 +1213,7 @@ function NextStepsSection({ reportData }) {
           </div>
 
           <div className="mt-10 flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-            <p className="text-[17px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
+            <p className="text-[15px] leading-[1.6]" style={{ color: "var(--mr-text-muted)" }}>
               Ready to take the next step?
             </p>
             <SolidButton href="/#contact">Book a guided session_</SolidButton>
@@ -1107,10 +1232,10 @@ function ReportFooterSection({ reportData }) {
   const { yaml } = reportData;
 
   return (
-    <section className="py-16 md:py-24" style={{ background: "var(--mr-bg-page)" }}>
+    <section className="py-8 md:py-12" style={{ background: "var(--mr-bg-page)" }}>
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
         <div
-          className="rounded-xl p-8 md:p-12 flex flex-col gap-6"
+          className="rounded-xl p-6 md:p-8 flex flex-col gap-5"
           style={{
             background: "var(--mr-bg-card)",
             border: "1px solid var(--mr-border-default)",
@@ -1119,7 +1244,7 @@ function ReportFooterSection({ reportData }) {
           <h2 className="text-xl md:text-2xl font-medium" style={{ color: "var(--mr-text-primary)" }}>
             Want expert interpretation of these results?
           </h2>
-          <p className="text-[17px] leading-[1.6] max-w-2xl" style={{ color: "var(--mr-text-muted)" }}>
+          <p className="text-[15px] leading-[1.6] max-w-2xl" style={{ color: "var(--mr-text-muted)" }}>
             Our team can walk through your scores, identify the highest-leverage improvements, and build a 90-day
             adoption roadmap with you.
           </p>
@@ -1155,6 +1280,7 @@ function ReportView({ reportData, onReset }) {
         <SectionOverview reportData={reportData} />
         <HeatmapGrid reportData={reportData} />
         <DetailedFindings reportData={reportData} />
+        <PerceptionCheckSection reportData={reportData} />
         <RedFlagsSection reportData={reportData} />
         <CriticalMinimumsSection reportData={reportData} />
         <RecommendationsSection reportData={reportData} />

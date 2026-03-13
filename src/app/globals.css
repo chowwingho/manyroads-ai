@@ -180,6 +180,11 @@ h1, h2, h3 {
   background: var(--mr-badge-blue-solid-bg);
   color: var(--mr-badge-blue-solid-text);
 }
+.mr-badge-sm {
+  font-size: 11px;
+  padding: 2px 6px;
+  line-height: 1.4;
+}
 
 /* ── Note / Callout variants ── */
 .mr-note {
